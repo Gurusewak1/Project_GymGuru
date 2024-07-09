@@ -14,11 +14,11 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'a263a4077af9b6ec586744be22c34c09575890ee0d495326e9e821ef7a81e126610619a1687daf933706e4341f0747c0858f5211f85438a50d13c87da3a55a0a'
+  config.secret_key = 'a263a4077af9b6ec586744be22c34c09575890ee0d495326e9e821ef7a81e126610619a1687daf933706e4341f0747c0858f5211f85438a50d13c87da3a55a0a'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
-  # config.parent_controller = 'DeviseController'
+  config.parent_controller = 'ApplicationController'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -229,6 +229,7 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.
   # config.sign_in_after_reset_password = true
+  # Example: Redirect to dashboard after sign up
 
   # ==> Configuration for :encryptable
   # Allow you to use another hashing or encryption algorithm besides bcrypt (default).
@@ -244,7 +245,7 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
-  # config.scoped_views = false
+  config.scoped_views = true
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
@@ -295,6 +296,7 @@ Devise.setup do |config|
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+  config.sign_in_after_change_password = true
 
   # ==> Hotwire/Turbo configuration
   # When using Devise with Hotwire/Turbo, the http status for error responses
@@ -306,7 +308,6 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
-
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
