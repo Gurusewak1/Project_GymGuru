@@ -1,0 +1,13 @@
+<!-- app/views/categories/show.html.erb -->
+<h1><%= @category.name %></h1>
+
+<ul>
+  <% @products.each do |product| %>
+    <li>
+      <%= link_to product.name, product_path(product) %>
+      <% if product.image.attached? %>
+        <%= image_tag url_for(product.image), class: "product-image" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

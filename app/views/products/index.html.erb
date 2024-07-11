@@ -1,12 +1,32 @@
-<!-- app/views/products/index.html.erb -->
-
 <h1>Our Products</h1>
+
+<div>
+  <%= link_to "All Products", products_path %>
+  <%= link_to "On Sale", products_path(filter: 'on_sale') %>
+  <%= link_to "New", products_path(filter: 'new') %>
+  <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
+</div>
+
+<%= form_tag(products_path, method: :get) do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
+  <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <% @products.each do |product| %>
   <div class="product">
     <h2><%= link_to product.name, product_path(product) %></h2>
     <p><%= product.description %></p>
-    <p>Price: <%= number_to_currency(product.price) %></p>
+    <% if product.on_sale.present? && product.on_sale > 0 %>
+      <p>Original Price: <%= number_to_currency(product.price) %></p>
+      <p>Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
+      <p><%= product.on_sale %>% off!</p>
+    <% else %>
+      <p>Price: <%= number_to_currency(product.price) %></p>
+    <% end %>
     <p>Stock: <%= product.stock %></p>
-    <!-- Add more details if needed -->
+    <p>Category: <%= product.category.name %></p>
   </div>
 <% end %>
+
+<%= paginate @products %>

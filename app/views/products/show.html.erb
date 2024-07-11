@@ -5,8 +5,13 @@
 <div>
   <%= image_tag url_for(@product.image), class: "product-image" if @product.image.attached? %>
   <p><strong>Description:</strong> <%= @product.description %></p>
-  <p><strong>Price:</strong> <%= number_to_currency(@product.price) %></p>
-  <!-- Add more details here as needed -->
+<% if @product.on_sale.present? && @product.on_sale > 0 %>
+  <p>Original Price: <%= number_to_currency(@product.price) %></p>
+  <p>Discounted Price: <%= number_to_currency(@product.discounted_price) %></p>
+  <p><%= @product.on_sale %>% off!</p>
+<% else %>
+  <p>Price: <%= number_to_currency(@product.price) %></p>
+<% end %>>
 </div>
-
+<%= button_to 'Add to Cart', add_to_cart_product_path(@product), method: :post %>
 <%= link_to 'Back', products_path %>

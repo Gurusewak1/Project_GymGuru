@@ -1,67 +1,80 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-def index
-  @products = Product.all
-end
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
-# GET /admin/products/1
-def show
-  @product = Product.find(params[:id])  # Ensure this line fetches the correct product
+  def index
+    @products = Product.all
 
-end
+    # Filter products based on the query parameters
+    if params[:filter] == 'new'
+      @products = @products.where("created_at >= ?", 1.hour.ago)
+    elsif params[:filter] == 'recently_updated'
+      @products = @products.where("updated_at >= ?", 1.hour.ago)
+    elsif params[:filter] == 'on_sale'
+      @products = @products.where("on_sale > ?", 0)
+    end
 
-# GET /admin/products/new
-def new
-  @product = Product.new
-end
+    if params[:category].present?
+      @products = @products.where(category_id: params[:category])
+    end
 
-# GET /admin/products/1/edit
-def edit
-end
+    if params[:search].present?
+      @products = @products.where("name LIKE ?", "%#{params[:search]}%")
+    end
 
-def home
-  # Logic for home page related to products
-end
-
-def about
-  # Logic for about page related to products
-end
-
-# POST /admin/products
-def create
-  @product = Product.new(product_params)
-
-  if @product.save
-    redirect_to admin_product_path(@product), notice: 'Product was successfully created.'
-  else
-    render :new
+    @products = @products.page(params[:page]).per(5) # Paginate with 5 products per page
   end
-end
 
-# PATCH/PUT /admin/products/1
-def update
-  if @product.update(product_params)
-    redirect_to admin_product_path(@product), notice: 'Product was successfully updated.'
-  else
-    render :edit
+  # GET /products/1
+  def show
+    # @product is already set by the before_action :set_product
   end
-end
 
-# DELETE /admin/products/1
-def destroy
-  @product.destroy
-  redirect_to admin_products_path, notice: 'Product was successfully deleted.'
-end
+  # GET /products/new
+  def new
+    @product = Product.new
+  end
 
-private
+  # GET /products/1/edit
+  def edit
+    # @product is already set by the before_action :set_product
+  end
 
-# Use callbacks to share common setup or constraints between actions.
-def set_product
-  @product = Product.find(params[:id])
-end
+  # POST /products
+  def create
+    @product = Product.new(product_params)
 
-# Only allow a trusted parameter "white list" through.
-def product_params
-  params.require(:product).permit(:name, :description, :price, :category)
-end
+    if @product.save
+      redirect_to product_path(@product), notice: 'Product was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  # PATCH/PUT /products/1
+  def update
+    if @product.update(product_params)
+      redirect_to product_path(@product), notice: 'Product was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  # DELETE /products/1
+  def destroy
+    @product.destroy
+    redirect_to products_path, notice: 'Product was successfully deleted.'
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def product_params
+    params.require(:product).permit(:name, :description, :price, :category_id, :on_sale)
+  end
 end

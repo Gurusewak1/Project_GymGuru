@@ -71,3 +71,5 @@ gem "activeadmin", "~> 3.2"
 gem "devise", "~> 4.9"
 
 gem "sassc", "~> 2.4"
+
+gem "kaminari", "~> 1.2"

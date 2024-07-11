@@ -1,6 +1,6 @@
 ActiveAdmin.register Product do
   filter :stock
-  permit_params :name, :description, :price, :stock, :image, :category_id
+  permit_params :name, :description, :price, :stock, :image, :category_id, :on_sale
 
   form do |f|
     f.inputs do
@@ -8,6 +8,7 @@ ActiveAdmin.register Product do
       f.input :description
       f.input :price
       f.input :stock
+      f.input :on_sale
       f.input :image, as: :file
       f.input :category_id, as: :select, collection: Category.pluck(:name, :id)
     end
@@ -22,6 +23,7 @@ ActiveAdmin.register Product do
     column :price
     column :stock
     column :category
+    column :on_sale
     column :image do |product|
       if product.image.attached?
         image_tag url_for(product.image), width: 50
@@ -40,7 +42,7 @@ ActiveAdmin.register Product do
       row :price
       row :stock
       row :category
-      row :image_url
+      row :on_sale
       row :created_at
       row :updated_at
       row :image do |product|
