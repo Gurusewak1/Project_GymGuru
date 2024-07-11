@@ -7,9 +7,9 @@ class ProductsController < ApplicationController
 
     # Filter products based on the query parameters
     if params[:filter] == 'new'
-      @products = @products.where("created_at >= ?", 1.hour.ago)
+      @products = @products.where("created_at >= ?", 1.week.ago)
     elsif params[:filter] == 'recently_updated'
-      @products = @products.where("updated_at >= ?", 1.hour.ago)
+      @products = @products.where("updated_at >= ?", 1.week.ago)
     elsif params[:filter] == 'on_sale'
       @products = @products.where("on_sale > ?", 0)
     end
@@ -19,7 +19,7 @@ class ProductsController < ApplicationController
     end
 
     if params[:search].present?
-      @products = @products.where("name LIKE ?", "%#{params[:search]}%")
+      @products = @products.where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end
 
     @products = @products.page(params[:page]).per(5) # Paginate with 5 products per page
@@ -66,6 +66,15 @@ class ProductsController < ApplicationController
     redirect_to products_path, notice: 'Product was successfully deleted.'
   end
 
+  def add_to_cart
+    product_id = params[:id].to_s
+    session[:cart] ||= {}
+    session[:cart][product_id] ||= 0
+    session[:cart][product_id] += 1
+
+    redirect_to cart_path, notice: 'Product added to cart.'
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -75,6 +84,6 @@ class ProductsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def product_params
-    params.require(:product).permit(:name, :description, :price, :category_id, :on_sale)
+    params.require(:product).permit(:name, :description, :price, :category_id, :on_sale, :image)
   end
 end
