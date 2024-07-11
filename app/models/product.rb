@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
     belongs_to :category
     has_one_attached :image
+    has_many :cart_items
+    has_many :carts, through: :cart_item
 
     scope :stock_eq, ->(stock) { where(stock: stock) }
 

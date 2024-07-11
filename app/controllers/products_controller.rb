@@ -65,15 +65,27 @@ class ProductsController < ApplicationController
     @product.destroy
     redirect_to products_path, notice: 'Product was successfully deleted.'
   end
-
-  def add_to_cart
-    product_id = params[:id].to_s
-    session[:cart] ||= {}
-    session[:cart][product_id] ||= 0
-    session[:cart][product_id] += 1
-
-    redirect_to cart_path, notice: 'Product added to cart.'
+ 
+  # app/controllers/products_controller.rb
+def add_to_cart
+  product_id = params[:id]  # Retrieve product_id from params[:id]
+  
+  session[:cart] ||= {}
+  
+  # Ensure session[:cart][product_id] is initialized and treated as a numeric value
+  unless session[:cart][product_id].is_a?(Numeric)
+    session[:cart][product_id] = 0
   end
+  
+  # Increment the quantity of the product in the cart
+  session[:cart][product_id] += 1
+  
+  redirect_to cart_path, notice: 'Product added to cart.'
+end
+
+   
+  
+  
 
   private
 
