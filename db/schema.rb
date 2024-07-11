@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_11_143832) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_11_204538) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -85,6 +85,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_11_143832) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -138,4 +140,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_11_143832) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "users"
 end

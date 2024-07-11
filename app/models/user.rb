@@ -1,5 +1,6 @@
 # app/models/user.rb
 class User < ApplicationRecord
+  has_one :cart
     # Devise modules
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :validatable

@@ -1,14 +1,66 @@
 <!-- app/views/carts/show.html.erb -->
 <h1>Your Cart</h1>
-<ul>
-  <% @cart.each do |product_id, quantity| %>
-    <li>
-      <%= "#{Product.find(product_id).name}: #{quantity}" %>
-      <%= link_to 'Remove', remove_from_cart_cart_path(product_id), method: :delete %>
-      <%= form_tag update_cart_cart_path(product_id), method: :patch do %>
-        <%= text_field_tag :quantity, quantity, min: 0 %>
-        <%= submit_tag 'Update' %>
+
+<% if @cart.empty? %>
+  <p>Your cart is empty.</p>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Update Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.each do |product_id, quantity| %>
+        <% product = Product.find(product_id) %>
+        <tr id="cart-item-<%= product_id %>">
+          <td><%= product.name %></td>
+          <td id="quantity-<%= product_id %>"><%= quantity %></td>
+          <td>
+            <%= form_tag update_cart_cart_path(product_id), method: :patch, class: "update-quantity-form", id: "update-form-#{product_id}" do %>
+              <%= text_field_tag :quantity, quantity, min: 0, class: "form-control quantity-input" %>
+              <%= submit_tag 'Update', class: "btn btn-primary update-button" %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Remove', remove_from_cart_cart_path(product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger remove-button" %>
+          </td>
+        </tr>
       <% end %>
-    </li>
-  <% end %>
-</ul>
+    </tbody>
+  </table>
+<% end %>
+
+<style>
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .table th, .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .update-quantity-form {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+  .quantity-input {
+    width: 50px;
+  }
+
+  .update-button {
+    margin-left: 5px;
+  }
+
+  .remove-button {
+    margin-left: 5px;
+  }
+</style>

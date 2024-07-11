@@ -1,5 +1,6 @@
 # app/models/cart.rb
 class Cart < ApplicationRecord
+  belongs_to :user
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
 
@@ -22,13 +23,12 @@ class Cart < ApplicationRecord
 
   def update_quantity(product_id, quantity)
     cart_item = cart_items.find_by(product_id: product_id)
-    if cart_item
-      cart_item.update(quantity: quantity)
-    end
+    cart_item.update(quantity: quantity) if cart_item
   end
 
   def remove_product(product_id)
-    cart_item = cart_items.find_by(product_id: product_id)
-    cart_item.destroy if cart_item
+    cart_items.find_by(product_id: product_id)&.destroy
   end
+
+
 end

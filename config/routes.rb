@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 # config/routes.rb
 resource :cart, only: [:show] do
   post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
-  delete 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
+  get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
   patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
 end
 
