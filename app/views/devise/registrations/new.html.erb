@@ -10,7 +10,7 @@
     </div>
   <% end %>
 
-    <div class="field">
+  <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
@@ -30,9 +30,15 @@
     <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%= form.label :address %>
+    <%= form.text_field :address %>
+  </div>
 
-
- -
+  <div class="field">
+    <%= form.label :province %>
+    <%= form.select :province, options_for_select(@provinces, @user.province), {}, class: "form-control" %>
+  </div>
 
   <div class="actions">
     <%= form.submit 'Sign up' %>

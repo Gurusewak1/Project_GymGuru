@@ -1,8 +1,9 @@
+# config/routes.rb
 Rails.application.routes.draw do
-  # Root route
+  get 'orders/create'
   root to: 'pages#home'
 
-  # Example of typical Devise routes with skipping destroy session route
+  # Devise routes for users
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions'
@@ -32,26 +33,18 @@ Rails.application.routes.draw do
 
   resources :checkout, only: [:index] do
     post 'create_order', on: :collection
+    patch 'update_province', on: :collection
+  end
+  
+  resource :cart, only: [:show] do
+    post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
+    get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
+    patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
   end
 
-
-
-# config/routes.rb
-resource :cart, only: [:show] do
-  post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
-  get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
-  patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
-end
-
-
-
-  
   resources :cart_items, only: [:destroy]
 
-
-  # Example route for categories
   resources :categories, only: [:index, :show]
 
-  # Health check route (example)
   get 'up', to: 'rails/health#show', as: :rails_health_check
 end

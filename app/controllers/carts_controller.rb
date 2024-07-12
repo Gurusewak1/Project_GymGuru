@@ -6,6 +6,11 @@ class CartsController < ApplicationController
     @products = Product.where(id: @cart.keys)
 
     @subtotal = @products.sum { |product| product.price * @cart[product.id.to_s].to_i }
+    
+    # Update user's province if selected from form
+    if params[:province].present?
+      current_user.update(province: params[:province])
+    end
 
     @tax_rate = TaxRate.find_by(province: current_user.province)
     if @tax_rate
@@ -16,6 +21,9 @@ class CartsController < ApplicationController
     else
       @gst = @pst = @hst = @total = 0
     end
+
+    # Fetch provinces for dropdown
+    @provinces = TaxRate.pluck(:province).uniq
   end
 
   def add
@@ -44,5 +52,24 @@ class CartsController < ApplicationController
       @cart.delete(product_id)
     end
     redirect_to cart_path
+  end
+
+  private
+
+  def calculate_subtotal(products, cart)
+    products.sum { |product| product.price * cart[product.id.to_s].to_i }
+  end
+
+  def calculate_taxes(subtotal, province)
+    tax_rates = TaxRate.find_by(province: province)
+    if tax_rates
+      {
+        gst: subtotal * (tax_rates.gst / 100.0),
+        pst: subtotal * (tax_rates.pst / 100.0),
+        hst: subtotal * (tax_rates.hst / 100.0)
+      }
+    else
+      { gst: 0, pst: 0, hst: 0 }
+    end
   end
 end

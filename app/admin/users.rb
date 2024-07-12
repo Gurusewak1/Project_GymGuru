@@ -5,8 +5,6 @@ ActiveAdmin.register User do
     f.inputs "User Details" do
       f.input :name
       f.input :email
-      f.input :password
-      f.input :password_confirmation
       f.input :address
       f.input :province
      
@@ -21,6 +19,7 @@ ActiveAdmin.register User do
     column :name
     column :address
     column :province
+    column :password
     actions
   end
 

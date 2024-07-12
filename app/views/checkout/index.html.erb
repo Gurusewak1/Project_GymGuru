@@ -1,0 +1,95 @@
+<!-- app/views/checkout/index.html.erb -->
+<h1>Checkout Summary</h1>
+
+<div class="invoice-summary">
+  <% if current_user.province.blank? || !TaxRate.exists?(province: current_user.province) %>
+    <%= form_with(url: update_province_checkout_index_path, method: :patch, id: "update-province-form") do %>
+      <div class="form-group">
+        <%= label_tag :province, "Select your province:" %>
+        <%= select_tag :province, options_for_select(@provinces, current_user.province), class: "form-control", onchange: "document.getElementById('update-province-form').submit();" %>
+      </div>
+    <% end %>
+  <% end %>
+  
+  <h2>Invoice Summary</h2>
+  
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Customer Name</td>
+        <td><%= current_user.name %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= current_user.email %></td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td><%= current_user.address %></td>
+      </tr>
+      <tr>
+        <td>Province</td>
+        <td><%= current_user.province %></td>
+      </tr>
+            <tr>
+        <td>Products</td>
+        <td>
+          <ul>
+            <% @products.each do |product| %>
+              <li><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>Subtotal</td>
+        <td><%= number_to_currency(@subtotal) %></td>
+      </tr>
+      <tr>
+        <td>GST</td>
+        <td><%= number_to_currency(@taxes_gst) %></td>
+      </tr>
+      <tr>
+        <td>PST</td>
+        <td><%= number_to_currency(@taxes_pst) %></td>
+      </tr>
+      <tr>
+        <td>HST</td>
+        <td><%= number_to_currency(@taxes_hst) %></td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td><%= number_to_currency(@total) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="back-to-cart">
+  <%= link_to raw('<i class="fa fa-chevron-left"></i> Back to Cart'), cart_path, class: "btn btn-secondary mt-3" %>
+</div>
+
+<style>
+  .invoice-summary {
+    margin-top: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+  }
+
+  .btn {
+    margin-right: 10px;
+  }
+
+  .back-to-cart {
+    margin-top: 20px;
+  }
+</style>

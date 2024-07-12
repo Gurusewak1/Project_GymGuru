@@ -1,86 +1,40 @@
+<!-- app/views/carts/show.html.erb -->
+
 <h1>Your Cart</h1>
 
 <% if @cart.empty? %>
-  <div class="alert alert-info">
-    Your cart is empty.
-  </div>
+  <p>Your cart is empty.</p>
 <% else %>
-  <div class="cart-table-container">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Actions</th>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr id="cart-item-<%= product.id %>">
+          <td><%= product.name %></td>
+          <td><%= number_to_currency(product.price) %></td>
+          <td>
+            <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
+              <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
+              <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% @products.each do |product| %>
-          <tr id="cart-item-<%= product.id %>">
-            <td><%= product.name %></td>
-            <td><%= number_to_currency(product.price) %></td>
-            <td>
-              <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
-                <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
-                <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
 
-    <div class="invoice-summary">
-      <h2>Invoice Summary</h2>
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <td>Customer Name</td>
-            <td><%= current_user.name %></td>
-          </tr>
-          <tr>
-            <td> Email</td>
-            <td><%= current_user.email %></td>
-          </tr>
-          <tr>
-            <td> Address</td>
-            <td><%= current_user.address %></td>
-          </tr>
-          <tr>
-            <td> Province</td>
-            <td><%= current_user.province %></td>
-          </tr>
-          <tr>
-            <td>Subtotal</td>
-            <td><%= number_to_currency(@subtotal) %></td>
-          </tr>
-          <tr>
-            <td>GST</td>
-            <td><%= number_to_currency(@gst) %></td>
-          </tr>
-          <tr>
-            <td>PST</td>
-            <td><%= number_to_currency(@pst) %></td>
-          </tr>
-          <tr>
-            <td>HST</td>
-            <td><%= number_to_currency(@hst) %></td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td><%= number_to_currency(@total) %></td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-    <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
-  </div>
+  <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
+  <%= link_to 'Back to Products', products_path, class: "btn btn-secondary btn-lg mt-3" %>
 <% end %>
 
 <style>
@@ -97,10 +51,6 @@
     padding: 12px;
     text-align: center;
     border: 1px solid #dee2e6;
-  }
-
-  .invoice-summary {
-    margin-top: 20px;
   }
 
   .btn {
