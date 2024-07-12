@@ -30,6 +30,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :checkout, only: [:index] do
+    post 'create_order', on: :collection
+  end
+
+
 
 # config/routes.rb
 resource :cart, only: [:show] do

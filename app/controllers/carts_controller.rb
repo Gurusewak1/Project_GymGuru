@@ -1,6 +1,21 @@
 class CartsController < ApplicationController
+  before_action :authenticate_user!
+
   def show
     @cart = session[:cart] || {}
+    @products = Product.where(id: @cart.keys)
+
+    @subtotal = @products.sum { |product| product.price * @cart[product.id.to_s].to_i }
+
+    @tax_rate = TaxRate.find_by(province: current_user.province)
+    if @tax_rate
+      @gst = @subtotal * (@tax_rate.gst / 100.0)
+      @pst = @subtotal * (@tax_rate.pst / 100.0)
+      @hst = @subtotal * (@tax_rate.hst / 100.0)
+      @total = @subtotal + @gst + @pst + @hst
+    else
+      @gst = @pst = @hst = @total = 0
+    end
   end
 
   def add

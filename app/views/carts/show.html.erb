@@ -1,50 +1,110 @@
-<!-- app/views/carts/show.html.erb -->
 <h1>Your Cart</h1>
 
 <% if @cart.empty? %>
-  <p>Your cart is empty.</p>
+  <div class="alert alert-info">
+    Your cart is empty.
+  </div>
 <% else %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Update Quantity</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart.each do |product_id, quantity| %>
-        <% product = Product.find(product_id) %>
-        <tr id="cart-item-<%= product_id %>">
-          <td><%= product.name %></td>
-          <td id="quantity-<%= product_id %>"><%= quantity %></td>
-          <td>
-            <%= form_tag update_cart_cart_path(product_id), method: :patch, class: "update-quantity-form", id: "update-form-#{product_id}" do %>
-              <%= text_field_tag :quantity, quantity, min: 0, class: "form-control quantity-input" %>
-              <%= submit_tag 'Update', class: "btn btn-primary update-button" %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to 'Remove', remove_from_cart_cart_path(product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger remove-button" %>
-          </td>
+  <div class="cart-table-container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr id="cart-item-<%= product.id %>">
+            <td><%= product.name %></td>
+            <td><%= number_to_currency(product.price) %></td>
+            <td>
+              <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
+                <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
+                <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="invoice-summary">
+      <h2>Invoice Summary</h2>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>Customer Name</td>
+            <td><%= current_user.name %></td>
+          </tr>
+          <tr>
+            <td> Email</td>
+            <td><%= current_user.email %></td>
+          </tr>
+          <tr>
+            <td> Address</td>
+            <td><%= current_user.address %></td>
+          </tr>
+          <tr>
+            <td> Province</td>
+            <td><%= current_user.province %></td>
+          </tr>
+          <tr>
+            <td>Subtotal</td>
+            <td><%= number_to_currency(@subtotal) %></td>
+          </tr>
+          <tr>
+            <td>GST</td>
+            <td><%= number_to_currency(@gst) %></td>
+          </tr>
+          <tr>
+            <td>PST</td>
+            <td><%= number_to_currency(@pst) %></td>
+          </tr>
+          <tr>
+            <td>HST</td>
+            <td><%= number_to_currency(@hst) %></td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td><%= number_to_currency(@total) %></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
+  </div>
 <% end %>
 
 <style>
-  .table {
-    width: 100%;
-    border-collapse: collapse;
+  .cart-table-container {
     margin-bottom: 20px;
   }
 
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
   .table th, .table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+  }
+
+  .invoice-summary {
+    margin-top: 20px;
+  }
+
+  .btn {
+    margin-right: 10px;
   }
 
   .update-quantity-form {
@@ -53,14 +113,11 @@
   }
 
   .quantity-input {
-    width: 50px;
+    width: 70px;
+    text-align: center;
   }
 
-  .update-button {
-    margin-left: 5px;
-  }
-
-  .remove-button {
-    margin-left: 5px;
+  .update-button, .remove-button {
+    padding: 6px 12px;
   }
 </style>
