@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :email, :password, :password_confirmation, :admin
+  permit_params :email, :password, :password_confirmation, :admin, :address, :province
 
   form do |f|
     f.inputs "User Details" do
@@ -7,6 +7,8 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :address
+      f.input :province
      
     end
     f.actions
@@ -17,6 +19,8 @@ ActiveAdmin.register User do
     id_column
     column :email
     column :name
+    column :address
+    column :province
     actions
   end
 
