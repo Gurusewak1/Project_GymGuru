@@ -1,6 +1,8 @@
 # app/models/user.rb
 class User < ApplicationRecord
   has_one :cart
+  belongs_to :province
+
   
   # Devise modules
   devise :database_authenticatable, :registerable,

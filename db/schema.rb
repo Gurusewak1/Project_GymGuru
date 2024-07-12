@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_12_025822) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_12_194543) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -132,6 +132,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_025822) do
     t.integer "on_sale"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tax_rates", force: :cascade do |t|
     t.string "province"
     t.decimal "gst"
@@ -153,7 +159,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_025822) do
     t.string "username"
     t.string "address"
     t.string "province"
+    t.integer "province_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["province_id"], name: "index_users_on_province_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
@@ -164,4 +172,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_025822) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "orders", "users"
+  add_foreign_key "users", "provinces"
 end

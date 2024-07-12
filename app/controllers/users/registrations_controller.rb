@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def new
     @user = User.new
-    @provinces = TaxRate.pluck(:province).uniq.sort
+    @provinces = Province.pluck(:name).sort
     super
   end
 
@@ -14,7 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to new_user_session_path, notice: 'Registration successful! Please login.'
     else
       # Handle registration errors
-      @provinces = TaxRate.pluck(:province).uniq.sort
+      @provinces = Province.pluck(:name).sort
       render :new
     end
   end
@@ -22,11 +22,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation, :address, :province])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation, :address, :province_id])
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :province)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :address, :province_id)
   end
-  
 end
