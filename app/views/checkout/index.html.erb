@@ -29,9 +29,9 @@
       </tr>
       <tr>
         <td>Province</td>
-        <td><%= current_user.province %></td>
+        <td><%= current_user.province.name if current_user.province %></td> <!-- Display province name if it exists -->
       </tr>
-            <tr>
+      <tr>
         <td>Products</td>
         <td>
           <ul>
@@ -63,6 +63,8 @@
       </tr>
     </tbody>
   </table>
+    <%= link_to 'Pay with PayPal', create_payment_checkout_index_path, class: 'btn btn-primary' %>
+
 </div>
 
 <div class="back-to-cart">

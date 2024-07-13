@@ -73,3 +73,6 @@ gem "devise", "~> 4.9"
 gem "sassc", "~> 2.4"
 
 gem "kaminari", "~> 1.2"
+
+
+gem "paypal-sdk-rest", "~> 1.7"

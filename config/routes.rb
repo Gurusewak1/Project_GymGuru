@@ -1,4 +1,3 @@
-# config/routes.rb
 Rails.application.routes.draw do
   get 'orders/create'
   root to: 'pages#home'
@@ -31,11 +30,19 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
+  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+
   resources :checkout, only: [:index] do
-    post 'create_order', on: :collection
-    patch 'update_province', on: :collection
+    collection do
+      post 'create_order'
+      patch 'update_province'
+      post 'complete_checkout'
+      get 'create_payment'
+      get 'execute_payment'
+    end
   end
-  
+
   resource :cart, only: [:show] do
     post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
     get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
