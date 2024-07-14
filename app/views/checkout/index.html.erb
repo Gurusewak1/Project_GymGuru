@@ -1,4 +1,5 @@
 <!-- app/views/checkout/index.html.erb -->
+
 <h1>Checkout Summary</h1>
 
 <div class="invoice-summary">
@@ -63,35 +64,80 @@
       </tr>
     </tbody>
   </table>
-    <%= link_to 'Pay with PayPal', create_payment_checkout_index_path, class: 'btn btn-primary' %>
 
+  <!-- Stripe Payment Form -->
+  <div id="payment-form">
+    <h3>Enter Payment Information</h3>
+    <div id="card-element">
+      <!-- Stripe.js Element placeholder -->
+      <!-- This is where Stripe Elements will render its UI components -->
+    </div>
+    <button id="submit-payment" class="btn btn-primary mt-3">Submit Payment</button>
+    <div id="payment-result"></div>
+  </div>
 </div>
 
 <div class="back-to-cart">
-  <%= link_to raw('<i class="fa fa-chevron-left"></i> Back to Cart'), cart_path, class: "btn btn-secondary mt-3" %>
+  <%= link_to "Back to Cart", cart_path %>
 </div>
 
-<style>
-  .invoice-summary {
-    margin-top: 20px;
-  }
+<script type="text/javascript">
+  // Load Stripe.js and initialize Stripe Elements
+  document.addEventListener('DOMContentLoaded', function () {
+    const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
 
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+    // Create an instance of Elements and mount the card Element to the `card-element` div.
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element');
 
-  .table th, .table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #dee2e6;
-  }
+    // Handle form submission and payment processing
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-payment');
+    const paymentResult = document.getElementById('payment-result');
 
-  .btn {
-    margin-right: 10px;
-  }
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
 
-  .back-to-cart {
-    margin-top: 20px;
-  }
-</style>
+      // Disable the submit button to prevent multiple submissions
+      submitButton.disabled = true;
+
+      // Create payment method using the card Element
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: card,
+      });
+
+      if (error) {
+        // Display error message if payment fails
+        paymentResult.textContent = error.message;
+        submitButton.disabled = false;
+      } else {
+        // If payment is successful, handle the payment method ID
+        const paymentMethodId = paymentMethod.id;
+
+        // Submit the payment method ID to your server to complete the payment
+        fetch('/process_payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ payment_method_id: paymentMethodId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle response from server (e.g., show success message)
+          paymentResult.textContent = data.message;
+          submitButton.disabled = false;
+          // Optionally redirect to a success page or update UI
+          window.location.href = '/checkout/success';
+        })
+        .catch(error => {
+          // Handle error if request fails
+          paymentResult.textContent = 'Error processing payment.';
+          submitButton.disabled = false;
+        });
+      }
+    });
+  });
+</script>

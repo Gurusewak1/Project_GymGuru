@@ -1,6 +1,42 @@
 Rails.application.routes.draw do
-  get 'orders/create'
   root to: 'pages#home'
+
+  # Static pages routes
+  get 'about', to: 'pages#about', as: :about
+  get 'contact', to: 'pages#contact', as: :contact
+
+  # Products routes
+  resources :products, only: [:index, :show] do
+    member do
+      get 'add_to_cart'
+    end
+  end
+
+  # Cart routes
+  resource :cart, only: [:show] do
+    post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
+    get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
+    patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
+  end
+
+  resources :checkout, only: [:index]  do
+    collection do
+      post 'create_order'
+      patch 'update_province'
+      get 'create_payment'
+      get 'execute_payment'
+      get '/checkout/success', to: 'checkout#success', as: 'checkout_success'
+      get 'cancel', to: 'checkout#cancel', as: 'checkout_cancel'
+    end
+  end
+  
+
+
+  # Categories routes
+  resources :categories, only: [:index, :show]
+
+  # Health check route
+  get 'up', to: 'rails/health#show', as: :rails_health_check
 
   # Devise routes for users
   devise_for :users, controllers: {
@@ -8,6 +44,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }, path: '', path_names: { sign_in: 'login', sign_up: 'register' }, skip: [:sessions]
 
+  # Custom routes for user sessions
   as :user do
     get 'login', to: 'devise/sessions#new', as: :new_user_session
     post 'login', to: 'devise/sessions#create', as: :user_session
@@ -18,40 +55,4 @@ Rails.application.routes.draw do
   # Devise routes for admin users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-
-  # Static pages routes
-  get 'home', to: 'pages#home', as: :home
-  get 'about', to: 'pages#about', as: :about
-  get 'contact', to: 'pages#contact', as: :contact
-
-  resources :products, only: [:index, :show] do
-    member do
-      get 'add_to_cart'
-    end
-  end
-
-  get 'checkout/success', to: 'checkout#success', as: 'checkout_success'
-  get 'checkout/cancel', to: 'checkout#cancel', as: 'checkout_cancel'
-
-  resources :checkout, only: [:index] do
-    collection do
-      post 'create_order'
-      patch 'update_province'
-      post 'complete_checkout'
-      get 'create_payment'
-      get 'execute_payment'
-    end
-  end
-
-  resource :cart, only: [:show] do
-    post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
-    get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
-    patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
-  end
-
-  resources :cart_items, only: [:destroy]
-
-  resources :categories, only: [:index, :show]
-
-  get 'up', to: 'rails/health#show', as: :rails_health_check
 end
