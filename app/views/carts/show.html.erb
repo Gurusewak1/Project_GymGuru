@@ -1,7 +1,4 @@
-<!-- app/views/carts/show.html.erb -->
-
 <h1>Your Cart</h1>
-
 <% if @cart.empty? %>
   <p>Your cart is empty.</p>
 <% else %>
@@ -17,7 +14,7 @@
     <tbody>
       <% @products.each do |product| %>
         <tr id="cart-item-<%= product.id %>">
-          <td><%= product.name %></td>
+          <td><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></td>
           <td><%= number_to_currency(product.price) %></td>
           <td>
             <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
@@ -32,7 +29,6 @@
       <% end %>
     </tbody>
   </table>
-
   <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
   <%= link_to 'Back to Products', products_path, class: "btn btn-secondary btn-lg mt-3" %>
 <% end %>
@@ -41,32 +37,26 @@
   .cart-table-container {
     margin-bottom: 20px;
   }
-
   .table {
     width: 100%;
     border-collapse: collapse;
   }
-
   .table th, .table td {
     padding: 12px;
     text-align: center;
     border: 1px solid #dee2e6;
   }
-
   .btn {
     margin-right: 10px;
   }
-
   .update-quantity-form {
     display: inline-block;
     margin-bottom: 0;
   }
-
   .quantity-input {
     width: 70px;
     text-align: center;
   }
-
   .update-button, .remove-button {
     padding: 6px 12px;
   }

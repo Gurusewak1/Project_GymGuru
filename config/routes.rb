@@ -19,18 +19,17 @@ Rails.application.routes.draw do
     patch 'update/:product_id', to: 'carts#update', as: 'update_cart'
   end
 
-  resources :checkout, only: [:index]  do
+  # Checkout routes
+  resources :checkout, only: [:index] do
     collection do
       post 'create_order'
       patch 'update_province'
+      post 'create_payment'
       get 'create_payment'
-      get 'execute_payment'
-      get '/checkout/success', to: 'checkout#success', as: 'checkout_success'
+      get 'success', to: 'checkout#success', as: 'checkout_success'
       get 'cancel', to: 'checkout#cancel', as: 'checkout_cancel'
     end
   end
-  
-
 
   # Categories routes
   resources :categories, only: [:index, :show]

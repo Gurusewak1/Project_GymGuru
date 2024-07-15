@@ -1,7 +1,7 @@
 # app/models/user.rb
 class User < ApplicationRecord
   has_one :cart
-  belongs_to :province
+  belongs_to :province, optional: true  # Make province optional
 
   
   # Devise modules

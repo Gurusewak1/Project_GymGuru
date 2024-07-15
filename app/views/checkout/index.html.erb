@@ -11,9 +11,9 @@
       </div>
     <% end %>
   <% end %>
-  
+
   <h2>Invoice Summary</h2>
-  
+
   <table class="table table-bordered">
     <tbody>
       <tr>
@@ -30,7 +30,7 @@
       </tr>
       <tr>
         <td>Province</td>
-        <td><%= current_user.province.name if current_user.province %></td> <!-- Display province name if it exists -->
+        <td><%= @province_name %></td> <!-- Display province name if it exists -->
       </tr>
       <tr>
         <td>Products</td>
@@ -117,7 +117,7 @@
         const paymentMethodId = paymentMethod.id;
 
         // Submit the payment method ID to your server to complete the payment
-        fetch('/process_payment', {
+        fetch('<%= checkout_create_payment_path %>', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,7 +130,7 @@
           paymentResult.textContent = data.message;
           submitButton.disabled = false;
           // Optionally redirect to a success page or update UI
-          window.location.href = '/checkout/success';
+          window.location.href = '<%= checkout_success_path %>';
         })
         .catch(error => {
           // Handle error if request fails

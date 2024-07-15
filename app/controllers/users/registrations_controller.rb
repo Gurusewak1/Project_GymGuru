@@ -2,8 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
 
   def new
-    @user = User.new
-    @provinces = Province.pluck(:name).sort
+    @provinces = Province.pluck(:id, :name).sort_by { |_, name| name }
     super
   end
 
@@ -14,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to new_user_session_path, notice: 'Registration successful! Please login.'
     else
       # Handle registration errors
-      @provinces = Province.pluck(:name).sort
+      @provinces = Province.pluck(:id, :name).sort_by { |_, name| name }
       render :new
     end
   end
