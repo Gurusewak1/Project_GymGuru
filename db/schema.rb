@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_194216) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_16_221720) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -110,7 +110,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_194216) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "product"
+    t.integer "product_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -126,6 +128,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_194216) do
     t.decimal "hst"
     t.decimal "pst"
     t.decimal "total"
+    t.integer "province_id"
+    t.string "payment_id"
+    t.index ["province_id"], name: "index_orders_on_province_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -188,6 +193,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_194216) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "provinces"
   add_foreign_key "orders", "users"
   add_foreign_key "users", "provinces"
 end

@@ -12,9 +12,8 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
-    # Additional logic to display order details...
+    @order_items = @order.order_items.includes(:product)
   end
-
   private
 
   def order_params
