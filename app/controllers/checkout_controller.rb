@@ -79,25 +79,26 @@ class CheckoutController < ApplicationController
     @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
     @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
     @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
-
+  
     begin
       payment_intent = Stripe::PaymentIntent.create({
         amount: (@total * 100).to_i,
         currency: 'usd',
         metadata: { integration_check: 'accept_a_payment' }
       })
-
+  
       order = current_user.orders.create(
         subtotal: @subtotal,
         gst: @taxes_gst,
         pst: @taxes_pst,
         hst: @taxes_hst,
         total: @total,
-        status: 'pending',
+        status: 'paid',
         address: current_user.address,
-        province: current_user.province
+        province: current_user.province,
+        stripe_payment_intent_id: payment_intent.id # Save the payment intent ID
       )
-
+  
       @products.each do |product|
         order.order_items.create(
           product: product,
@@ -105,10 +106,10 @@ class CheckoutController < ApplicationController
           price: product.price
         )
       end
-
-      # Save Stripe payment intent ID to the order
-      order.update(stripe_payment_intent_id: payment_intent.id, status: 'paid')
-
+  
+      # Mark the order as paid here if necessary
+      order.update(status: 'paid')
+  
       session[:cart] = nil
       render json: { message: 'Payment processed successfully!', order_id: order.id }, status: :ok
     rescue Stripe::StripeError => e
@@ -117,6 +118,7 @@ class CheckoutController < ApplicationController
       render json: { message: "Unknown error: #{e.message}" }, status: :unprocessable_entity
     end
   end
+  
 
   def success
     flash[:notice] = "Payment was successful!"
