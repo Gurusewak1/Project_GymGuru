@@ -3,6 +3,8 @@ class Product < ApplicationRecord
     has_one_attached :image
     has_many :cart_items
     has_many :carts, through: :cart_item
+    has_many :order_items
+
 
     scope :stock_eq, ->(stock) { where(stock: stock) }
 
