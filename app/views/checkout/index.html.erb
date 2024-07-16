@@ -3,6 +3,7 @@
 <h1>Checkout Summary</h1>
 
 <div class="invoice-summary">
+  <!-- Province selection form (if not set or invalid) -->
   <% if current_user.province.blank? || !TaxRate.exists?(province: current_user.province) %>
     <%= form_with(url: update_province_checkout_index_path, method: :patch, id: "update-province-form") do %>
       <div class="form-group">
@@ -12,8 +13,9 @@
     <% end %>
   <% end %>
 
+  <!-- Invoice Summary -->
   <h2>Invoice Summary</h2>
-
+  <!-- Display customer and order details -->
   <table class="table table-bordered">
     <tbody>
       <tr>
@@ -81,63 +83,62 @@
   <%= link_to "Back to Cart", cart_path %>
 </div>
 
+<!-- JavaScript for Stripe Payment Processing -->
 <script type="text/javascript">
-  // Load Stripe.js and initialize Stripe Elements
-  document.addEventListener('DOMContentLoaded', function () {
-    const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+// JavaScript for Stripe Payment Processing
+document.addEventListener('DOMContentLoaded', function () {
+  const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+  const elements = stripe.elements();
+  const card = elements.create('card');
+  card.mount('#card-element');
 
-    // Create an instance of Elements and mount the card Element to the `card-element` div.
-    const elements = stripe.elements();
-    const card = elements.create('card');
-    card.mount('#card-element');
+  const submitButton = document.getElementById('submit-payment');
+  const paymentResult = document.getElementById('payment-result');
 
-    // Handle form submission and payment processing
-    const form = document.getElementById('payment-form');
-    const submitButton = document.getElementById('submit-payment');
-    const paymentResult = document.getElementById('payment-result');
+  submitButton.addEventListener('click', async function(event) {
+    event.preventDefault();
+    submitButton.disabled = true;
 
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault();
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: card,
+    });
 
-      // Disable the submit button to prevent multiple submissions
-      submitButton.disabled = true;
+    if (error) {
+      paymentResult.textContent = error.message;
+      submitButton.disabled = false;
+    } else {
+      const paymentMethodId = paymentMethod.id;
 
-      // Create payment method using the card Element
-      const { paymentMethod, error } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: card,
-      });
+      // Fetch CSRF token from meta tag
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-      if (error) {
-        // Display error message if payment fails
-        paymentResult.textContent = error.message;
-        submitButton.disabled = false;
-      } else {
-        // If payment is successful, handle the payment method ID
-        const paymentMethodId = paymentMethod.id;
-
-        // Submit the payment method ID to your server to complete the payment
-        fetch('<%= checkout_create_payment_path %>', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ payment_method_id: paymentMethodId }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Handle response from server (e.g., show success message)
+      fetch('<%= create_payment_checkout_index_path %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken // Include CSRF token in headers
+        },
+        body: JSON.stringify({ payment_method_id: paymentMethodId }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Response Data:', data); // Log response data for debugging
+        if (data.order_id) {
+          const orderPath = '<%= order_path(":id") %>'.replace(':id', data.order_id);
+          window.location.href = orderPath; // Redirect to order details page
+        } else {
           paymentResult.textContent = data.message;
           submitButton.disabled = false;
-          // Optionally redirect to a success page or update UI
-          window.location.href = '<%= checkout_success_path %>';
-        })
-        .catch(error => {
-          // Handle error if request fails
-          paymentResult.textContent = 'Error processing payment.';
-          submitButton.disabled = false;
-        });
-      }
-    });
+        }
+      })
+      .catch(error => {
+        console.error('Fetch Error:', error); // Log fetch errors for debugging
+        paymentResult.textContent = 'Error processing payment.';
+        submitButton.disabled = false;
+      });
+    }
   });
+});
+
 </script>

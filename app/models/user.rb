@@ -1,6 +1,8 @@
 # app/models/user.rb
 class User < ApplicationRecord
   has_one :cart
+  has_many :orders
+
   belongs_to :province, optional: true  # Make province optional
 
   

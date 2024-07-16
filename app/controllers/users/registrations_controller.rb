@@ -17,7 +17,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       render :new
     end
   end
-
+  def show
+    @user = User.find(params[:id])
+    @orders = @user.orders  # Assuming `User` has_many `Order`s association
+    # Additional logic if needed
+  end
   private
 
   def configure_sign_up_params

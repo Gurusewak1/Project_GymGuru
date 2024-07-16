@@ -10,6 +10,11 @@ class OrdersController < ApplicationController
     end
   end
 
+  def show
+    @order = Order.find(params[:id])
+    # Additional logic to display order details...
+  end
+
   private
 
   def order_params

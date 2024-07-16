@@ -69,28 +69,56 @@ class CheckoutController < ApplicationController
     redirect_to root_path, notice: "Order placed successfully!"
   end
 
-  def create_payment
-    @cart = session[:cart] || {}
-    @products = Product.where(id: @cart.keys)
-    @subtotal = calculate_subtotal(@products, @cart)
-    @tax_rate = TaxRate.find_by(province: current_user.province)
-    @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
-    @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
-    @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
-    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
+  # app/controllers/checkout_controller.rb
 
-    begin
-      payment_intent = Stripe::PaymentIntent.create({
-        amount: (@total * 100).to_i,
-        currency: 'usd',
-        metadata: { integration_check: 'accept_a_payment' }
-      })
-  
-      render json: { client_secret: payment_intent.client_secret }
+def create_payment
+  @cart = session[:cart] || {}
+  @products = Product.where(id: @cart.keys)
+  @subtotal = calculate_subtotal(@products, @cart)
+  @tax_rate = TaxRate.find_by(province: current_user.province)
+  @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
+  @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
+  @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
+  @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
+
+  begin
+    payment_intent = Stripe::PaymentIntent.create({
+      amount: (@total * 100).to_i,
+      currency: 'usd',
+      metadata: { integration_check: 'accept_a_payment' }
+    })
+
+    # Create an order here if needed, or handle it separately in create_order action
+    order = current_user.orders.create(
+      subtotal: @subtotal,
+      gst: @taxes_gst,
+      pst: @taxes_pst,
+      hst: @taxes_hst,
+      total: @total,
+      status: 'pending',
+      address: current_user.address,
+      province: current_user.province
+    )
+
+    @products.each do |product|
+      order.order_items.create(
+        product: product,
+        quantity: @cart[product.id.to_s].to_i,
+        price: product.price
+      )
+    end
+    @order = Order.create!(user: current_user, total: @total, status: 'pending')
+
+      render json: { message: 'Payment processed successfully!', order_id: @order.id }, status: :ok
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { message: "Order creation failed: #{e.message}" }, status: :unprocessable_entity
     rescue Stripe::StripeError => e
-      render json: { error: e.message }, status: :internal_server_error
+      render json: { message: "Stripe error: #{e.message}" }, status: :unprocessable_entity
+    rescue => e
+      render json: { message: "Unknown error: #{e.message}" }, status: :unprocessable_entity
     end
   end
+
 
   def success
     flash[:notice] = "Payment was successful!"

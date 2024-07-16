@@ -1,0 +1,31 @@
+<!-- app/views/orders/show.html.erb -->
+
+<h1>Order Details</h1>
+
+<p>Order ID: <%= @order.id %></p>
+<p>Customer: <%= @order.user.name %></p>
+<p>Email: <%= @order.user.email %></p>
+<p>Address: <%= @order.address %></p>
+<p>Province: <%= @order.province %></p>
+
+<h2>Order Items</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Total Amount: <%= number_to_currency(@order.total) %></h3>
