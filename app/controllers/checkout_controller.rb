@@ -40,13 +40,18 @@ class CheckoutController < ApplicationController
   def create_order
     @cart = session[:cart] || {}
     @products = Product.where(id: @cart.keys)
+    
+    # Debugging information
+    Rails.logger.debug "Cart: #{@cart.inspect}"
+    Rails.logger.debug "Products: #{@products.inspect}"
+  
     @subtotal = calculate_subtotal(@products, @cart)
     @tax_rate = TaxRate.find_by(province: current_user.province)
     @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
     @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
     @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
     @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
-
+  
     order = current_user.orders.create(
       subtotal: @subtotal,
       gst: @taxes_gst,
@@ -57,15 +62,21 @@ class CheckoutController < ApplicationController
       address: current_user.address,
       province: current_user.province
     )
-
+  
+    Rails.logger.debug "Created Order: #{order.inspect}"
+  
     @products.each do |product|
       order.order_items.create(
-        product: product,
+        product_name: product.name,
+        product_id: product.id,
         quantity: @cart[product.id.to_s].to_i,
         price: product.price
       )
+  
+      # Debugging each order item
+      Rails.logger.debug "Created OrderItem: #{order.order_items.last.inspect}"
     end
-
+  
     session[:cart] = nil
     redirect_to root_path, notice: "Order placed successfully!"
   end
@@ -101,7 +112,8 @@ class CheckoutController < ApplicationController
   
       @products.each do |product|
         order.order_items.create(
-          product: product,
+          product_name: product.name,
+          product_id: product.id,
           quantity: @cart[product.id.to_s].to_i,
           price: product.price
         )
@@ -118,7 +130,6 @@ class CheckoutController < ApplicationController
       render json: { message: "Unknown error: #{e.message}" }, status: :unprocessable_entity
     end
   end
-  
 
   def success
     flash[:notice] = "Payment was successful!"

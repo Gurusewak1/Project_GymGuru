@@ -10,10 +10,12 @@ class OrdersController < ApplicationController
     end
   end
 
-  def show
-    @order = Order.find(params[:id])
-    @order_items = @order.order_items.includes(:product)
-  end
+# orders_controller.rb
+def show
+  @order = Order.find(params[:id])
+  @order_items = @order.order_items.includes(:product) # Ensure product is eager loaded
+end
+
   private
 
   def order_params

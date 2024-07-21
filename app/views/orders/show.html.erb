@@ -5,11 +5,11 @@
     <p><strong>Order ID:</strong> <%= @order.id %></p>
     <p><strong>Customer:</strong> <%= @order.user.name %></p>
     <p><strong>Email:</strong> <%= @order.user.email %></p>
-    <p><strong>Address:</strong> <%= @order.user.address %></p>
-    <p><strong>Province:</strong> <%= @order.user.province.name %></p>
-    <p><strong>Status:</strong> <%= @order.status.capitalize %></p> <!-- Displaying order status -->
+    <p><strong>Address:</strong> <%= @order.address %></p>
+    <p><strong>Province:</strong> <%= @order.province.name %></p>
+    <p><strong>Status:</strong> <%= @order.status.capitalize %></p>
     <% if @order.stripe_payment_intent_id %>
-      <p><strong>Payment ID:</strong> <%= @order.stripe_payment_intent_id %></p> <!-- Displaying payment ID -->
+      <p><strong>Payment ID:</strong> <%= @order.stripe_payment_intent_id %></p>
     <% end %>
   </div>
 
@@ -23,9 +23,9 @@
       </tr>
     </thead>
     <tbody>
-      <% @order_items.each do |item| %>
+      <% @order.order_items.each do |item| %>
         <tr>
-          <td><%= item.product.name %></td>
+          <td><%= item.product_name %></td>
           <td><%= item.quantity %></td>
           <td><%= number_to_currency(item.price) %></td>
         </tr>
@@ -35,6 +35,7 @@
 
   <h3 class="total-amount">Total Amount: <%= number_to_currency(@order.total) %></h3>
 </div>
+
 
 <style>
   .order-details-container {
