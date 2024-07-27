@@ -6,7 +6,7 @@ ActiveAdmin.register_page "About Page" do
 
   controller do
     def edit
-      @about_page = AboutPage.first_or_create # Adjust according to your model logic
+      @about_page = AboutPage.first_or_create 
     end
 
     def update
