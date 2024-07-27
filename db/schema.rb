@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_222600) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_27_195922) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -131,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_222600) do
     t.integer "province_id"
     t.string "payment_id"
     t.string "stripe_payment_intent_id"
+    t.decimal "qst"
     t.index ["province_id"], name: "index_orders_on_province_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -167,6 +168,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_222600) do
     t.decimal "pst"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "qst"
+    t.integer "province_id"
   end
 
   create_table "users", force: :cascade do |t|

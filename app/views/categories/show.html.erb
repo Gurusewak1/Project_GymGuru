@@ -1,13 +1,14 @@
-<!-- app/views/categories/show.html.erb -->
 <h1><%= @category.name %></h1>
 
 <ul>
   <% @products.each do |product| %>
     <li>
-      <%= link_to product.name, product_path(product) %>
+      <h2><%= link_to product.name, product_path(product) %></h2>
       <% if product.image.attached? %>
         <%= image_tag url_for(product.image), class: "product-image" %>
       <% end %>
+      <p><strong>Description:</strong> <%= product.description %></p>
+      <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
     </li>
   <% end %>
 </ul>

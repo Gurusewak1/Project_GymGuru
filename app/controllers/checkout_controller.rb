@@ -13,7 +13,8 @@ class CheckoutController < ApplicationController
     @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
     @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
     @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
-    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
+    @taxes_qst = @tax_rate ? @subtotal * (@tax_rate.qst / 100.0) : 0
+    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst + @taxes_qst
 
     line_items = @products.map do |product|
       {
@@ -50,13 +51,15 @@ class CheckoutController < ApplicationController
     @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
     @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
     @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
-    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
+    @taxes_qst = @tax_rate ? @subtotal * (@tax_rate.qst / 100.0) : 0
+    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst + @taxes_qst
   
     order = current_user.orders.create(
       subtotal: @subtotal,
       gst: @taxes_gst,
       pst: @taxes_pst,
       hst: @taxes_hst,
+      qst: @taxes_qst,
       total: @total,
       status: 'pending',
       address: current_user.address,
@@ -89,7 +92,8 @@ class CheckoutController < ApplicationController
     @taxes_gst = @tax_rate ? @subtotal * (@tax_rate.gst / 100.0) : 0
     @taxes_pst = @tax_rate ? @subtotal * (@tax_rate.pst / 100.0) : 0
     @taxes_hst = @tax_rate ? @subtotal * (@tax_rate.hst / 100.0) : 0
-    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst
+    @taxes_qst = @tax_rate ? @subtotal * (@tax_rate.qst / 100.0) : 0
+    @total = @subtotal + @taxes_gst + @taxes_pst + @taxes_hst + @taxes_qst
   
     begin
       payment_intent = Stripe::PaymentIntent.create({
@@ -103,6 +107,7 @@ class CheckoutController < ApplicationController
         gst: @taxes_gst,
         pst: @taxes_pst,
         hst: @taxes_hst,
+        qst: @taxes_qst,
         total: @total,
         status: 'paid',
         address: current_user.address,

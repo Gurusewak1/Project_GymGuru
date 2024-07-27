@@ -7,7 +7,7 @@ class Order < ApplicationRecord
 
   def calculate_total
     # Calculate total based on other attributes
-    self.total = subtotal + gst + hst + pst
+    self.total = subtotal + gst + hst + pst + qst
   end
   validates :address, :province, :total, presence: true
 

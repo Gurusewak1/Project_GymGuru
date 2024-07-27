@@ -33,9 +33,34 @@
     </tbody>
   </table>
 
+  <h2 class="taxes-title">Taxes</h2>
+  <table class="table table-striped table-hover">
+    <tbody>
+      <tr>
+        <td>Subtotal</td>
+        <td><%= number_to_currency(@order.subtotal) %></td>
+      </tr>
+      <tr>
+        <td>GST</td>
+        <td><%= number_to_currency(@order.gst) %></td>
+      </tr>
+      <tr>
+        <td>PST</td>
+        <td><%= number_to_currency(@order.pst) %></td>
+      </tr>
+      <tr>
+        <td>HST</td>
+        <td><%= number_to_currency(@order.hst) %></td>
+      </tr>
+      <tr>
+        <td>QST</td>
+        <td><%= number_to_currency(@order.qst) %></td>
+      </tr>
+    </tbody>
+  </table>
+
   <h3 class="total-amount">Total Amount: <%= number_to_currency(@order.total) %></h3>
 </div>
-
 
 <style>
   .order-details-container {
@@ -62,7 +87,8 @@
     color: #555;
   }
 
-  .order-items-title {
+  .order-items-title,
+  .taxes-title {
     margin-top: 20px;
     font-size: 1.5em;
     color: #333;

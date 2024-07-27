@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
 
     # Filter products based on the query parameters
     if params[:filter] == 'new'
-      @products = @products.where("created_at >= ?", 5.days.ago)
+      @products = @products.where("created_at >= ?", 5.minute.ago)
     elsif params[:filter] == 'recently_updated'
       @products = @products.where("updated_at >= ?", 1.week.ago)
     elsif params[:filter] == 'on_sale'

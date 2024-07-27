@@ -1,6 +1,9 @@
 class TaxRate < ApplicationRecord
   belongs_to :province, foreign_key: :province, primary_key: :name
 
+  validates :province, presence: true
+
+
   def self.ransackable_associations(auth_object = nil)
     ["province"]
   end

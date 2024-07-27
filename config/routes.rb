@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
     get 'logout', to: 'devise/sessions#destroy', as: :logout
   end
-  resources :orders, only: [:show]  # Example route for order details
+  resources :orders, only: [:show, :index]  # Example route for order details
 
 
 

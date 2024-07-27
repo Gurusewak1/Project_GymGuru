@@ -10,6 +10,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  def index
+    @orders = current_user.orders.includes(:order_items)
+  end
+
 # orders_controller.rb
 def show
   @order = Order.find(params[:id])
