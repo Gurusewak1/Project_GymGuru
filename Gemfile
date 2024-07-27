@@ -78,3 +78,5 @@ gem "kaminari", "~> 1.2"
 gem "paypal-sdk-rest", "~> 1.7"
 
 gem "stripe", "~> 12.2"
+
+gem "openai", "~> 0.3.0"
