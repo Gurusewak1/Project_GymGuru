@@ -7,32 +7,134 @@
   <%= csp_meta_tag %>
   <script src="https://js.stripe.com/v3/"></script>
 
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+
+    nav {
+      background-color: #343a40; /* Dark gray/navy color */
+      color: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-bottom: 2px solid #495057;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav li {
+      margin: 0 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 4px;
+    }
+
+    nav a:hover {
+      color: #f8f9fa; /* Light gray/white color */
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-info {
+      color: #f8f9fa;
+      font-size: 0.9em;
+    }
+
+    .secondary-menu {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .secondary-menu li {
+      margin: 0 20px;
+      border: 2px solid #007bff; /* Border color */
+      border-radius: 4px;
+      font-weight: bold;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 10px 20px;
+    }
+
+    .secondary-menu li:hover {
+      background-color: rgba(0, 123, 255, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+    }
+
+    .secondary-menu a {
+      color: #007bff; /* Primary blue color */
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .secondary-menu a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      nav ul, .secondary-menu ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav li, .secondary-menu li {
+        margin: 10px 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <nav>
-  <ul>
-    <% if user_signed_in? %>
-      <li><%= link_to 'Logout', destroy_user_session_path, method: :get %></li>
-      <li>Logged in as <%= current_user.email %></li>
-    <% else %>
-      <li><%= link_to 'Login', new_user_session_path %></li>
-      <li><%= link_to 'Register', new_user_registration_path %></li>
-    <% end %>
-  </ul>
-</nav>
+    <ul>
+      <% if user_signed_in? %>
+        <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link" %></li>
+        <li class="nav-info">Logged in as <%= current_user.email %></li>
+      <% else %>
+        <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+        <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+      <% end %>
+    </ul>
+  </nav>
 
-  
-  <ul>
-    <li><%= link_to 'Home', root_path %></li>
-    <li><%= link_to 'About', about_path %></li>
-    <li><%= link_to 'Products', products_path %></li>
-    <li><%= link_to 'Categories', categories_path %></li>
-  </ul>
-  
+  <div class="secondary-menu">
+    <ul>
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'About', about_path %></li>
+      <li><%= link_to 'Products', products_path %></li>
+      <li><%= link_to 'Categories', categories_path %></li>
+      <li><%= link_to 'All Orders', orders_path %></li>
+    </ul>
+  </div>
+
   <%= yield %>
 </body>
 </html>

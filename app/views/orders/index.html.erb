@@ -3,7 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <title>Your Orders</title>
-  <!-- You can include other meta tags, stylesheets, and scripts here -->
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 2.5em;
+      margin-top: 20px;
+      animation: fadeIn 1s ease-out, zoomIn 1s ease-out, boldIn 1s ease-out;
+    }
+
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      animation: slideInUp 1s ease-out;
+    }
+
+    thead {
+      background-color: #007bff;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      font-size: 1.2em;
+      animation: fadeIn 1s ease-out, slideIn 1s ease-out;
+    }
+
+    td {
+      animation: fadeInText 1s ease-out;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr {
+      animation: slideInRow 1s ease-out;
+    }
+
+    tr:hover {
+      background-color: #e9ecef;
+      transform: translateY(-2px);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    .action-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+      color: #0056b3;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInText {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRow {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes boldIn {
+      0% {
+        font-weight: 400;
+      }
+      50% {
+        font-weight: 700;
+      }
+      100% {
+        font-weight: 400;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+  </style>
 </head>
 <body>
   <h1>Your Orders</h1>
@@ -31,7 +192,7 @@
           </td>
           <td><%= number_to_currency(order.total) %></td>
           <td><%= order.status %></td>
-          <td><%= link_to 'View Details', order_path(order) %></td>
+          <td><%= link_to 'View Details', order_path(order), class: 'action-link' %></td>
         </tr>
       <% end %>
     </tbody>

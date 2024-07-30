@@ -8,40 +8,219 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      transition: background-color 0.3s ease;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+      transition: color 0.3s ease;
+      animation: titleAnimation 3s ease-in-out infinite;
+    }
+
+    @keyframes titleAnimation {
+      0% {
+        transform: translateY(0);
+        color: #333;
+      }
+      50% {
+        transform: translateY(-10px);
+        color: #ff6f61;
+      }
+      100% {
+        transform: translateY(0);
+        color: #333;
+      }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff; /* Solid white background for the container */
+      transition: padding 0.3s ease;
+    }
+
+    .nav-links {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-links a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    select,
+    input[type="submit"] {
+      margin: 0 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .product {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 15px 0;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .product:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .product img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .product h2 {
+      margin-top: 0;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .product p {
+      margin: 10px 0;
+      color: #666;
+    }
+
+    .product a {
+      text-decoration: none;
+      color: #007bff;
+      transition: color 0.3s ease;
+    }
+
+    .product a:hover {
+      color: #0056b3;
+    }
+
+    .price {
+      font-weight: bold;
+    }
+
+    .discounted-price {
+      color: red;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 40px;
+      }
+
+      form {
+        margin-bottom: 40px;
+      }
+
+      .product {
+        flex-direction: row;
+      }
+
+      .product h2 {
+        font-size: 1.5em;
+      }
+
+      .product p {
+        font-size: 1em;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        padding: 60px;
+      }
+
+      .product {
+        grid-template-columns: auto 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Our Products</h1>
+  <div class="container">
+    <h1>Our Products</h1>
 
-  <div>
-    <%= link_to "All Products", products_path %>
-    <%= link_to "On Sale", products_path(filter: 'on_sale') %>
-    <%= link_to "New", products_path(filter: 'new') %>
-    <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
-  </div>
-
-  <%= form_tag(products_path, method: :get) do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
-    <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
-    <%= submit_tag "Search" %>
-  <% end %>
-
-  <% @products.each do |product| %>
-    <div class="product">
-      <h2><%= link_to product.name, product_path(product) %></h2>
-      <p><%= product.description %></p>
-      <% if product.on_sale.present? && product.on_sale > 0 %>
-        <p>Original Price: <%= number_to_currency(product.price) %></p>
-        <p>Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
-        <p><%= product.on_sale %>% off!</p>
-      <% else %>
-        <p>Price: <%= number_to_currency(product.price) %></p>
-      <% end %>
-      <p>Stock: <%= product.stock %></p>
-      <p>Category: <%= product.category.name %></p>
-      <%= link_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
+    <div class="nav-links">
+      <%= link_to "All Products", products_path %>
+      <%= link_to "On Sale", products_path(filter: 'on_sale') %>
+      <%= link_to "New", products_path(filter: 'new') %>
+      <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
     </div>
-  <% end %>
 
-  <%= paginate @products %>
+    <%= form_tag(products_path, method: :get) do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
+      <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
+      <%= submit_tag "Search" %>
+    <% end %>
+
+    <% @products.each do |product| %>
+      <div class="product">
+        <% if product.image.attached? %>
+          <%= image_tag product.image, alt: product.name %>
+        <% else %>
+          <img src="default_image.png" alt="Default Image">
+        <% end %>
+        <div class="product-details">
+          <h2><%= link_to product.name, product_path(product) %></h2>
+          <p><%= product.description %></p>
+          <% if product.on_sale.present? && product.on_sale > 0 %>
+            <p class="price">Original Price: <%= number_to_currency(product.price) %></p>
+            <p class="discounted-price">Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
+            <p><%= product.on_sale %>% off!</p>
+          <% else %>
+            <p class="price">Price: <%= number_to_currency(product.price) %></p>
+          <% end %>
+          <p>Stock: <%= product.stock %></p>
+          <p>Category: <%= product.category.name %></p>
+          <%= link_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= paginate @products %>
+  </div>
 </body>
 </html>

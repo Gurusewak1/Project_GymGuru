@@ -4,11 +4,153 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout Summary</title>
-  <!-- Include any other head elements here -->
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+ <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+    color: #333;
+    margin: 20px;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  h1:hover, h2:hover, h3:hover {
+    color: #007bff;
+    transform: scale(1.05);
+  }
+
+  .invoice-summary {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+
+  .table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+  }
+
+  .table th {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .table tbody tr:hover {
+    background-color: #e9ecef;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #007bff;
+    background: transparent;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .btn:hover {
+    border-color: #0056b3;
+    color: #0056b3;
+    transform: scale(1.05);
+  }
+
+  #payment-form {
+    margin-top: 30px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #payment-form h3 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  #card-element {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  #submit-payment {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    background: #007bff;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  #submit-payment:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+
+  #payment-result {
+    margin-top: 15px;
+    color: #dc3545;
+    font-weight: bold;
+  }
+
+  .back-to-cart {
+    text-align: center;
+    margin-top: 20px; /* Reduced margin-top to move the button up */
+  }
+</style>
+
 </head>
 <body>
   <h1>Checkout Summary</h1>
@@ -85,17 +227,18 @@
     <!-- Stripe Payment Form -->
     <div id="payment-form">
       <h3>Enter Payment Information</h3>
+      <p>Please enter your credit card details to complete the payment.</p>
       <div id="card-element">
         <!-- Stripe.js Element placeholder -->
         <!-- This is where Stripe Elements will render its UI components -->
       </div>
-      <button id="submit-payment" class="btn btn-primary mt-3">Submit Payment</button>
+      <button id="submit-payment">Submit Payment</button>
       <div id="payment-result"></div>
     </div>
   </div>
 
   <div class="back-to-cart">
-    <%= link_to "Back to Cart", cart_path %>
+    <%= link_to "Back to Cart", cart_path, class: "btn" %>
   </div>
 
   <!-- JavaScript for Stripe Payment Processing -->

@@ -3,22 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= @category.name %></title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-</head>
-<body>
-  <h1><%= @category.name %></h1>
+  <title><%= @category.name %> - GymGuru</title>
+  <style>
+    /* Body container styling */
+    .category-container {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
 
-  <ul>
+    /* Header styling */
+    .category-title {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 20px;
+      font-size: 2.5em;
+      font-weight: 600;
+    }
+
+    /* Unordered list styling */
+    .product-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto; /* Center the product list */
+    }
+
+    /* List item styling */
+    .product-item {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0; /* Start with hidden product details */
+      animation: fadeIn 1s forwards; /* Apply fade-in animation */
+    }
+
+    .product-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Product image styling */
+    .product-image {
+      max-width: 150px; /* Adjust as needed */
+      height: auto;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
+    /* Product details styling */
+    .product-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center horizontally within product-item */
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.3s ease; /* Transition for opacity */
+    }
+
+    /* Product title styling */
+    .product-title {
+      margin: 0 0 15px 0;
+      font-size: 1.75em;
+      color: #007bff;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .product-title:hover {
+      color: #0056b3;
+    }
+
+    /* Paragraph styling */
+    .product-description,
+    .product-price {
+      margin: 10px 0;
+      font-size: 1em;
+      color: #333;
+    }
+
+    .product-description strong,
+    .product-price strong {
+      color: #343a40;
+      font-weight: 600;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .category-title {
+        font-size: 2em;
+      }
+
+      .product-list {
+        width: 95%;
+      }
+
+      .product-item {
+        padding: 15px;
+        font-size: 0.95em;
+      }
+
+      .product-title {
+        font-size: 1.5em;
+      }
+
+      .product-image {
+        max-width: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-title {
+        font-size: 1.8em;
+      }
+
+      .product-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 12px;
+        font-size: 0.9em;
+      }
+
+      .product-image {
+        max-width: 100px;
+        margin-bottom: 10px;
+      }
+
+      .product-title {
+        font-size: 1.3em;
+      }
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body class="category-container">
+  <h1 class="category-title"><%= @category.name %></h1>
+
+  <ul class="product-list">
     <% @products.each do |product| %>
-      <li>
-        <h2><%= link_to product.name, product_path(product) %></h2>
+      <li class="product-item">
         <% if product.image.attached? %>
           <%= image_tag url_for(product.image), class: "product-image" %>
         <% end %>
-        <p><strong>Description:</strong> <%= product.description %></p>
-        <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+        <div class="product-details">
+          <h2 class="product-title"><%= link_to product.name, product_path(product) %></h2>
+          <p class="product-description"><strong>Description:</strong> <%= product.description %></p>
+          <p class="product-price"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+        </div>
       </li>
     <% end %>
   </ul>

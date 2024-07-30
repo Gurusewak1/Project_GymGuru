@@ -1,41 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart</title>
   <style>
-    .cart-table-container {
-      margin-bottom: 20px;
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
     }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin: 20px;
+      font-size: 2.5rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    h1:hover {
+      color: #007bff;
+      transform: scale(1.05);
+    }
+
+    .cart-table-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
     .table {
       width: 100%;
       border-collapse: collapse;
+      background: #fff;
     }
+
     .table th, .table td {
       padding: 12px;
       text-align: center;
       border: 1px solid #dee2e6;
     }
-    .btn {
-      margin-right: 10px;
+
+    .table th {
+      background-color: #007bff;
+      color: white;
     }
-    .update-quantity-form {
+
+    .table tbody tr {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.02);
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: 2px solid #007bff;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #007bff;
+      background: transparent;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
       display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #007bff;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .update-quantity-form {
+      display: flex;
+      align-items: center;
       margin-bottom: 0;
     }
+
     .quantity-input {
       width: 70px;
       text-align: center;
+      padding: 6px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .update-button, .remove-button {
-      padding: 6px 12px;
+
+    .quantity-input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .update-button {
+      margin-left: 10px;
+    }
+
+    .mt-3 {
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <h1>Your Cart</h1>
   <% if @cart.empty? %>
-    <p>Your cart is empty.</p>
+    <p style="text-align: center; color: #666;">Your cart is empty.</p>
   <% else %>
     <div class="cart-table-container">
       <table class="table">
@@ -54,20 +132,22 @@
               <td><%= number_to_currency(product.price) %></td>
               <td>
                 <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
-                  <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
-                  <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
+                  <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "quantity-input" %>
+                  <%= submit_tag 'Update', class: "btn update-button" %>
                 <% end %>
               </td>
               <td>
-                <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
+                <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn" %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-    <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
-    <%= link_to 'Back to Products', products_path, class: "btn btn-secondary btn-lg mt-3" %>
+    <div style="text-align: center;">
+      <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn mt-3" %>
+      <%= link_to 'Back to Products', products_path, class: "btn mt-3" %>
+    </div>
   <% end %>
 </body>
 </html>
