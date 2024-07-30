@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'plans/show'
   root to: 'pages#home'
 
   # Static pages routes
@@ -52,7 +53,12 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:show, :index]  # Example route for order details
 
+  # config/routes.rb
+  get '/plans', to: 'plans#index'  # Or any other action you want to handle at /plans
 
+  get 'plans/new', to: 'plans#new'
+  post 'plans', to: 'plans#create'
+  get 'plans/show', to: 'plans#show'
 
   # Devise routes for admin users
   devise_for :admin_users, ActiveAdmin::Devise.config
