@@ -1,26 +1,43 @@
-<!-- app/views/plans/new.html.erb -->
 <h1>Request Personalized Plans</h1>
 
 <%= form_with url: plans_path, method: :post, local: true do |form| %>
   <fieldset>
     <legend>Workout Plan</legend>
-    <%= form.label :goal, "Goal (e.g., build muscle, lose weight):" %>
-    <%= form.text_field :workout_goal %>
-    <%= form.label :experience_level, "Experience Level (e.g., beginner, intermediate):" %>
-    <%= form.text_field :workout_experience_level %>
-    <%= form.label :frequency, "Frequency (e.g., 3 times a week):" %>
-    <%= form.text_field :workout_frequency %>
+
+    <div class="form-group">
+      <%= form.label :workout_goal, "Goal (e.g., build muscle, lose weight):" %>
+      <%= form.text_field :workout_goal, required: true, placeholder: "e.g., build muscle" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :workout_experience_level, "Experience Level (e.g., beginner, intermediate):" %>
+      <%= form.text_field :workout_experience_level, required: true, placeholder: "e.g., beginner" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :workout_frequency, "Frequency (e.g., 3 times a week):" %>
+      <%= form.text_field :workout_frequency, required: true, placeholder: "e.g., 3 times a week" %>
+    </div>
   </fieldset>
 
   <fieldset>
     <legend>Diet Plan</legend>
-    <%= form.label :goal, "Goal (e.g., lose weight, maintain weight):" %>
-    <%= form.text_field :diet_goal %>
-    <%= form.label :dietary_restrictions, "Dietary Restrictions (e.g., vegetarian, gluten-free):" %>
-    <%= form.text_field :dietary_restrictions %>
-    <%= form.label :calories, "Daily Calorie Intake (e.g., 2000 calories):" %>
-    <%= form.text_field :diet_calories %>
+
+    <div class="form-group">
+      <%= form.label :diet_goal, "Goal (e.g., lose weight, maintain weight):" %>
+      <%= form.text_field :diet_goal, required: true, placeholder: "e.g., lose weight" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :dietary_restrictions, "Dietary Restrictions (e.g., vegetarian, gluten-free):" %>
+      <%= form.text_field :dietary_restrictions, placeholder: "e.g., vegetarian" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :diet_calories, "Daily Calorie Intake (e.g., 2000 calories):" %>
+      <%= form.text_field :diet_calories, required: true, placeholder: "e.g., 2000 calories" %>
+    </div>
   </fieldset>
 
-  <%= form.submit "Generate Plans" %>
+  <%= form.submit "Generate Plans", class: "btn btn-primary" %>
 <% end %>

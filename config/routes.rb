@@ -53,9 +53,9 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:show, :index]  # Example route for order details
 
-  # config/routes.rb
-  get '/plans', to: 'plans#index'  # Or any other action you want to handle at /plans
+  resources :plans, only: [:new, :create, :show]
 
+  get '/plans', to: 'plans#index'  
   get 'plans/new', to: 'plans#new'
   post 'plans', to: 'plans#create'
   get 'plans/show', to: 'plans#show'

@@ -18,7 +18,7 @@ module GymGuru
 
     # Configuration for the application, engines, and railties goes here.
     #
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/app/services)
 
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.

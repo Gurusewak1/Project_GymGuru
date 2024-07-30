@@ -81,3 +81,5 @@ gem "stripe", "~> 12.2"
 
 gem "openai", "~> 0.3.0"
 gem 'dotenv-rails', groups: [:development, :test]
+
+gem "httparty", "~> 0.22.0"

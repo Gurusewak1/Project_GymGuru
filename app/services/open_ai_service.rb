@@ -1,8 +1,10 @@
+# config/initializers/open_ai_service.rb
+
 require 'openai'
 
 class OpenAIService
   def initialize
-    @client = OpenAI::Client.new(api_key: ENV['OPENAI_API_KEY'])
+    @client = OpenAI_CLIENT 
   end
 
   def generate_diet_plan(preferences)
