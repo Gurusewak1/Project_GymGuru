@@ -1,63 +1,73 @@
-<h1>Your Cart</h1>
-<% if @cart.empty? %>
-  <p>Your cart is empty.</p>
-<% else %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr id="cart-item-<%= product.id %>">
-          <td><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></td>
-          <td><%= number_to_currency(product.price) %></td>
-          <td>
-            <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
-              <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
-              <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
-  <%= link_to 'Back to Products', products_path, class: "btn btn-secondary btn-lg mt-3" %>
-<% end %>
-
-<style>
-  .cart-table-container {
-    margin-bottom: 20px;
-  }
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .table th, .table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #dee2e6;
-  }
-  .btn {
-    margin-right: 10px;
-  }
-  .update-quantity-form {
-    display: inline-block;
-    margin-bottom: 0;
-  }
-  .quantity-input {
-    width: 70px;
-    text-align: center;
-  }
-  .update-button, .remove-button {
-    padding: 6px 12px;
-  }
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <style>
+    .cart-table-container {
+      margin-bottom: 20px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th, .table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #dee2e6;
+    }
+    .btn {
+      margin-right: 10px;
+    }
+    .update-quantity-form {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+    .quantity-input {
+      width: 70px;
+      text-align: center;
+    }
+    .update-button, .remove-button {
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <% if @cart.empty? %>
+    <p>Your cart is empty.</p>
+  <% else %>
+    <div class="cart-table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+            <tr id="cart-item-<%= product.id %>">
+              <td><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></td>
+              <td><%= number_to_currency(product.price) %></td>
+              <td>
+                <%= form_tag update_cart_cart_path(product.id), method: :patch, class: "update-quantity-form", id: "update-form-#{product.id}" do %>
+                  <%= text_field_tag :quantity, @cart[product.id.to_s], min: 0, class: "form-control quantity-input" %>
+                  <%= submit_tag 'Update', class: "btn btn-primary btn-sm update-button" %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to 'Remove', remove_from_cart_cart_path(product.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm remove-button" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to 'Proceed to Checkout', checkout_index_path, class: "btn btn-success btn-lg mt-3" %>
+    <%= link_to 'Back to Products', products_path, class: "btn btn-secondary btn-lg mt-3" %>
+  <% end %>
+</body>
+</html>
