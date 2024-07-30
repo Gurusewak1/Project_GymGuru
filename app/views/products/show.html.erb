@@ -1,17 +1,32 @@
-<!-- app/views/products/show.html.erb -->
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
 <h1><%= @product.name %></h1>
 
 <div>
-  <%= image_tag url_for(@product.image), class: "product-image" if @product.image.attached? %>
+  <% if @product.image.attached? %>
+    <%= image_tag url_for(@product.image), class: "product-image" %>
+  <% end %>
   <p><strong>Description:</strong> <%= @product.description %></p>
-<% if @product.on_sale.present? && @product.on_sale > 0 %>
-  <p>Original Price: <%= number_to_currency(@product.price) %></p>
-  <p>Discounted Price: <%= number_to_currency(@product.discounted_price) %></p>
-  <p><%= @product.on_sale %>% off!</p>
-<% else %>
-  <p>Price: <%= number_to_currency(@product.price) %></p>
-<% end %>>
+  <% if @product.on_sale.present? && @product.on_sale > 0 %>
+    <p>Original Price: <%= number_to_currency(@product.price) %></p>
+    <p>Discounted Price: <%= number_to_currency(@product.discounted_price) %></p>
+    <p><%= @product.on_sale %>% off!</p>
+  <% else %>
+    <p>Price: <%= number_to_currency(@product.price) %></p>
+  <% end %>
 </div>
+
 <%= link_to 'Add to Cart', add_to_cart_product_path(@product), method: :post %>
 <%= link_to 'Back', products_path %>
+</body>
+</html>

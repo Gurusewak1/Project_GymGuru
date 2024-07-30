@@ -1,31 +1,40 @@
-<h1>Your Orders</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your Orders</title>
+  <!-- You can include other meta tags, stylesheets, and scripts here -->
+</head>
+<body>
+  <h1>Your Orders</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Order ID</th>
-      <th>Products</th>
-      <th>Total</th>
-      <th>Status</th>  
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @orders.each do |order| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= order.id %></td>
-         <td>
-          <ul>
-            <% order.order_items.each do |item| %>
-              <li><%= item.product_name %> - <%= item.quantity %></li>
-            <% end %>
-          </ul>
-        </td>
-        <td><%= number_to_currency(order.total) %></td>
-        <td><%= order.status %></td>
-       
-        <td><%= link_to 'View Details', order_path(order) %></td>
+        <th>Order ID</th>
+        <th>Products</th>
+        <th>Total</th>
+        <th>Status</th>  
+        <th>Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.id %></td>
+          <td>
+            <ul>
+              <% order.order_items.each do |item| %>
+                <li><%= item.product_name %> - <%= item.quantity %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td><%= number_to_currency(order.total) %></td>
+          <td><%= order.status %></td>
+          <td><%= link_to 'View Details', order_path(order) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,14 +1,26 @@
-<h1><%= @category.name %></h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @category.name %></title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+  <h1><%= @category.name %></h1>
 
-<ul>
-  <% @products.each do |product| %>
-    <li>
-      <h2><%= link_to product.name, product_path(product) %></h2>
-      <% if product.image.attached? %>
-        <%= image_tag url_for(product.image), class: "product-image" %>
-      <% end %>
-      <p><strong>Description:</strong> <%= product.description %></p>
-      <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
-    </li>
-  <% end %>
-</ul>
+  <ul>
+    <% @products.each do |product| %>
+      <li>
+        <h2><%= link_to product.name, product_path(product) %></h2>
+        <% if product.image.attached? %>
+          <%= image_tag url_for(product.image), class: "product-image" %>
+        <% end %>
+        <p><strong>Description:</strong> <%= product.description %></p>
+        <p><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
+      </li>
+    <% end %>
+  </ul>
+</body>
+</html>

@@ -1,34 +1,47 @@
-<h1>Our Products</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Products</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+  <h1>Our Products</h1>
 
-<div>
-  <%= link_to "All Products", products_path %>
-  <%= link_to "On Sale", products_path(filter: 'on_sale') %>
-  <%= link_to "New", products_path(filter: 'new') %>
-  <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
-</div>
-
-<%= form_tag(products_path, method: :get) do %>
-  <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
-  <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
-  <%= submit_tag "Search" %>
-<% end %>
-
-<% @products.each do |product| %>
-  <div class="product">
-    <h2><%= link_to product.name, product_path(product) %></h2>
-    <p><%= product.description %></p>
-    <% if product.on_sale.present? && product.on_sale > 0 %>
-      <p>Original Price: <%= number_to_currency(product.price) %></p>
-      <p>Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
-      <p><%= product.on_sale %>% off!</p>
-    <% else %>
-      <p>Price: <%= number_to_currency(product.price) %></p>
-    <% end %>
-    <p>Stock: <%= product.stock %></p>
-    <p>Category: <%= product.category.name %></p>
-    <%= link_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
+  <div>
+    <%= link_to "All Products", products_path %>
+    <%= link_to "On Sale", products_path(filter: 'on_sale') %>
+    <%= link_to "New", products_path(filter: 'new') %>
+    <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
   </div>
-<% end %>
 
+  <%= form_tag(products_path, method: :get) do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
+    <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
+    <%= submit_tag "Search" %>
+  <% end %>
 
-<%= paginate @products %>
+  <% @products.each do |product| %>
+    <div class="product">
+      <h2><%= link_to product.name, product_path(product) %></h2>
+      <p><%= product.description %></p>
+      <% if product.on_sale.present? && product.on_sale > 0 %>
+        <p>Original Price: <%= number_to_currency(product.price) %></p>
+        <p>Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
+        <p><%= product.on_sale %>% off!</p>
+      <% else %>
+        <p>Price: <%= number_to_currency(product.price) %></p>
+      <% end %>
+      <p>Stock: <%= product.stock %></p>
+      <p>Category: <%= product.category.name %></p>
+      <%= link_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
+    </div>
+  <% end %>
+
+  <%= paginate @products %>
+</body>
+</html>

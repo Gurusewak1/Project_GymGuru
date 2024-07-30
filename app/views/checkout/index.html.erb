@@ -1,146 +1,160 @@
-<h1>Checkout Summary</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout Summary</title>
+  <!-- Include any other head elements here -->
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+  <h1>Checkout Summary</h1>
 
-<div class="invoice-summary">
-  <!-- Province selection form (if not set or invalid) -->
-  <% if current_user.province.blank? || !TaxRate.exists?(province: current_user.province) %>
-    <%= form_with(url: update_province_checkout_index_path, method: :patch, id: "update-province-form") do %>
-      <div class="form-group">
-        <%= label_tag :province, "Select your province:" %>
-        <%= select_tag :province, options_for_select(@provinces, current_user.province), class: "form-control", onchange: "document.getElementById('update-province-form').submit();" %>
-      </div>
+  <div class="invoice-summary">
+    <!-- Province selection form (if not set or invalid) -->
+    <% if current_user.province.blank? || !TaxRate.exists?(province: current_user.province) %>
+      <%= form_with(url: update_province_checkout_index_path, method: :patch, id: "update-province-form") do %>
+        <div class="form-group">
+          <%= label_tag :province, "Select your province:" %>
+          <%= select_tag :province, options_for_select(@provinces, current_user.province), class: "form-control", onchange: "document.getElementById('update-province-form').submit();" %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <!-- Invoice Summary -->
-  <h2>Invoice Summary</h2>
-  <!-- Display customer and order details -->
-  <table class="table table-bordered">
-    <tbody>
-      <tr>
-        <td>Customer Name</td>
-        <td><%= current_user.name %></td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td><%= current_user.email %></td>
-      </tr>
-      <tr>
-        <td>Address</td>
-        <td><%= current_user.address %></td>
-      </tr>
-      <tr>
-        <td>Province</td>
-        <td><%= @province_name %></td> <!-- Display province name if it exists -->
-      </tr>
-      <tr>
-        <td>Products</td>
-        <td>
-          <ul>
-            <% @products.each do |product| %>
-              <li><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>Subtotal</td>
-        <td><%= number_to_currency(@subtotal) %></td>
-      </tr>
-      <tr>
-        <td>GST</td>
-        <td><%= number_to_currency(@taxes_gst) %></td>
-      </tr>
-      <tr>
-        <td>PST</td>
-        <td><%= number_to_currency(@taxes_pst) %></td>
-      </tr>
-      <tr>
-        <td>HST</td>
-        <td><%= number_to_currency(@taxes_hst) %></td>
-      </tr>
-      <tr>
-        <td>QST</td>
-        <td><%= number_to_currency(@taxes_qst) %></td>
-      </tr>
-      <tr>
-        <td>Total</td>
-        <td><%= number_to_currency(@total) %></td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- Invoice Summary -->
+    <h2>Invoice Summary</h2>
+    <!-- Display customer and order details -->
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td>Customer Name</td>
+          <td><%= current_user.name %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><%= current_user.email %></td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td><%= current_user.address %></td>
+        </tr>
+        <tr>
+          <td>Province</td>
+          <td><%= @province_name %></td> <!-- Display province name if it exists -->
+        </tr>
+        <tr>
+          <td>Products</td>
+          <td>
+            <ul>
+              <% @products.each do |product| %>
+                <li><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></li>
+              <% end %>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Subtotal</td>
+          <td><%= number_to_currency(@subtotal) %></td>
+        </tr>
+        <tr>
+          <td>GST</td>
+          <td><%= number_to_currency(@taxes_gst) %></td>
+        </tr>
+        <tr>
+          <td>PST</td>
+          <td><%= number_to_currency(@taxes_pst) %></td>
+        </tr>
+        <tr>
+          <td>HST</td>
+          <td><%= number_to_currency(@taxes_hst) %></td>
+        </tr>
+        <tr>
+          <td>QST</td>
+          <td><%= number_to_currency(@taxes_qst) %></td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td><%= number_to_currency(@total) %></td>
+        </tr>
+      </tbody>
+    </table>
 
-  <!-- Stripe Payment Form -->
-  <div id="payment-form">
-    <h3>Enter Payment Information</h3>
-    <div id="card-element">
-      <!-- Stripe.js Element placeholder -->
-      <!-- This is where Stripe Elements will render its UI components -->
+    <!-- Stripe Payment Form -->
+    <div id="payment-form">
+      <h3>Enter Payment Information</h3>
+      <div id="card-element">
+        <!-- Stripe.js Element placeholder -->
+        <!-- This is where Stripe Elements will render its UI components -->
+      </div>
+      <button id="submit-payment" class="btn btn-primary mt-3">Submit Payment</button>
+      <div id="payment-result"></div>
     </div>
-    <button id="submit-payment" class="btn btn-primary mt-3">Submit Payment</button>
-    <div id="payment-result"></div>
   </div>
-</div>
 
-<div class="back-to-cart">
-  <%= link_to "Back to Cart", cart_path %>
-</div>
+  <div class="back-to-cart">
+    <%= link_to "Back to Cart", cart_path %>
+  </div>
 
-<!-- JavaScript for Stripe Payment Processing -->
-<script type="text/javascript">
-// JavaScript for Stripe Payment Processing
-document.addEventListener('DOMContentLoaded', function () {
-  const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
-  const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
+  <!-- JavaScript for Stripe Payment Processing -->
+  <script type="text/javascript">
+    // JavaScript for Stripe Payment Processing
+    document.addEventListener('DOMContentLoaded', function () {
+      const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+      const elements = stripe.elements();
+      const card = elements.create('card');
+      card.mount('#card-element');
 
-  const submitButton = document.getElementById('submit-payment');
-  const paymentResult = document.getElementById('payment-result');
+      const submitButton = document.getElementById('submit-payment');
+      const paymentResult = document.getElementById('payment-result');
 
-  submitButton.addEventListener('click', async function(event) {
-    event.preventDefault();
-    submitButton.disabled = true;
+      submitButton.addEventListener('click', async function(event) {
+        event.preventDefault();
+        submitButton.disabled = true;
 
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: card,
-    });
+        const { paymentMethod, error } = await stripe.createPaymentMethod({
+          type: 'card',
+          card: card,
+        });
 
-    if (error) {
-      paymentResult.textContent = error.message;
-      submitButton.disabled = false;
-    } else {
-      const paymentMethodId = paymentMethod.id;
-
-      // Fetch CSRF token from meta tag
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-      fetch('<%= create_payment_checkout_index_path %>', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken // Include CSRF token in headers
-        },
-        body: JSON.stringify({ payment_method_id: paymentMethodId }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Response Data:', data); // Log response data for debugging
-        if (data.order_id) {
-          const orderPath = '<%= order_path(":id") %>'.replace(':id', data.order_id);
-          window.location.href = orderPath; // Redirect to order details page
-        } else {
-          paymentResult.textContent = data.message;
+        if (error) {
+          paymentResult.textContent = error.message;
           submitButton.disabled = false;
-        }
-      })
-      .catch(error => {
-        console.error('Fetch Error:', error); // Log fetch errors for debugging
-        paymentResult.textContent = 'Error processing payment.';
-        submitButton.disabled = false;
-      });
-    }
-  });
-});
+        } else {
+          const paymentMethodId = paymentMethod.id;
 
-</script>
+          // Fetch CSRF token from meta tag
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+          fetch('<%= create_payment_checkout_index_path %>', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken // Include CSRF token in headers
+            },
+            body: JSON.stringify({ payment_method_id: paymentMethodId }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Response Data:', data); // Log response data for debugging
+            if (data.order_id) {
+              const orderPath = '<%= order_path(":id") %>'.replace(':id', data.order_id);
+              window.location.href = orderPath; // Redirect to order details page
+            } else {
+              paymentResult.textContent = data.message;
+              submitButton.disabled = false;
+            }
+          })
+          .catch(error => {
+            console.error('Fetch Error:', error); // Log fetch errors for debugging
+            paymentResult.textContent = 'Error processing payment.';
+            submitButton.disabled = false;
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
