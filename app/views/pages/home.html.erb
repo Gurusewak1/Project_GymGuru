@@ -1,5 +1,206 @@
 <!-- app/views/pages/home.html.erb -->
 
-<h1>Welcome to GymGuru!</h1>
-<p>Your ultimate fitness companion.</p>
-<!-- Add more content as needed -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to GymGuru</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20;
+      background-color: #f4f4f9;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .hero {
+      background: url('your-hero-image.jpg') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      font-weight: 700;
+      animation: fadeInUp 1s ease-out;
+      z-index: 2;
+      position: relative;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      font-weight: 300;
+      animation: fadeInUp 1.5s ease-out;
+      z-index: 2;
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-section {
+      padding: 60px 20px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .feature-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #333;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .feature {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .feature-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      flex: 1 1 300px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-item h3 {
+      font-size: 1.75rem;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .feature-item p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .cta-section {
+      background: #007bff;
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .cta-section p {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .cta-section a {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #fff;
+      color: #007bff;
+      font-size: 1.125rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .cta-section a:hover {
+      background: #0056b3;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="container">
+      <h1>Welcome to GymGuru!</h1>
+      <p>Your ultimate fitness companion.</p>
+    </div>
+  </div>
+
+  <div class="feature-section">
+    <div class="container">
+      <h2>Our Features</h2>
+      <div class="feature">
+        <div class="feature-item">
+          <h3>Personalized Plans</h3>
+          <p>Get custom workout and diet plans based on your fitness goals and preferences.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Expert Advice</h3>
+          <p>Access expert tips and recommendations from certified trainers and nutritionists.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Progress Tracking</h3>
+          <p>Track your fitness journey with detailed progress reports and metrics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="container">
+      <h2>Ready to Transform Your Fitness?</h2>
+      <p>Join thousands of others who have achieved their fitness goals with GymGuru.</p>
+      <%= link_to 'Get Started Now', new_user_registration_path, class: 'cta-button' %>
+    </div>
+  </div>
+</body>
+</html>

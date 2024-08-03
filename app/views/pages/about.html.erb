@@ -1,5 +1,167 @@
 <!-- app/views/pages/about.html.erb -->
 
-<h1>About GymGuru</h1>
-<p>GymGuru is dedicated to helping you achieve your fitness goals with personalized workout plans, diet recommendations, and supplements.</p>
-<!-- Add more content as needed -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About GymGuru</title>
+
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 2.8em;
+      margin-bottom: 20px;
+      animation: slideInDown 1s ease-out;
+    }
+
+    h2 {
+      color: #34495e;
+      font-size: 1.8em;
+      margin-top: 30px;
+      animation: slideInLeft 1s ease-out;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #2980b9;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #aaa;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes colorChange {
+      0% { color: #2c3e50; }
+      25% { color: #3498db; }
+      50% { color: #e74c3c; }
+      75% { color: #f39c12; }
+      100% { color: #2c3e50; }
+    }
+
+    h1, h2 {
+      animation: colorChange 5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>About GymGuru</h1>
+    <p>
+      Welcome to GymGuru, your ultimate destination for achieving your fitness goals. We are committed to providing you with personalized workout plans, diet recommendations, and high-quality supplements to help you stay on track and reach your peak performance.
+    </p>
+
+    <h2>Our Mission</h2>
+    <p>
+      At GymGuru, our mission is to empower individuals to lead healthier lives through customized fitness solutions. We believe in the power of personalized plans that cater to your unique needs and preferences.
+    </p>
+
+    <h2>What We Offer</h2>
+    <ul>
+      <li><strong>Personalized Workout Plans:</strong> Tailored routines designed to fit your goals, whether it's building muscle, losing weight, or enhancing endurance.</li>
+      <li><strong>Diet Recommendations:</strong> Expert advice on nutrition and meal plans that complement your fitness regime.</li>
+      <li><strong>Supplements:</strong> A curated selection of supplements to support your fitness journey.</li>
+    </ul>
+
+    <h2>Why Choose GymGuru?</h2>
+    <p>
+      Our team of fitness experts and nutritionists are dedicated to providing you with the best tools and resources to succeed. We use advanced algorithms and AI-driven insights to ensure that your plans are as effective and efficient as possible.
+    </p>
+
+    <h2>Contact Us</h2>
+    <p>
+      Have questions or need support? Reach out to our friendly customer service team at <a href="mailto:support@gymguru.com">support@gymguru.com</a>. We’re here to help you every step of the way.
+    </p>
+
+    <h2>Follow Us</h2>
+    <p>
+      Stay connected and motivated by following us on social media:
+    </p>
+    <ul>
+      <li><a href="https://www.facebook.com/GymGuru" target="_blank">Facebook</a></li>
+      <li><a href="https://www.twitter.com/GymGuru" target="_blank">Twitter</a></li>
+      <li><a href="https://www.instagram.com/GymGuru" target="_blank">Instagram</a></li>
+    </ul>
+
+    <footer>
+      <p>&copy; 2024 GymGuru. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>
