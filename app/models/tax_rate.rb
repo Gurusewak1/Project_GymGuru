@@ -1,15 +1,15 @@
 class TaxRate < ApplicationRecord
-  belongs_to :province, foreign_key: :province, primary_key: :name
+  belongs_to :province, foreign_key: :province_id, primary_key: :id
 
+  # Validations
   validates :province, presence: true
 
-
+  # Ransack configuration
   def self.ransackable_associations(auth_object = nil)
-    ["province"]
+    %w[province]
   end
-  
+
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "gst", "hst", "id", "id_value", "province", "pst", "updated_at"]
+    %w[created_at gst hst id province_id pst updated_at]
   end
-  
 end

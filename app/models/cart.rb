@@ -1,9 +1,12 @@
-# app/models/cart.rb
 class Cart < ApplicationRecord
   belongs_to :user
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
 
+  # Validations
+  validates :user, presence: true
+
+  # Methods to manage cart items
   def add_product(product_id)
     # Find or create a new cart item associated with this cart and product
     cart_item = cart_items.find_or_initialize_by(product_id: product_id)
@@ -29,6 +32,4 @@ class Cart < ApplicationRecord
   def remove_product(product_id)
     cart_items.find_by(product_id: product_id)&.destroy
   end
-
-
 end
