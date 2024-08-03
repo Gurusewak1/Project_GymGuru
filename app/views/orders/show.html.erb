@@ -230,7 +230,7 @@
       <p><strong>Customer:</strong> <%= @order.user.name %></p>
       <p><strong>Email:</strong> <%= @order.user.email %></p>
       <p><strong>Address:</strong> <%= @order.address %></p>
-      <p><strong>Province:</strong> <%= @order.province.name %></p>
+      <p><strong>Province:</strong> <%= @order.user.province.name %></p>
       <p><strong>Status:</strong> <%= @order.status.capitalize %></p>
       <% if @order.stripe_payment_intent_id %>
         <p><strong>Payment ID:</strong> <%= @order.stripe_payment_intent_id %></p>

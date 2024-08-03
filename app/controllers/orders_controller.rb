@@ -23,6 +23,7 @@ end
   private
 
   def order_params
-    params.require(:order).permit(:total_amount, :status, :address, :province)
+    params.require(:order).permit(:user_id, :province_id, :total_amount, :status, :address, :subtotal, :gst, :hst, :pst, :total, :qst)
   end
+  
 end

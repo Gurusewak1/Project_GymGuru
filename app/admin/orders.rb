@@ -1,4 +1,5 @@
 ActiveAdmin.register Order do
+  permit_params :user_id, :province_id, :total_amount, :status, :address, :subtotal, :gst, :hst, :pst, :total, :qst
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
