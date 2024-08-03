@@ -3,6 +3,27 @@ class Order < ApplicationRecord
   has_many :order_items
   has_many :products, through: :order_items
   belongs_to :province
+ 
+  PENDING = 'pending'
+  PAID = 'paid'
+  SHIPPED = 'shipped'
+
+  STATUS_OPTIONS = [PENDING, PAID, SHIPPED]
+
+  # Validations
+  validates :status, inclusion: { in: STATUS_OPTIONS }
+  validates :address, :province, :total, presence: true
+
+  # Method to provide status options for forms
+  def self.status_options
+    STATUS_OPTIONS.map { |status| [status.humanize, status] }
+  end
+
+  def calculate_total
+    # Calculate total based on other attributes
+    self.total = subtotal + gst + hst + pst + qst
+  end
+  validates :address, :province, :total, presence: true
 
 
   def self.ransackable_associations(auth_object = nil)
@@ -13,10 +34,5 @@ class Order < ApplicationRecord
     ["address", "created_at", "gst", "hst", "id", "id_value", "payment_id", "province", "province_id", "pst", "qst", "status", "stripe_payment_intent_id", "subtotal", "total", "total_amount", "updated_at", "user_id"]
   end
 
-  def calculate_total
-    # Calculate total based on other attributes
-    self.total = subtotal + gst + hst + pst + qst
-  end
-  validates :address, :province, :total, presence: true
-
+ 
 end
