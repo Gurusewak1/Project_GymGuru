@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   # Validations
   validates :email, presence: true, uniqueness: true
-  # Add more validations as needed
+
 
   # Ransack configuration
   def self.ransackable_attributes(auth_object = nil)
