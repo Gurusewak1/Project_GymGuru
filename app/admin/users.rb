@@ -35,7 +35,7 @@ ActiveAdmin.register User do
   filter :created_at
   filter :updated_at
 
-  # Show page configuration
+
   show do
     attributes_table do
       row :name
