@@ -28,7 +28,6 @@ ActiveAdmin.register User do
     actions
   end
 
-  # Filter configuration
   filter :email
   filter :name
   filter :address
