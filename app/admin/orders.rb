@@ -1,9 +1,18 @@
 ActiveAdmin.register Order do
-  permit_params :status, :subtotal, :gst, :pst, :hst, :qst, :total, :user_id
+  permit_params :status, :subtotal, :gst, :pst, :hst, :qst, :total, :user_id, :province_id, :address
+
+  # Define filters
+  filter :status, as: :select, collection: Order.status_options
+  filter :user
+  filter :total
+  filter :created_at
+  filter :updated_at
 
   form do |f|
     f.inputs "Order Details" do
       f.input :user
+      f.input :province
+      f.input :address
       f.input :subtotal
       f.input :gst
       f.input :pst
@@ -19,6 +28,8 @@ ActiveAdmin.register Order do
     selectable_column
     id_column
     column :user
+    column :province
+    column :address
     column :subtotal
     column :gst
     column :pst
@@ -34,6 +45,8 @@ ActiveAdmin.register Order do
   show do
     attributes_table do
       row :user
+      row :province
+      row :address
       row :subtotal
       row :gst
       row :pst
