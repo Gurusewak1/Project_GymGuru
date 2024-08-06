@@ -78,3 +78,15 @@ gem "kaminari", "~> 1.2"
 gem "paypal-sdk-rest", "~> 1.7"
 
 gem "stripe", "~> 12.2"
+
+# Gemfile
+gem 'dotenv-rails', groups: [:development, :test]
+
+# Gemfile
+gem 'google-cloud'
+
+# Gemfile
+gem 'google-cloud-language'
+
+
+gem 'openai'

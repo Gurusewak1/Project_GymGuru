@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'workout_plans/new'
+  get 'workout_plans/create'
   root to: 'pages#home'
 
   # Static pages routes
@@ -52,8 +54,10 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:show, :index]  # Example route for order details
 
+  resources :workout_plans, only: [:new, :create, :show]
 
-
+    get 'workout_plans', to: 'workout_plans#new'
+  post 'workout_plans', to: 'workout_plans#create'
   # Devise routes for admin users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

@@ -1,0 +1,31 @@
+<%= form_with url: workout_plans_path, method: :post, local: true do %>
+  <div>
+    <%= label_tag :age, 'Age:' %>
+    <%= text_field_tag :age, params[:age] %>
+  </div>
+
+  <div>
+    <%= label_tag :gender, 'Gender:' %>
+    <%= select_tag :gender, options_for_select(['Male', 'Female', 'Other'], params[:gender]) %>
+  </div>
+
+  <div>
+    <%= label_tag :fitness_level, 'Fitness Level:' %>
+    <%= select_tag :fitness_level, options_for_select(['Beginner', 'Intermediate', 'Advanced'], params[:fitness_level]) %>
+  </div>
+
+  <div>
+    <%= label_tag :goal, 'Goal:' %>
+    <%= text_field_tag :goal, params[:goal] %>
+  </div>
+
+  <div>
+    <%= submit_tag 'Get Workout Plan' %>
+  </div>
+<% end %>
+
+
+<% if @response.present? %>
+  <h2>Workout Plan:</h2>
+  <p><%= @response %></p>
+<% end %>
