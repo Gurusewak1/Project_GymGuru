@@ -1,16 +1,19 @@
-# app/controllers/users/sessions_controller.rb
 class Users::SessionsController < Devise::SessionsController
   # POST /login
   def create
     Rails.logger.debug "Attempting to authenticate user with email: #{params[:user][:email]}"
     self.resource = warden.authenticate!(auth_options)
+    
     if resource.nil?
       Rails.logger.debug "Authentication failed for email: #{params[:user][:email]}"
-      flash[:alert] = "Invalid email or password."
+      flash[:alert] = "Invalid email or password. Please try again."
+      # Store the attempted email in the session
+      session[:attempted_email] = params[:user][:email]
       redirect_to new_user_session_path
     else
       Rails.logger.debug "Authentication succeeded for email: #{params[:user][:email]}"
-      set_flash_message!(:notice, :signed_in)
+      # Set a custom flash message with the user's name
+      flash[:notice] = "Welcome back, #{resource.name}!"
       sign_in(resource_name, resource)
       yield resource if block_given?
       respond_with resource, location: after_sign_in_path_for(resource)
@@ -28,13 +31,10 @@ class Users::SessionsController < Devise::SessionsController
     respond_to_on_destroy
   end
   
-
   protected
 
   def after_sign_in_path_for(resource)
-    # Customize the redirect after sign-in
-    # For example, you can redirect to the user's profile page:
-    # user_path(resource)
+    # Redirect to the user's profile page or another path after sign-in
     root_path
   end
 end
