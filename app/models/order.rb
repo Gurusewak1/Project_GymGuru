@@ -5,9 +5,9 @@ class Order < ApplicationRecord
   belongs_to :province
 
   # Constants for order status
-  PENDING = 'pending'
-  PAID = 'paid'
-  SHIPPED = 'shipped'
+  PENDING = "pending"
+  PAID = "paid"
+  SHIPPED = "shipped"
 
   STATUS_OPTIONS = [PENDING, PAID, SHIPPED]
 
@@ -31,6 +31,7 @@ class Order < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[address created_at gst hst id payment_id province_id pst qst status stripe_payment_intent_id subtotal total updated_at user_id]
+    %w[address created_at gst hst id payment_id province_id pst qst status stripe_payment_intent_id
+       subtotal total updated_at user_id]
   end
 end

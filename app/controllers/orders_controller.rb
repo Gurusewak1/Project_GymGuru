@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   def create
     @order = current_user.orders.build(order_params)
     if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
+      redirect_to @order, notice: "Order was successfully created."
     else
       render :new
     end
@@ -14,16 +14,16 @@ class OrdersController < ApplicationController
     @orders = current_user.orders.includes(:order_items)
   end
 
-# orders_controller.rb
-def show
-  @order = Order.find(params[:id])
-  @order_items = @order.order_items.includes(:product) # Ensure product is eager loaded
-end
+  # orders_controller.rb
+  def show
+    @order = Order.find(params[:id])
+    @order_items = @order.order_items.includes(:product) # Ensure product is eager loaded
+  end
 
   private
 
   def order_params
-    params.require(:order).permit(:user_id, :province_id, :total_amount, :status, :address, :subtotal, :gst, :hst, :pst, :total, :qst)
+    params.require(:order).permit(:user_id, :province_id, :total_amount, :status, :address,
+                                  :subtotal, :gst, :hst, :pst, :total, :qst)
   end
-  
 end

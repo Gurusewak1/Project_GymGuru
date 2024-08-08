@@ -1,5 +1,5 @@
 class TaxRate < ApplicationRecord
-  belongs_to :province, foreign_key: :province_id, primary_key: :id
+  belongs_to :province, primary_key: :id
 
   # Validations
   validates :province, presence: true

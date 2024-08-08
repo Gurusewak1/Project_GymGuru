@@ -1,25 +1,24 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_product, only: %i[show edit update destroy]
 
   def index
     @products = Product.all
 
     # Filter products based on the query parameters
-    if params[:filter] == 'new'
-      @products = @products.where("created_at >= ?", 5.minute.ago)
-    elsif params[:filter] == 'recently_updated'
+    if params[:filter] == "new"
+      @products = @products.where("created_at >= ?", 5.minutes.ago)
+    elsif params[:filter] == "recently_updated"
       @products = @products.where("updated_at >= ?", 1.week.ago)
-    elsif params[:filter] == 'on_sale'
+    elsif params[:filter] == "on_sale"
       @products = @products.where("on_sale > ?", 0)
     end
 
-    if params[:category].present?
-      @products = @products.where(category_id: params[:category])
-    end
+    @products = @products.where(category_id: params[:category]) if params[:category].present?
 
     if params[:search].present?
-      @products = @products.where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+      @products = @products.where("name LIKE ? OR description LIKE ?", "%#{params[:search]}%",
+                                  "%#{params[:search]}%")
     end
 
     @products = @products.page(params[:page]).per(5) # Paginate with 5 products per page
@@ -45,7 +44,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to product_path(@product), notice: 'Product was successfully created.'
+      redirect_to product_path(@product), notice: "Product was successfully created."
     else
       render :new
     end
@@ -54,7 +53,7 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   def update
     if @product.update(product_params)
-      redirect_to product_path(@product), notice: 'Product was successfully updated.'
+      redirect_to product_path(@product), notice: "Product was successfully updated."
     else
       render :edit
     end
@@ -63,29 +62,23 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
-    redirect_to products_path, notice: 'Product was successfully deleted.'
+    redirect_to products_path, notice: "Product was successfully deleted."
   end
- 
-  # app/controllers/products_controller.rb
-def add_to_cart
-  product_id = params[:id]  # Retrieve product_id from params[:id]
-  
-  session[:cart] ||= {}
-  
-  # Ensure session[:cart][product_id] is initialized and treated as a numeric value
-  unless session[:cart][product_id].is_a?(Numeric)
-    session[:cart][product_id] = 0
-  end
-  
-  # Increment the quantity of the product in the cart
-  session[:cart][product_id] += 1
-  
-  redirect_to cart_path, notice: 'Product added to cart.'
-end
 
-   
-  
-  
+  # app/controllers/products_controller.rb
+  def add_to_cart
+    product_id = params[:id] # Retrieve product_id from params[:id]
+
+    session[:cart] ||= {}
+
+    # Ensure session[:cart][product_id] is initialized and treated as a numeric value
+    session[:cart][product_id] = 0 unless session[:cart][product_id].is_a?(Numeric)
+
+    # Increment the quantity of the product in the cart
+    session[:cart][product_id] += 1
+
+    redirect_to cart_path, notice: "Product added to cart."
+  end
 
   private
 

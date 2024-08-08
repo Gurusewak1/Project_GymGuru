@@ -109,6 +109,26 @@
         margin: 10px 0;
       }
     }
+
+    .flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.flash.notice {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.flash.alert {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
   </style>
 </head>
 
@@ -134,6 +154,14 @@
       <li><%= link_to 'All Orders', orders_path %></li>
     </ul>
   </div>
+
+    <% if flash[:notice] %>
+    <div class="flash notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+
 
   <%= yield %>
 </body>

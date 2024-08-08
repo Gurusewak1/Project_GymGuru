@@ -15,7 +15,9 @@ ActiveAdmin.register TaxRate do
 
   form do |f|
     f.inputs do
-      f.input :province, as: :select, collection: Province.all.collect { |p| [p.name, p.id] }, include_blank: false
+      f.input :province, as: :select, collection: Province.all.collect { |p|
+                                                    [p.name, p.id]
+                                                  }, include_blank: false
       f.input :gst
       f.input :hst
       f.input :pst

@@ -6,11 +6,9 @@ class CartsController < ApplicationController
     @products = Product.where(id: @cart.keys)
 
     @subtotal = @products.sum { |product| product.price * @cart[product.id.to_s].to_i }
-    
+
     # Update user's province if selected from form
-    if params[:province].present?
-      current_user.update(province: params[:province])
-    end
+    current_user.update(province: params[:province]) if params[:province].present?
 
     @tax_rate = TaxRate.find_by(province: current_user.province)
     if @tax_rate
@@ -61,7 +59,7 @@ class CartsController < ApplicationController
   end
 
   def calculate_taxes(subtotal, province)
-    tax_rates = TaxRate.find_by(province: province)
+    tax_rates = TaxRate.find_by(province:)
     if tax_rates
       {
         gst: subtotal * (tax_rates.gst / 100.0),
