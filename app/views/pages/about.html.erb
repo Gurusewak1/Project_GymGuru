@@ -1,78 +1,173 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About GymGuru</title>
-
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
   <style>
     body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background-color: #f0f4f8;
-      color: #333;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f4f4f9;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 40px;
-      background: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      animation: fadeIn 1.5s ease-in-out;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
-    h1 {
+    .header-section {
+      background: url('your-about-hero-image.jpg') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      padding: 80px 20px;
       text-align: center;
-      color: #2c3e50;
-      font-size: 2.8em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .header-section h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff7e5f, #feb47b, #ff7e5f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      position: relative;
+      background-size: 200% 200%;
+      animation: gradientShift 5s ease infinite, fadeInUp 1s ease-out;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header-section p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      font-weight: 300;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    .content-section {
+      padding: 60px 20px;
+      background-color: #fff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+    }
+
+    .content-section .section-item {
+      flex: 1 1 calc(50% - 20px); /* 50% width minus gap */
+      box-sizing: border-box;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      z-index: 2;
+      text-align: center; /* Center text alignment */
+    }
+
+    .content-section .section-item:nth-of-type(1) {
+      border: 2px solid #007bff; /* Blue border for the first item */
+    }
+
+    .content-section .section-item:nth-of-type(2) {
+      border: 2px solid #ff7e5f; /* Orange border for the second item */
+    }
+
+    .content-section .section-item:nth-of-type(3) {
+      border: 2px solid #28a745; /* Green border for the third item */
+    }
+
+    .content-section h2 {
+      font-size: 2.5rem;
       margin-bottom: 20px;
-      animation: slideInDown 1s ease-out;
+      color: #333;
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1s ease-out, slideIn 1s ease-out;
+      text-align: center; /* Center heading text */
     }
 
-    h2 {
-      color: #34495e;
-      font-size: 1.8em;
-      margin-top: 30px;
-      animation: slideInLeft 1s ease-out;
-    }
-
-    p {
+    .content-section p {
+      font-size: 1.125rem;
       color: #666;
-      line-height: 1.8;
       margin-bottom: 20px;
-      animation: fadeIn 2s ease-in-out;
+      line-height: 1.8;
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.5s ease-out;
+      text-align: center; /* Center paragraph text */
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    ul {
+    .content-section ul {
       list-style-type: disc;
       padding-left: 20px;
       margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
       animation: fadeIn 2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center list items */
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    li {
+    .content-section ul li {
+      font-size: 1.125rem;
+      color: #666;
       margin-bottom: 10px;
-    }
-
-    a {
-      color: #3498db;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    a:hover {
-      color: #2980b9;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #aaa;
-      animation: fadeIn 2s ease-in-out;
+      text-align: center; /* Center text in list items */
     }
 
     @keyframes fadeIn {
@@ -84,9 +179,9 @@
       }
     }
 
-    @keyframes slideInDown {
+    @keyframes slideIn {
       from {
-        transform: translateY(-50px);
+        transform: translateY(-20px);
         opacity: 0;
       }
       to {
@@ -95,72 +190,77 @@
       }
     }
 
-    @keyframes slideInLeft {
-      from {
-        transform: translateX(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
+    .contact-section {
+      background: #007bff;
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 8px;
+      margin: 20px 0;
     }
 
-    @keyframes colorChange {
-      0% { color: #2c3e50; }
-      25% { color: #3498db; }
-      50% { color: #e74c3c; }
-      75% { color: #f39c12; }
-      100% { color: #2c3e50; }
+    .contact-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-out;
     }
 
-    h1, h2 {
-      animation: colorChange 5s infinite;
+    .contact-section p {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .contact-section a {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #fff;
+      color: #007bff;
+      font-size: 1.125rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .contact-section a:hover {
+      background: #0056b3;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>About GymGuru</h1>
-    <p>
-      Welcome to GymGuru, your ultimate destination for achieving your fitness goals. We are committed to providing you with personalized workout plans, diet recommendations, and high-quality supplements to help you stay on track and reach your peak performance.
-    </p>
+  <div class="header-section">
+    <div class="container">
+      <h1>About GymGuru</h1>
+      <p>Your ultimate destination for achieving fitness goals.</p>
+    </div>
+  </div>
 
-    <h2>Our Mission</h2>
-    <p>
-      At GymGuru, our mission is to empower individuals to lead healthier lives through customized fitness solutions. We believe in the power of personalized plans that cater to your unique needs and preferences.
-    </p>
+  <div class="content-section">
+    <div class="section-item">
+      <h2>Our Mission</h2>
+      <p>At GymGuru, our mission is to empower individuals to lead healthier lives through customized fitness solutions. We believe in the power of personalized plans that cater to your unique needs and preferences.</p>
+    </div>
+    <div class="section-item">
+      <h2>What We Offer</h2>
+      <ul>
+        <li><strong>Personalized Workout Plans:</strong> Tailored routines designed to fit your goals, whether it's building muscle, losing weight, or enhancing endurance.</li>
+        <li><strong>Diet Recommendations:</strong> Expert advice on nutrition and meal plans that complement your fitness regime.</li>
+        <li><strong>Supplements:</strong> A curated selection of supplements to support your fitness journey.</li>
+      </ul>
+    </div>
+    <div class="section-item">
+      <h2>Why Choose GymGuru?</h2>
+      <p>Our team of fitness experts and nutritionists are dedicated to providing you with the best tools and resources to succeed. We use advanced algorithms and AI-driven insights to ensure that your plans are as effective and efficient as possible.</p>
+    </div>
+  </div>
 
-    <h2>What We Offer</h2>
-    <ul>
-      <li><strong>Personalized Workout Plans:</strong> Tailored routines designed to fit your goals, whether it's building muscle, losing weight, or enhancing endurance.</li>
-      <li><strong>Diet Recommendations:</strong> Expert advice on nutrition and meal plans that complement your fitness regime.</li>
-      <li><strong>Supplements:</strong> A curated selection of supplements to support your fitness journey.</li>
-    </ul>
-
-    <h2>Why Choose GymGuru?</h2>
-    <p>
-      Our team of fitness experts and nutritionists are dedicated to providing you with the best tools and resources to succeed. We use advanced algorithms and AI-driven insights to ensure that your plans are as effective and efficient as possible.
-    </p>
-
-    <h2>Contact Us</h2>
-    <p>
-      Have questions or need support? Reach out to our friendly customer service team at <a href="mailto:support@gymguru.com">support@gymguru.com</a>. We’re here to help you every step of the way.
-    </p>
-
-    <h2>Follow Us</h2>
-    <p>
-      Stay connected and motivated by following us on social media:
-    </p>
-    <ul>
-      <li><a href="https://www.facebook.com/GymGuru" target="_blank">Facebook</a></li>
-      <li><a href="https://www.twitter.com/GymGuru" target="_blank">Twitter</a></li>
-      <li><a href="https://www.instagram.com/GymGuru" target="_blank">Instagram</a></li>
-    </ul>
-
-    <footer>
-      <p>&copy; 2024 GymGuru. All rights reserved.</p>
-    </footer>
+  <div class="contact-section">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Have questions or need support? Reach out to our friendly customer service team at <%= mail_to 'support@gymguru.com' %>. We’re here to help you every step of the way.</p>
+      <%= link_to 'Get Started Now', new_user_registration_path, class: 'cta-button' %>
+    </div>
   </div>
 </body>
 </html>
