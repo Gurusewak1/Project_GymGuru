@@ -6,153 +6,253 @@
   <title>Checkout Summary</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
- <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
 
-  h1, h2, h3 {
-    text-align: center;
-    color: #333;
-    margin: 20px;
-    font-weight: 600;
-    transition: color 0.3s ease, transform 0.3s ease;
-  }
+    /* Navigation Bar */
+    nav {
+      background-color: #212529;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-  h1:hover, h2:hover, h3:hover {
-    color: #007bff;
-    transform: scale(1.05);
-  }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  .invoice-summary {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-  }
+    nav li {
+      margin: 0;
+    }
 
-  .form-group {
-    margin-bottom: 20px;
-  }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
 
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #ced4da;
-    border-radius: 4px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
+    .nav-link:hover {
+      background-color: #343a40;
+      border-radius: 4px;
+    }
 
-  .form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    outline: none;
-  }
+    .logout-link {
+      color: #fff;
+      text-decoration: none;
+    }
 
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-  }
+    .logout-link:hover {
+      color: #f8f9fa;
+    }
 
-  .table th, .table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #dee2e6;
-  }
+    .nav-info {
+      font-size: 0.9rem;
+      color: #f8f9fa;
+    }
 
-  .table th {
-    background-color: #007bff;
-    color: white;
-  }
+    .secondary-menu {
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+      width: 100%;
+    }
 
-  .table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
 
-  .table tbody tr:hover {
-    background-color: #e9ecef;
-  }
+    .secondary-menu li {
+      margin: 0;
+    }
 
-  .btn {
-    padding: 10px 20px;
-    border: 2px solid #007bff;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #007bff;
-    background: transparent;
-    text-decoration: none;
-    text-align: center;
-    display: inline-block;
-    transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  }
+    .secondary-menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
 
-  .btn:hover {
-    border-color: #0056b3;
-    color: #0056b3;
-    transform: scale(1.05);
-  }
+    .secondary-menu a:hover {
+      text-decoration: none;
+    }
 
-  #payment-form {
-    margin-top: 30px;
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+    h1, h2, h3 {
+      text-align: center;
+      color: #333;
+      margin: 20px;
+      font-weight: 600;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
 
-  #payment-form h3 {
-    margin-bottom: 15px;
-    color: #333;
-  }
+    h1:hover, h2:hover, h3:hover {
+      color: #007bff;
+      transform: scale(1.05);
+    }
 
-  #card-element {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 2px solid #ced4da;
-    border-radius: 4px;
-    background: #fafafa;
-  }
+    .invoice-summary {
+      width: 90%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #d3eafd; /* Light Blue */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-  #submit-payment {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #fff;
-    background: #007bff;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-  #submit-payment:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ced4da;
+      border-radius: 4px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
-  #payment-result {
-    margin-top: 15px;
-    color: #dc3545;
-    font-weight: bold;
-  }
+    .form-control:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      outline: none;
+    }
 
-  .back-to-cart {
-    text-align: center;
-    margin-top: 20px; /* Reduced margin-top to move the button up */
-  }
-</style>
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
 
+    .table th, .table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #dee2e6;
+    }
+
+    .table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+      background-color: #e9ecef;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #fff;
+      background-color: #4db8ff;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #007bff;
+      transform: scale(1.05);
+    }
+
+    #payment-form {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #payment-form h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    #card-element {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 2px solid #ced4da;
+      border-radius: 4px;
+      background: #fafafa;
+    }
+
+    #submit-payment {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #fff;
+      background: #007bff;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #submit-payment:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    #payment-result {
+      margin-top: 15px;
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .back-to-cart {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
+    <nav>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+          <li class="nav-info">Logged in as <%= current_user.email %></li>
+        <% else %>
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <div class="secondary-menu">
+      <ul>
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'All Orders', orders_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
   <h1>Checkout Summary</h1>
 
   <div class="invoice-summary">

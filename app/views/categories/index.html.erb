@@ -5,94 +5,225 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categories</title>
   <style>
-    /* Target only the content within the body tag */
-    body > h1 {
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 2em;
-      transition: color 0.3s ease;
-      text-align: center;
+    /* General body styling */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
     }
 
-    body > h1:hover {
-      color: #007bff;
+    /* Navigation Bar */
+    nav {
+      background-color: #212529;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    body > ul {
+    nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      background-color: #343a40;
+      border-radius: 4px;
+    }
+
+    .logout-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logout-link:hover {
+      color: #f8f9fa;
+    }
+
+    .nav-info {
+      font-size: 0.9rem;
+      color: #f8f9fa;
+    }
+
+    .secondary-menu {
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
       width: 100%;
-      max-width: 600px;
-      margin: 0 auto; /* Center the list horizontally */
     }
 
-    body > ul > li {
-      margin: 10px 0;
-      padding: 15px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
     }
 
-    body > ul > li:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    .secondary-menu li {
+      margin: 0;
     }
 
-    body > ul > li > a {
+    .secondary-menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .secondary-menu a:hover {
       text-decoration: none;
       color: #007bff;
-      font-weight: bold;
+    }
+
+    /* Category Section */
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      text-align: center;
       transition: color 0.3s ease;
     }
 
-    body > ul > li > a:hover {
+    h1:hover {
+      color: #007bff;
+    }
+
+    /* Grid container for the category cards */
+    .categories-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* Card design for each category */
+    .category-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-link {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 1.2em;
+      font-weight: bold;
+      display: block;
+      transition: color 0.3s ease;
+    }
+
+    .category-link:hover {
       color: #0056b3;
     }
 
-    /* Responsive Styles */
+    /* Category icon (optional, replace with images or icons) */
+    .category-icon {
+      font-size: 3em;
+      color: #007bff;
+      margin-bottom: 15px;
+      transition: color 0.3s ease;
+    }
+
+    .category-card:hover .category-icon {
+      color: #0056b3;
+    }
+
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      body > h1 {
-        font-size: 1.5em;
+      h1 {
+        font-size: 2em;
       }
 
-      body > ul {
-        width: 90%;
+      .category-link {
+        font-size: 1em;
       }
 
-      body > ul > li {
-        padding: 15px;
-        font-size: 0.9em;
+      .category-icon {
+        font-size: 2.5em;
       }
     }
 
     @media (max-width: 480px) {
-      body > h1 {
-        font-size: 1.2em;
+      h1 {
+        font-size: 1.5em;
       }
 
-      body > ul > li {
-        padding: 10px;
-        font-size: 0.8em;
-      }
-
-      body > ul > li > a {
+      .category-link {
         font-size: 0.9em;
+      }
+
+      .category-icon {
+        font-size: 2em;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Categories</h1>
+  <!-- Navigation Bar -->
+  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
+    <nav>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+          <li class="nav-info">Logged in as <%= current_user.email %></li>
+        <% else %>
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </nav>
 
-  <ul>
+    <!-- Secondary Navigation Menu -->
+    <div class="secondary-menu">
+      <ul>
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'All Orders', orders_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Categories Section -->
+  <h1>Explore Our Categories</h1>
+
+  <div class="categories-container">
     <% @categories.each do |category| %>
-      <li>
-        <%= link_to category.name, category_path(category) %>
-      </li>
+      <div class="category-card">
+        <div class="category-icon">📦</div> <!-- Optional: Add an icon or image here -->
+        <%= link_to category.name, category_path(category), class: "category-link" %>
+      </div>
     <% end %>
-  </ul>
+  </div>
+
 </body>
 </html>

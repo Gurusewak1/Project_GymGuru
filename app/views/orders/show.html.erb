@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Order Details</title>
@@ -11,13 +11,90 @@
       padding: 0;
     }
 
+    /* Navigation Bar */
+    nav {
+      background-color: #212529;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      background-color: #343a40;
+      border-radius: 4px;
+    }
+
+    .logout-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logout-link:hover {
+      color: #f8f9fa;
+    }
+
+    .nav-info {
+      font-size: 0.9rem;
+      color: #f8f9fa;
+    }
+
+    .secondary-menu {
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .secondary-menu li {
+      margin: 0;
+    }
+
+    .secondary-menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .secondary-menu a:hover {
+      text-decoration: none;
+    }
+
     .order-details-container {
       max-width: 900px;
       margin: 20px auto;
       padding: 30px;
-      border: 1px solid #ddd;
       border-radius: 12px;
-      background-color: #fff;
+      background-color: #d3eafd;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
       animation: slideInUp 1s ease-out, fadeIn 1s ease-out;
@@ -88,11 +165,6 @@
       transition: transform 0.2s ease-in-out;
     }
 
-    .thead-dark th {
-      background-color: #343a40;
-      color: white;
-    }
-
     .total-amount {
       text-align: right;
       margin-top: 30px;
@@ -106,8 +178,8 @@
       text-align: center;
       padding: 15px;
       margin-top: 30px;
-      background-color: #fff;
-      color: #333;
+      background-color: #212529;
+      color: #fff;
       font-size: 1.2em;
       border-top: 1px solid #ddd;
       border-radius: 8px;
@@ -115,7 +187,7 @@
     }
 
     footer:hover {
-      background-color: #f1f1f1;
+      background-color: #343a40;
     }
 
     /* Responsive Design */
@@ -222,6 +294,31 @@
   </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
+    <nav>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+          <li class="nav-info">Logged in as <%= current_user.email %></li>
+        <% else %>
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <div class="secondary-menu">
+      <ul>
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'All Orders', orders_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="order-details-container">
     <h1 class="order-title">Order Details</h1>
 

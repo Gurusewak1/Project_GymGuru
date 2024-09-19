@@ -16,15 +16,86 @@
       overflow-x: hidden;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
+    nav {
+      background-color: #212529;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      background-color: #343a40;
+      border-radius: 4px;
+    }
+
+    .logout-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logout-link:hover {
+      color: #f8f9fa;
+    }
+
+    .nav-info {
+      font-size: 0.9rem;
+      color: #f8f9fa;
+    }
+
+    .secondary-menu {
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 10px;
+    }
+
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .secondary-menu li {
+      margin: 0;
+    }
+
+    .secondary-menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .secondary-menu a:hover {
+      text-decoration: none;
     }
 
     .header-section {
-      background: url('your-about-hero-image.jpg') no-repeat center center;
-      background-size: cover;
+      background: linear-gradient(-45deg, #333, #666, #333, #666);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
       color: #fff;
       padding: 80px 20px;
       text-align: center;
@@ -47,25 +118,29 @@
       font-size: 3.5rem;
       margin: 0;
       font-weight: 700;
-      background: linear-gradient(90deg, #ff7e5f, #feb47b, #ff7e5f);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
       z-index: 2;
       position: relative;
-      background-size: 200% 200%;
-      animation: gradientShift 5s ease infinite, fadeInUp 1s ease-out;
+      animation: fadeInUp 1s ease-out;
     }
 
-    @keyframes gradientShift {
+    .header-section p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      font-weight: 300;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    @keyframes gradientBackground {
       0% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
       }
       50% {
-        background-position: 100% 50%;
+        background-position: 100% 100%;
       }
       100% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
       }
     }
 
@@ -80,13 +155,10 @@
       }
     }
 
-    .header-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      font-weight: 300;
-      z-index: 2;
-      position: relative;
-      animation: fadeInUp 1.5s ease-out;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
     .content-section {
@@ -103,35 +175,35 @@
     }
 
     .content-section .section-item {
-      flex: 1 1 calc(50% - 20px); /* 50% width minus gap */
+      flex: 1 1 calc(50% - 20px);
       box-sizing: border-box;
       padding: 20px;
       border-radius: 8px;
       position: relative;
       z-index: 2;
-      text-align: center; /* Center text alignment */
+      text-align: center;
     }
 
     .content-section .section-item:nth-of-type(1) {
-      border: 2px solid #007bff; /* Blue border for the first item */
+      border: 2px solid #007bff;
     }
 
     .content-section .section-item:nth-of-type(2) {
-      border: 2px solid #ff7e5f; /* Orange border for the second item */
+      border: 2px solid #ff7e5f;
     }
 
     .content-section .section-item:nth-of-type(3) {
-      border: 2px solid #28a745; /* Green border for the third item */
+      border: 2px solid #28a745;
     }
 
     .content-section h2 {
       font-size: 2.5rem;
       margin-bottom: 20px;
-      color: #333;
+      color: black;
       position: relative;
       z-index: 2;
-      animation: fadeIn 1s ease-out, slideIn 1s ease-out;
-      text-align: center; /* Center heading text */
+      animation: fadeIn 1s ease-out;
+      text-align: center;
     }
 
     .content-section p {
@@ -142,7 +214,7 @@
       position: relative;
       z-index: 2;
       animation: fadeIn 1.5s ease-out;
-      text-align: center; /* Center paragraph text */
+      text-align: center;
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
@@ -157,7 +229,7 @@
       animation: fadeIn 2s ease-in-out;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Center list items */
+      align-items: center;
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
@@ -167,7 +239,7 @@
       font-size: 1.125rem;
       color: #666;
       margin-bottom: 10px;
-      text-align: center; /* Center text in list items */
+      text-align: center;
     }
 
     @keyframes fadeIn {
@@ -179,19 +251,8 @@
       }
     }
 
-    @keyframes slideIn {
-      from {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
     .contact-section {
-      background: #007bff;
+      background: lightblue;
       color: #fff;
       padding: 60px 20px;
       text-align: center;
@@ -201,6 +262,7 @@
 
     .contact-section h2 {
       font-size: 2.5rem;
+      color: black;
       margin-bottom: 20px;
       animation: fadeIn 1s ease-out;
     }
@@ -229,6 +291,30 @@
   </style>
 </head>
 <body>
+  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
+    <nav>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+          <li class="nav-info">Logged in as <%= current_user.email %></li>
+        <% else %>
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </nav>
+    
+    <div class="secondary-menu">
+      <ul>
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'All Orders', orders_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="header-section">
     <div class="container">
       <h1>About GymGuru</h1>
@@ -258,7 +344,7 @@
   <div class="contact-section">
     <div class="container">
       <h2>Contact Us</h2>
-      <p>Have questions or need support? Reach out to our friendly customer service team at <%= mail_to 'support@gymguru.com' %>. We’re here to help you every step of the way.</p>
+      <p>Have questions or need support? Reach out to our friendly customer service team at  support@gymguru.com. We’re here to help you every step of the way.</p>
       <%= link_to 'Get Started Now', new_user_registration_path, class: 'cta-button' %>
     </div>
   </div>

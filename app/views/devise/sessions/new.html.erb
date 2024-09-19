@@ -9,26 +9,58 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #e9ecef;
       margin: 0;
       padding: 0;
+      background: linear-gradient(-45deg, #c0c0c0, #000000, #c0c0c0, #000000); /* Silver and Black */
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBackground {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
     }
 
     .container {
       max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      animation: fadeInUp 0.8s ease-out;
+      width: 100%;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      text-align: center;
     }
 
     h1 {
-      text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: #343a40;
-      animation: fadeInUp 1s ease-out, colorChange 2s infinite;
+      font-weight: 700;
+      animation: colorChange 2s infinite;
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: #c0c0c0; /* Silver */
+      }
+      50% {
+        color: #000000; /* Black */
+      }
+      100% {
+        color: #c0c0c0; /* Silver */
+      }
     }
 
     #error_explanation {
@@ -38,12 +70,12 @@
       border-radius: 4px;
       padding: 15px;
       margin-bottom: 20px;
-      animation: slideIn 0.5s ease-out;
     }
 
     #error_explanation h2 {
       margin-top: 0;
       font-size: 18px;
+      font-weight: 700;
     }
 
     #error_explanation ul {
@@ -56,29 +88,29 @@
     }
 
     .field {
-      margin-bottom: 15px;
-      animation: fadeIn 0.6s ease-in-out;
+      margin-bottom: 20px;
     }
 
     .field label {
       display: block;
       font-weight: bold;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       color: #495057;
+      font-size: 18px;
     }
 
     .field input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #ced4da;
-      border-radius: 4px;
+      border-radius: 6px;
       box-sizing: border-box;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .field input:focus {
       border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
       outline: none;
     }
 
@@ -87,13 +119,14 @@
     }
 
     .actions input[type="submit"] {
-      padding: 12px 20px;
+      padding: 14px 22px;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       background-color: #007bff;
       color: #fff;
       cursor: pointer;
       font-size: 16px;
+      font-weight: 700;
       transition: background-color 0.3s ease, transform 0.3s ease;
       animation: buttonPulse 1s infinite;
     }
@@ -101,39 +134,6 @@
     .actions input[type="submit"]:hover {
       background-color: #0056b3;
       transform: scale(1.05);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     @keyframes buttonPulse {
@@ -148,31 +148,39 @@
       }
     }
 
-    @keyframes colorChange {
-      0% {
-        color: #007bff;
-      }
-      50% {
-        color: #28a745;
-      }
-      100% {
-        color: #007bff;
-      }
+    .register-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: rgba(255, 255, 255, 0.5); /* White with opacity */
+      color: black; /* Black text */
+      border: 1px solid #000000; /* Black border */
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none; /* Ensure no underline */
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .register-button:hover {
+      background-color: rgba(255, 255, 255, 0.9); /* Lighter white */
+      color: #333333; /* Darker text */
     }
 
     /* Responsive Styles */
     @media (max-width: 768px) {
       .container {
-        padding: 15px;
+        padding: 20px;
         margin: 20px;
       }
 
       .field input {
-        padding: 10px;
+        padding: 12px;
       }
 
       .actions input[type="submit"] {
-        padding: 10px 15px;
+        padding: 12px 18px;
         font-size: 14px;
       }
     }
@@ -183,21 +191,24 @@
       }
 
       h1 {
-        font-size: 20px;
+        font-size: 24px;
       }
 
       .field input {
-        padding: 8px;
+        padding: 10px;
       }
 
       .actions input[type="submit"] {
-        padding: 8px 12px;
+        padding: 10px 16px;
         font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Register Button -->
+  <a href="<%= new_user_registration_path %>" class="register-button">Register</a>
+
   <div class="container">
     <h1>Log In to GymGuru</h1>
 

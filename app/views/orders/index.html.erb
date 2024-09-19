@@ -11,12 +11,91 @@
       padding: 0;
     }
 
+    /* Navigation Bar */
+    nav {
+      background-color: #212529;
+      color: #fff;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav li {
+      margin: 0;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover {
+      background-color: #343a40;
+      border-radius: 4px;
+    }
+
+    .logout-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logout-link:hover {
+      color: #f8f9fa;
+    }
+
+    .nav-info {
+      font-size: 0.9rem;
+      color: #f8f9fa;
+    }
+
+    .secondary-menu {
+      background-color: #f8f9fa;
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .secondary-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .secondary-menu li {
+      margin: 0;
+    }
+
+    .secondary-menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 1rem;
+    }
+
+    .secondary-menu a:hover {
+      text-decoration: none;
+      color: #007bff;
+    }
+
     h1 {
       text-align: center;
       color: #333;
       font-size: 2.5em;
       margin-top: 20px;
-      animation: fadeIn 1s ease-out, zoomIn 1s ease-out, boldIn 1s ease-out;
+      animation: fadeIn 1s ease-out, zoomIn 1s ease-out;
     }
 
     table {
@@ -46,6 +125,7 @@
     }
 
     td {
+      font-size: 1em;
       animation: fadeInText 1s ease-out;
     }
 
@@ -78,11 +158,13 @@
       text-decoration: none;
       font-weight: bold;
       animation: fadeIn 1s ease-out;
+      transition: color 0.3s ease, transform 0.3s ease;
     }
 
     .action-link:hover {
       text-decoration: underline;
       color: #0056b3;
+      transform: scale(1.05);
     }
 
     /* Animations */
@@ -140,33 +222,34 @@
         transform: scale(1);
       }
     }
-
-    @keyframes boldIn {
-      0% {
-        font-weight: 400;
-      }
-      50% {
-        font-weight: 700;
-      }
-      100% {
-        font-weight: 400;
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
   </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
+    <nav>
+      <ul>
+        <% if user_signed_in? %>
+          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
+          <li class="nav-info">Logged in as <%= current_user.email %></li>
+        <% else %>
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <div class="secondary-menu">
+      <ul>
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'About', about_path %></li>
+        <li><%= link_to 'Products', products_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'All Orders', orders_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
   <h1>Your Orders</h1>
 
   <table>
@@ -186,7 +269,7 @@
           <td>
             <ul>
               <% order.order_items.each do |item| %>
-                <li><%= item.product_name %>  <%= item.quantity %></li>
+                <li><%= item.product_name %> x <%= item.quantity %></li>
               <% end %>
             </ul>
           </td>
