@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @category.name %> - GymGuru</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
   <style>
-    /* Global Styles */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f9;
@@ -13,7 +15,6 @@
       padding: 0;
     }
 
-    /* Navigation Bar */
     nav {
       background-color: #212529;
       color: #fff;
@@ -60,13 +61,11 @@
       color: #f8f9fa;
     }
 
-    /* Secondary Navigation Menu */
     .secondary-menu {
       background-color: #f8f9fa;
       padding: 10px 0;
       border-bottom: 1px solid #ddd;
-      margin-bottom: 20px;
-      width: 100%;
+      margin-bottom: 10px;
     }
 
     .secondary-menu ul {
@@ -89,39 +88,95 @@
     }
 
     .secondary-menu a:hover {
-      text-decoration: none;
       color: #007bff;
     }
 
-    /* Category Title */
-    h1 {
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 2.2em;
+    /* Hero Section */
+    .header-section {
+      background: linear-gradient(-45deg, #333, #666, #333, #666);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+      color: #fff;
+      padding: 80px 20px;
       text-align: center;
-      transition: color 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    h1:hover {
-      color: #007bff;
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .header-section h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      font-weight: 700;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .header-section p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      font-weight: 300;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    @keyframes gradientBackground {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
     /* Grid container for the product cards */
     .products-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Smaller cards */
-      gap: 15px;
-      max-width: 1000px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for larger cards */
+      gap: 20px;
+      max-width: 1200px;
+      margin: 20px auto;
       padding: 0;
     }
 
     /* Card design for each product */
     .product-card {
       background-color: white;
-      padding: 10px; /* Reduced padding */
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       text-align: center;
       cursor: pointer;
@@ -129,13 +184,13 @@
 
     .product-card:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .product-title {
       text-decoration: none;
       color: #007bff;
-      font-size: 1em; /* Smaller font */
+      font-size: 1.2em;
       font-weight: bold;
       display: block;
       margin-top: 10px;
@@ -149,7 +204,8 @@
     /* Product Image */
     .product-image {
       max-width: 100%;
-      height: 100px; /* Smaller image size */
+      height: 150px; /* Increased image size */
+      object-fit: cover;
       border-radius: 8px;
       transition: transform 0.3s ease;
     }
@@ -161,7 +217,21 @@
     /* Responsive adjustments */
     @media (max-width: 768px) {
       h1 {
-        font-size: 2em;
+        font-size: 2.5rem;
+      }
+
+      .product-title {
+        font-size: 1em;
+      }
+
+      .product-image {
+        height: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
       }
 
       .product-title {
@@ -169,17 +239,7 @@
       }
 
       .product-image {
-        height: 80px; /* Even smaller image on smaller screens */
-      }
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.8em;
-      }
-
-      .product-title {
-        font-size: 0.8em;
+        height: 100px;
       }
     }
   </style>
@@ -211,8 +271,13 @@
     </div>
   <% end %>
 
-  <!-- Category Title -->
-  <h1><%= @category.name %></h1>
+  <!-- Hero Section -->
+  <div class="header-section">
+    <div class="container">
+      <h1><%= @category.name %></h1>
+      <p>Discover the best products in <%= @category.name %>.</p>
+    </div>
+  </div>
 
   <!-- Product List -->
   <div class="products-container">

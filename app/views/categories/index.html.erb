@@ -4,16 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Categories</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
   <style>
-    /* General body styling */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
       margin: 0;
       padding: 0;
+      background-color: #f4f4f9;
+      overflow-x: hidden;
     }
 
-    /* Navigation Bar */
     nav {
       background-color: #212529;
       color: #fff;
@@ -64,8 +66,7 @@
       background-color: #f8f9fa;
       padding: 10px 0;
       border-bottom: 1px solid #ddd;
-      margin-bottom: 20px;
-      width: 100%;
+      margin-bottom: 10px;
     }
 
     .secondary-menu ul {
@@ -89,24 +90,86 @@
 
     .secondary-menu a:hover {
       text-decoration: none;
-      color: #007bff;
+    }
+
+    /* Hero Section */
+    .header-section {
+      background: linear-gradient(-45deg, #333, #666, #333, #666);
+      background-size: 400% 400%;
+      animation: gradientBackground 15s ease infinite;
+      color: #fff;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .header-section h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      font-weight: 700;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .header-section p {
+      font-size: 1.5rem;
+      margin-top: 10px;
+      font-weight: 300;
+      z-index: 2;
+      position: relative;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    @keyframes gradientBackground {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
     /* Category Section */
-    h1 {
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 2.5em;
-      text-align: center;
-      transition: color 0.3s ease;
-    }
-
-    h1:hover {
-      color: #007bff;
+    .categories-container {
+      background-color: #d3eafd; /* Light Blue background */
+      padding: 40px 20px;
     }
 
     /* Grid container for the category cards */
-    .categories-container {
+    .categories-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
@@ -213,17 +276,24 @@
     </div>
   <% end %>
 
-  <!-- Categories Section -->
-  <h1>Explore Our Categories</h1>
-
-  <div class="categories-container">
-    <% @categories.each do |category| %>
-      <div class="category-card">
-        <div class="category-icon">📦</div> <!-- Optional: Add an icon or image here -->
-        <%= link_to category.name, category_path(category), class: "category-link" %>
-      </div>
-    <% end %>
+  <!-- Hero Section -->
+  <div class="header-section">
+    <div class="container">
+      <h1>Our Categories</h1>
+      <p>Explore a wide range of categories tailored to meet your needs.</p>
+    </div>
   </div>
 
+  <!-- Categories Section -->
+  <div class="categories-container">
+    <div class="categories-grid">
+      <% @categories.each do |category| %>
+        <div class="category-card">
+          <div class="category-icon">📦</div> <!-- Optional: Add an icon or image here -->
+          <%= link_to category.name, category_path(category), class: "category-link" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </body>
 </html>
