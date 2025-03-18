@@ -46,21 +46,8 @@
 
     h1 {
       margin-bottom: 30px;
-      color: #343a40;
       font-weight: 700;
-      animation: colorChange 2s infinite;
-    }
-
-    @keyframes colorChange {
-      0% {
-        color: #c0c0c0; /* Silver */
-      }
-      50% {
-        color: #000000; /* Black */
-      }
-      100% {
-        color: #c0c0c0; /* Silver */
-      }
+      color: #000000; /* Removed animation and kept color black */
     }
 
     #error_explanation {
@@ -105,7 +92,7 @@
       border: 1px solid #ced4da;
       border-radius: 6px;
       box-sizing: border-box;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      color: #000000; /* Setting text color to black */
     }
 
     .field input:focus {
@@ -122,7 +109,7 @@
       padding: 14px 22px;
       border: none;
       border-radius: 6px;
-      background-color: #007bff;
+      background-color: #000000; /* Black background for both login and register */
       color: #fff;
       cursor: pointer;
       font-size: 16px;
@@ -132,7 +119,7 @@
     }
 
     .actions input[type="submit"]:hover {
-      background-color: #0056b3;
+      background-color: #333333; /* Darker black on hover */
       transform: scale(1.05);
     }
 
@@ -152,20 +139,20 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background-color: rgba(255, 255, 255, 0.5); /* White with opacity */
-      color: black; /* Black text */
-      border: 1px solid #000000; /* Black border */
+      background-color: #000000; /* Black background for register button */
+      color: #fff; /* White text for register button */
+      border: none; /* Removed border for consistency */
       border-radius: 6px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
-      text-decoration: none; /* Ensure no underline */
-      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     .register-button:hover {
-      background-color: rgba(255, 255, 255, 0.9); /* Lighter white */
-      color: #333333; /* Darker text */
+      background-color: #333333; /* Darker black on hover */
+      transform: scale(1.05);
     }
 
     /* Responsive Styles */
