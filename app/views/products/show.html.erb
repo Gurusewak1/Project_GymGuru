@@ -4,340 +4,650 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= @product.name %></title>
+
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      overflow-x: hidden;
     }
 
-    /* Navigation Bar */
+     /* =========================
+        NAVBAR (YOUR ORIGINAL)
+        + HOMEPAGE HOVER EFFECTS APPLIED
+    ========================== */
+
     nav {
-      background-color: #212529;
-      color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      width: 100%;
+      background: rgba(10, 15, 25, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      padding: 20px 40px;
+
+      position: sticky;
+      top: 0;
+      z-index: 999;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 6px 25px rgba(0,0,0,0.15),
+        0 3px 10px rgba(0,0,0,0.10);
     }
 
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1400px;
+      margin: auto;
     }
 
-    nav li {
-      margin: 0;
+    .logo {
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      transition: 0.3s ease;
+    }
+
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: #fbbf24;
+    }
+
+    /* NAV LINKS (HOMEPAGE HOVER SYNCED) */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      list-style: none;
     }
 
     .nav-link {
-      color: white;
+      color: #f9fafb;
       text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     .nav-link:hover {
-      background-color: #343a40;
-      border-radius: 4px;
-    }
-
-    .logout-link {
-      color: #fff;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      transform: translateY(-2px);
       text-decoration: none;
     }
 
-    .logout-link:hover {
-      color: #f8f9fa;
+   /* LOGIN BUTTON */
+
+.login-btn {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  text-decoration: none !important; /* ✅ removed underline */
+}
+
+.login-btn:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  text-decoration: none !important; /* ✅ safe on hover */
+}
+
+/* REGISTER BUTTON (CLEAN PREMIUM) */
+
+.register-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white !important;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(245, 158, 11, 0.35);
+}
+    /* USER SECTION */
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-info {
-      font-size: 0.9rem;
-      color: #f8f9fa;
+      color: #d1d5db;
+      font-size: 0.95rem;
+
+      background: rgba(255,255,255,0.06);
+
+      padding: 10px 16px;
+      border-radius: 12px;
+
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* LOGOUT */
+
+    .logout-link {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5 !important;
+
+      border: 1px solid rgba(239, 68, 68, 0.2);
+
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-link:hover {
+      background: #ef4444;
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+        SECONDARY MENU
+    ========================== */
+
     .secondary-menu {
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 20px;
-      width: 100%;
+      background: white;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .secondary-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-    }
-
-    .secondary-menu li {
-      margin: 0;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
     }
 
     .secondary-menu a {
       text-decoration: none;
-      color: black;
-      font-size: 1rem;
+      color: #111827;
+      font-weight: 700;
+              font-size: 1.2rem;
+      position: relative;
+      transition: 0.3s ease;
     }
 
     .secondary-menu a:hover {
-      text-decoration: none;
+      color: #f59e0b;
     }
+
+    .secondary-menu a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #f59e0b;
+      transition: 0.3s ease;
+    }
+
+    .secondary-menu a:hover::after {
+      width: 100%;
+    }
+    /* =========================
+       PRODUCT CONTAINER
+    ========================== */
 
     .container {
-      max-width: 1200px;
-      width: 90%;
-      margin: 20px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      background-color: #d3eafd; /* Light Blue */
-    }
+      max-width: 1250px;
+      width: 92%;
 
-    .container::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 2px solid #007bff;
-      border-radius: 8px;
-      transition: transform 0.5s ease;
-      z-index: 0;
-    }
+      margin: 50px auto;
 
-    .container:hover::before {
-      transform: scale(1.1);
-    }
+      background: #ffffff;
 
-    .container:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+      border-radius: 32px;
 
-    .container > * {
-      position: relative;
-      z-index: 1;
+      padding: 40px;
+
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+
+      border: 1px solid rgba(0,0,0,0.05);
     }
 
     h1 {
+      font-size: 3rem;
+      font-weight: 900;
+
       text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-      transition: color 0.3s ease;
+
+      margin-bottom: 45px;
+
+      color: #111827;
+
+      letter-spacing: -2px;
     }
 
     .product-content {
       display: flex;
-      flex-direction: row;
+      gap: 50px;
       align-items: flex-start;
-      gap: 20px;
-      width: 100%;
-      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+      flex-wrap: wrap;
+    }
+
+    /* =========================
+       PRODUCT IMAGE
+    ========================== */
+
+    .product-image-container {
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      justify-content: center;
     }
 
     .product-image {
-      width: 400px; /* Increased size */
-      height: 400px; /* Increased size */
+      width: 100%;
+      max-width: 520px;
+      height: 520px;
+
       object-fit: cover;
-      border-radius: 8px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      border-radius: 28px;
+
+      background: #fff;
+
+      border: 1px solid rgba(0,0,0,0.05);
+
+      box-shadow: 0 20px 50px rgba(0,0,0,0.10);
+
+      transition: all 0.4s ease;
     }
 
     .product-image:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px) scale(1.02);
+
+      box-shadow: 0 30px 70px rgba(0,0,0,0.18);
     }
+
+    /* =========================
+       PRODUCT DETAILS
+    ========================== */
 
     .product-details {
       flex: 1;
-      max-width: 600px;
-      position: relative;
+      min-width: 320px;
     }
 
     .product-info {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      animation: brightPulse 1.5s infinite;
+      background: #ffffff;
+
+      border-radius: 24px;
+
+      padding: 35px;
+
+      border: 1px solid rgba(0,0,0,0.05);
+
+      box-shadow: 0 15px 40px rgba(0,0,0,0.06);
     }
 
-    .product-info:hover {
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    .product-info p {
+      font-size: 1.05rem;
+      color: #4b5563;
+
+      line-height: 1.9;
+
+      margin-bottom: 16px;
     }
 
-    @keyframes brightPulse {
-      0% {
-        background-color: rgba(255, 255, 255, 0.9);
-      }
-      50% {
-        background-color: rgba(255, 255, 255, 1);
-      }
-      100% {
-        background-color: rgba(255, 255, 255, 0.9);
-      }
+    .product-info strong {
+      color: #111827;
     }
 
     .price {
-      font-weight: bold;
-      font-size: 1.2em;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #111827;
     }
 
     .discounted-price {
-      color: red;
-      font-size: 1.2em;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #16a34a;
     }
 
+   /* =========================
+   PREMIUM GOLD ADD TO CART BUTTON
+========================= */
+
+.button,
+a.button,
+.product-info .button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 28px;
+
+  padding: 20px 48px !important;
+
+  font-size: 1.2rem !important;
+  font-weight: 900 !important;
+
+  color: #111827 !important;
+
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+
+  border: none !important;
+  border-radius: 18px !important;
+
+  text-decoration: none !important;
+
+  box-shadow:
+    0 16px 35px rgba(245, 158, 11, 0.35),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  transition: all 0.3s ease !important;
+
+  min-width: 240px;
+}
+
+/* HOVER */
+
+.button:hover,
+a.button:hover,
+.product-info .button:hover {
+
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+
+  color: #111827 !important;
+
+  transform: translateY(-4px) scale(1.03);
+
+  box-shadow:
+    0 22px 45px rgba(245, 158, 11, 0.45),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+    /* =========================
+       BACK BUTTON
+    ========================== */
+
     .links {
-      margin-top: 20px;
+      margin-top: 40px;
       text-align: center;
     }
 
     .links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 14px 34px;
+
+      background: #111827;
+
+      color: white !important;
+
+      font-size: 1rem;
+      font-weight: 700;
+
+      border-radius: 14px;
+
       text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
-      transition: color 0.3s ease, transform 0.3s ease;
+
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+      transition: all 0.3s ease;
     }
 
     .links a:hover {
-      color: #0056b3;
-      transform: scale(1.05);
+      background: #f59e0b;
+
+      color: #111827 !important;
+
+      transform: translateY(-3px);
+
+      box-shadow: 0 16px 35px rgba(245,158,11,0.35);
     }
 
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 1em;
-      font-weight: bold;
-      color: white;
-      background-color: #007bff;
-      border: none;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
+    /* =========================
+       RESPONSIVE
+    ========================== */
 
-    .button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
+    @media (max-width: 900px) {
 
-    /* Responsive Styles */
-    @media (max-width: 768px) {
       .product-content {
         flex-direction: column;
         align-items: center;
       }
 
-      .product-image {
+      .product-details {
         width: 100%;
-        height: auto;
-        max-width: 400px;
       }
 
-      .product-details {
-        max-width: 100%;
+      h1 {
+        font-size: 2.3rem;
       }
+
+      .product-image {
+        height: auto;
+      }
+
     }
 
-    @media (max-width: 480px) {
-      .price, .discounted-price {
-        font-size: 1em;
+    @media (max-width: 600px) {
+
+      nav {
+        padding: 18px 20px;
       }
 
-      .button {
-        font-size: 0.9em;
-        padding: 8px 16px;
+      .secondary-menu ul {
+        gap: 18px;
+        flex-wrap: wrap;
       }
+
+      .container {
+        padding: 25px;
+      }
+
+      .product-info {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
     }
 
   </style>
 </head>
+
 <body>
-  <!-- Navigation Bar -->
-  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
-    <nav>
-      <ul>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
-          <li class="nav-info">Logged in as <%= current_user.email %></li>
-        <% else %>
-          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
-          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
-        <% end %>
-      </ul>
-    </nav>
 
-    <div class="secondary-menu">
-      <ul>
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'About', about_path %></li>
-        <li><%= link_to 'Products', products_path %></li>
-        <li><%= link_to 'Categories', categories_path %></li>
-        <li><%= link_to 'All Orders', orders_path %></li>
-      </ul>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="navbar-container">
+
+      <a href="<%= root_path %>" class="logo">
+        Gym<span>Guru</span>
+      </a>
+
+      <% if user_signed_in? %>
+
+        <div class="user-section">
+
+          <div class="nav-info">
+            Welcome, <%= current_user.email %>
+          </div>
+
+          <%= link_to 'Logout',
+            destroy_user_session_path,
+            method: :delete,
+            class: "nav-link logout-link" %>
+
+        </div>
+
+      <% else %>
+
+        <ul class="nav-links">
+
+          <li>
+            <%= link_to 'Login',
+              new_user_session_path,
+              class: "nav-link login-btn" %>
+          </li>
+
+          <li>
+            <%= link_to 'Create Account',
+              new_user_registration_path,
+              class: "nav-link register-btn" %>
+          </li>
+
+        </ul>
+
+      <% end %>
+
     </div>
-  <% end %>
+  </nav>
 
+  <!-- SECONDARY MENU -->
+  <div class="secondary-menu">
+    <ul>
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'About', about_path %></li>
+      <li><%= link_to 'Products', products_path %></li>
+      <li><%= link_to 'Categories', categories_path %></li>
+      <li><%= link_to 'All Orders', orders_path %></li>
+    </ul>
+  </div>
+
+  <!-- PRODUCT SECTION -->
   <div class="container">
+
     <h1><%= @product.name %></h1>
 
     <div class="product-content">
+
+      <!-- IMAGE -->
       <div class="product-image-container">
+
         <% if @product.image.attached? %>
-          <%= image_tag url_for(@product.image), alt: @product.name, class: "product-image" %>
+
+          <%= image_tag url_for(@product.image),
+            alt: @product.name,
+            class: "product-image" %>
+
         <% else %>
-          <img src="default_image.png" alt="Default Image" class="product-image">
+
+          <img src="default_image.png"
+               alt="Default Image"
+               class="product-image">
+
         <% end %>
+
       </div>
 
+      <!-- DETAILS -->
       <div class="product-details">
+
         <div class="product-info">
-          <p><strong>Description:</strong> <%= @product.description %></p>
+
+          <p>
+            <strong>Description:</strong>
+            <%= @product.description %>
+          </p>
+
           <% if @product.on_sale.present? && @product.on_sale > 0 %>
-            <p class="price">Original Price: <%= number_to_currency(@product.price) %></p>
-            <p class="discounted-price">Discounted Price: <%= number_to_currency(@product.discounted_price) %></p>
-            <p><%= @product.on_sale %>% off!</p>
+
+            <p class="price">
+              Original Price:
+              <%= number_to_currency(@product.price) %>
+            </p>
+
+            <p class="discounted-price">
+              Discounted Price:
+              <%= number_to_currency(@product.discounted_price) %>
+            </p>
+
+            <p>
+              <strong><%= @product.on_sale %>% OFF</strong>
+            </p>
+
           <% else %>
-            <p class="price">Price: <%= number_to_currency(@product.price) %></p>
+
+            <p class="price">
+              Price:
+              <%= number_to_currency(@product.price) %>
+            </p>
+
           <% end %>
-          <p>Stock: <%= @product.stock %></p>
-          <p>Category: <%= @product.category.name %></p>
-          <%= link_to 'Add to Cart', add_to_cart_product_path(@product), method: :post, class: "button" %>
+
+          <p>
+            <strong>Stock:</strong>
+            <%= @product.stock %>
+          </p>
+
+          <p>
+            <strong>Category:</strong>
+            <%= @product.category.name %>
+          </p>
+
+          <%= link_to 'Add to Cart',
+            add_to_cart_product_path(@product),
+            method: :post,
+            class: "button" %>
+
         </div>
+
       </div>
+
     </div>
 
+    <!-- BACK BUTTON -->
     <div class="links">
-      <%= link_to 'Back to Products', products_path %>
+
+      <%= link_to 'Back to Products',
+        products_path %>
+
     </div>
+
   </div>
+
 </body>
 </html>

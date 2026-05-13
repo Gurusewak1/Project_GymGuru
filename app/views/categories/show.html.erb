@@ -7,286 +7,407 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-    }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f8fafc;
+    margin: 0;
+    padding: 0;
+    color: #111827;
+  }
+
+   /* =========================
+        NAVBAR (YOUR ORIGINAL)
+        + HOMEPAGE HOVER EFFECTS APPLIED
+    ========================== */
 
     nav {
-      background-color: #212529;
-      color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: rgba(10, 15, 25, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      padding: 20px 40px;
+
+      position: sticky;
+      top: 0;
+      z-index: 999;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 6px 25px rgba(0,0,0,0.15),
+        0 3px 10px rgba(0,0,0,0.10);
     }
 
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1400px;
+      margin: auto;
     }
 
-    nav li {
-      margin: 0;
+    .logo {
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      transition: 0.3s ease;
+    }
+
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: #fbbf24;
+    }
+
+    /* NAV LINKS (HOMEPAGE HOVER SYNCED) */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      list-style: none;
     }
 
     .nav-link {
-      color: white;
+      color: #f9fafb;
       text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     .nav-link:hover {
-      background-color: #343a40;
-      border-radius: 4px;
-    }
-
-    .logout-link {
-      color: #fff;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      transform: translateY(-2px);
       text-decoration: none;
     }
 
-    .logout-link:hover {
-      color: #f8f9fa;
+   /* LOGIN BUTTON */
+
+.login-btn {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  text-decoration: none !important; /* ✅ removed underline */
+}
+
+.login-btn:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  text-decoration: none !important; /* ✅ safe on hover */
+}
+
+/* REGISTER BUTTON (CLEAN PREMIUM) */
+
+.register-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white !important;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(245, 158, 11, 0.35);
+}
+    /* USER SECTION */
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-info {
-      font-size: 0.9rem;
-      color: #f8f9fa;
+      color: #d1d5db;
+      font-size: 0.95rem;
+
+      background: rgba(255,255,255,0.06);
+
+      padding: 10px 16px;
+      border-radius: 12px;
+
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* LOGOUT */
+
+    .logout-link {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5 !important;
+
+      border: 1px solid rgba(239, 68, 68, 0.2);
+
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-link:hover {
+      background: #ef4444;
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+        SECONDARY MENU
+    ========================== */
+
     .secondary-menu {
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 10px;
+      background: white;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .secondary-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-    }
-
-    .secondary-menu li {
-      margin: 0;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
     }
 
     .secondary-menu a {
       text-decoration: none;
-      color: black;
-      font-size: 1rem;
+      color: #111827;
+      font-weight: 700;
+              font-size: 1.2rem;
+      position: relative;
+      transition: 0.3s ease;
     }
 
     .secondary-menu a:hover {
-      color: #007bff;
+      color: #f59e0b;
     }
 
-    /* Hero Section */
-    .header-section {
-      background: linear-gradient(-45deg, #333, #666, #333, #666);
-      background-size: 400% 400%;
-      animation: gradientBackground 15s ease infinite;
-      color: #fff;
-      padding: 80px 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header-section::before {
+    .secondary-menu a::after {
       content: '';
       position: absolute;
-      top: 0;
       left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #f59e0b;
+      transition: 0.3s ease;
+    }
+
+    .secondary-menu a:hover::after {
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1;
     }
 
-    .header-section h1 {
-      font-size: 3.5rem;
-      margin: 0;
-      font-weight: 700;
-      z-index: 2;
-      position: relative;
-      animation: fadeInUp 1s ease-out;
-    }
+  /* =========================
+      ✨ UNIQUE HEADER DESIGN
+  ========================== */
 
-    .header-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      font-weight: 300;
-      z-index: 2;
-      position: relative;
-      animation: fadeInUp 1.5s ease-out;
-    }
+  .header-section {
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
 
-    @keyframes gradientBackground {
-      0% {
-        background-position: 0% 0%;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0% 0%;
-      }
-    }
+    background: radial-gradient(circle at top, #ffffff 0%, #eef2ff 60%, #f8fafc 100%);
+    overflow: hidden;
+  }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  .header-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(245,158,11,0.18), transparent 60%);
+    transform: rotate(25deg);
+  }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
+  .header-section h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #111827;
+    letter-spacing: -1px;
+    position: relative;
+    z-index: 2;
+  }
 
-    /* Grid container for the product cards */
-    .products-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for larger cards */
-      gap: 20px;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0;
-    }
+  .header-section p {
+    margin-top: 15px;
+    color: #6b7280;
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 2;
+  }
 
-    /* Card design for each product */
-    .product-card {
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
-      cursor: pointer;
-    }
+  /* =========================
+      PRODUCTS GRID
+  ========================== */
 
-    .product-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+  .products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
 
-    .product-title {
-      text-decoration: none;
-      color: #007bff;
-      font-size: 1.2em;
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-      transition: color 0.3s ease;
-    }
+  /* =========================
+      ⭐ PREMIUM PRODUCT CARD
+  ========================== */
 
-    .product-title:hover {
-      color: #0056b3;
-    }
+  .product-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
 
-    /* Product Image */
-    .product-image {
-      max-width: 100%;
-      height: 150px; /* Increased image size */
-      object-fit: cover;
-      border-radius: 8px;
-      transition: transform 0.3s ease;
-    }
+    box-shadow:
+      0 10px 25px rgba(0,0,0,0.06),
+      0 2px 8px rgba(0,0,0,0.04);
 
-    .product-card:hover .product-image {
-      transform: scale(1.05);
-    }
+    transition: all 0.35s ease;
+    text-align: center;
+    position: relative;
+  }
 
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
-      }
+  .product-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  }
 
-      .product-title {
-        font-size: 1em;
-      }
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+  }
 
-      .product-image {
-        height: 120px;
-      }
-    }
+  .product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: linear-gradient(145deg, #ffffff, #f1f5f9);
+    padding: 14px;
+    display: block;
+  }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2rem;
-      }
+  /* =========================
+      PRODUCT NAME FIX
+  ========================== */
 
-      .product-title {
-        font-size: 0.9em;
-      }
+  .product-title {
+    display: block;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: 900;
 
-      .product-image {
-        height: 100px;
-      }
-    }
-  </style>
+    color: #111827 !important;   /* BLACK TEXT */
+    text-decoration: none !important; /* REMOVE UNDERLINE */
+
+    transition: 0.3s ease;
+  }
+
+  .product-title:hover {
+    color: #f59e0b !important;
+  }
+
+</style>
 </head>
+
 <body>
-  <!-- Navigation Bar -->
-  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
-    <nav>
-      <ul>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
-          <li class="nav-info">Logged in as <%= current_user.email %></li>
-        <% else %>
-          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
-          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
-        <% end %>
-      </ul>
-    </nav>
 
-    <!-- Secondary Navigation Menu -->
-    <div class="secondary-menu">
-      <ul>
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'About', about_path %></li>
-        <li><%= link_to 'Products', products_path %></li>
-        <li><%= link_to 'Categories', categories_path %></li>
-        <li><%= link_to 'All Orders', orders_path %></li>
-      </ul>
-    </div>
-  <% end %>
+   <!-- NAVBAR -->
+  <nav>
+    <div class="navbar-container">
 
-  <!-- Hero Section -->
-  <div class="header-section">
-    <div class="container">
-      <h1><%= @category.name %></h1>
-      <p>Discover the best products in <%= @category.name %>.</p>
+      <a href="<%= root_path %>" class="logo">
+        Gym<span>Guru</span>
+      </a>
+
+      <% if user_signed_in? %>
+
+        <div class="user-section">
+
+          <div class="nav-info">
+            Welcome, <%= current_user.email %>
+          </div>
+
+          <%= link_to 'Logout',
+            destroy_user_session_path,
+            method: :delete,
+            class: "nav-link logout-link" %>
+
+        </div>
+
+      <% else %>
+
+        <ul class="nav-links">
+
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link login-btn" %></li>
+          <li><%= link_to 'Create Account', new_user_registration_path, class: "nav-link register-btn" %></li>
+
+        </ul>
+
+      <% end %>
+
     </div>
+  </nav>
+
+  <!-- SECONDARY MENU -->
+  <div class="secondary-menu">
+    <ul>
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'About', about_path %></li>
+      <li><%= link_to 'Products', products_path %></li>
+      <li><%= link_to 'Categories', categories_path %></li>
+      <li><%= link_to 'All Orders', orders_path %></li>
+    </ul>
   </div>
 
-  <!-- Product List -->
+
+  <!-- HEADER -->
+  <div class="header-section">
+    <h1><%= @category.name %></h1>
+    <p>Discover the best products in <%= @category.name %></p>
+  </div>
+
+  <!-- PRODUCTS -->
   <div class="products-container">
     <% @products.each do |product| %>
       <div class="product-card">
+
         <% if product.image.attached? %>
           <%= image_tag url_for(product.image), class: "product-image" %>
         <% end %>
+
         <%= link_to product.name, product_path(product), class: "product-title" %>
+
       </div>
     <% end %>
   </div>

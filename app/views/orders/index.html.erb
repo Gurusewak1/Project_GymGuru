@@ -1,284 +1,351 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Orders</title>
+
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f9;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f8fafc;
       margin: 0;
       padding: 0;
+      color: #111827;
     }
 
-    /* Navigation Bar */
     nav {
-      background-color: #212529;
-      color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: rgba(10, 15, 25, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 20px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.15), 0 3px 10px rgba(0,0,0,0.10);
     }
 
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1400px;
+      margin: auto;
     }
 
-    nav li {
-      margin: 0;
+    .logo {
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      transition: 0.3s ease;
+    }
+
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: #fbbf24;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      list-style: none;
     }
 
     .nav-link {
-      color: white;
+      color: #f9fafb;
       text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
     }
 
     .nav-link:hover {
-      background-color: #343a40;
-      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      transform: translateY(-2px);
     }
 
-    .logout-link {
-      color: #fff;
-      text-decoration: none;
+    .login-btn {
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.08);
+      color: #ffffff !important;
+      font-weight: 700;
     }
 
-    .logout-link:hover {
-      color: #f8f9fa;
+    .register-btn {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white !important;
+      font-weight: 700;
+      border: none;
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-info {
-      font-size: 0.9rem;
-      color: #f8f9fa;
+      color: #d1d5db;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.06);
+      padding: 10px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logout-link {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5 !important;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      font-weight: 600;
     }
 
     .secondary-menu {
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 20px;
-      width: 100%;
+      background: white;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .secondary-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-    }
-
-    .secondary-menu li {
-      margin: 0;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
     }
 
     .secondary-menu a {
       text-decoration: none;
-      color: black;
-      font-size: 1rem;
+      color: #111827;
+      font-weight: 700;
+      font-size: 1.2rem;
+      position: relative;
+      transition: 0.3s ease;
     }
 
     .secondary-menu a:hover {
-      text-decoration: none;
-      color: #007bff;
+      color: #f59e0b;
+    }
+
+    .secondary-menu a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #f59e0b;
+      transition: 0.3s ease;
+    }
+
+    .secondary-menu a:hover::after {
+      width: 100%;
     }
 
     h1 {
       text-align: center;
-      color: #333;
-      font-size: 2.5em;
-      margin-top: 20px;
-      animation: fadeIn 1s ease-out, zoomIn 1s ease-out;
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 25px 0 30px;
     }
 
-    table {
-      width: 90%;
-      margin: 20px auto;
-      border-collapse: collapse;
-      background-color: #fff;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      animation: slideInUp 1s ease-out;
+    .orders-wrapper {
+      max-width: 1100px;
+      margin: auto;
+      padding: 10px;
     }
 
-    thead {
-      background-color: #007bff;
-      color: white;
+    .order-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      transition: 0.3s ease;
     }
 
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+    .order-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.12);
     }
 
-    th {
-      font-size: 1.2em;
-      animation: fadeIn 1s ease-out, slideIn 1s ease-out;
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 900;
+      margin-bottom: 10px;
     }
 
-    td {
-      font-size: 1em;
-      animation: fadeInText 1s ease-out;
+    .status {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
     }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
+    .processing { background: #fff7ed; color: #c2410c; }
+    .shipped { background: #eff6ff; color: #1d4ed8; }
+    .delivered { background: #ecfdf5; color: #047857; }
+
+    .tracking .bar {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
     }
 
-    tr {
-      animation: slideInRow 1s ease-out;
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      border-radius: 999px;
+      transition: width 1s ease;
     }
 
-    tr:hover {
-      background-color: #e9ecef;
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #9ca3af;
+    }
+
+    .view-btn {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 16px;
+      border: 2px solid #f59e0b;
+      border-radius: 10px;
+      background: #fff;
+      color: #111;
+      font-weight: 800;
+      text-decoration: none !important;
+    }
+
+    .view-btn:hover {
+      background: #f59e0b;
       transform: translateY(-2px);
-      transition: transform 0.2s ease-in-out;
     }
 
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-    }
-
-    li {
-      margin: 5px 0;
-    }
-
-    .action-link {
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-      animation: fadeIn 1s ease-out;
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
-
-    .action-link:hover {
-      text-decoration: underline;
-      color: #0056b3;
-      transform: scale(1.05);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInText {
-      from {
-        opacity: 0;
-        transform: translateX(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes slideInRow {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes zoomIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
   </style>
 </head>
-<body>
-  <!-- Navigation Bar -->
-  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
-    <nav>
-      <ul>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
-          <li class="nav-info">Logged in as <%= current_user.email %></li>
-        <% else %>
-          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
-          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
-        <% end %>
-      </ul>
-    </nav>
 
-    <div class="secondary-menu">
-      <ul>
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'About', about_path %></li>
-        <li><%= link_to 'Products', products_path %></li>
-        <li><%= link_to 'Categories', categories_path %></li>
-        <li><%= link_to 'All Orders', orders_path %></li>
+<body>
+
+<nav>
+  <div class="navbar-container">
+
+    <a href="<%= root_path %>" class="logo">
+      Gym<span>Guru</span>
+    </a>
+
+    <% if user_signed_in? %>
+      <div class="user-section">
+        <div class="nav-info">
+          Welcome, <%= current_user.email %>
+        </div>
+
+        <%= link_to 'Logout',
+            destroy_user_session_path,
+            method: :delete,
+            class: "nav-link logout-link" %>
+      </div>
+
+    <% else %>
+      <ul class="nav-links">
+        <li><%= link_to 'Login', new_user_session_path, class: "nav-link login-btn" %></li>
+        <li><%= link_to 'Create Account', new_user_registration_path, class: "nav-link register-btn" %></li>
       </ul>
+    <% end %>
+
+  </div>
+</nav>
+
+<div class="secondary-menu">
+  <ul>
+    <li><%= link_to 'Home', root_path %></li>
+    <li><%= link_to 'About', about_path %></li>
+    <li><%= link_to 'Products', products_path %></li>
+    <li><%= link_to 'Categories', categories_path %></li>
+    <li><%= link_to 'All Orders', orders_path %></li>
+  </ul>
+</div>
+
+<h1>Your Orders</h1>
+
+<div class="orders-wrapper">
+
+<% @orders.each do |order| %>
+
+<%
+  hours = ((Time.current - order.created_at) / 1.hour).round
+
+  # ✅ FIXED AUTO STATUS LOGIC (48h + 48h)
+  status =
+    if hours < 48
+      "processing"
+    elsif hours < 96
+      "shipped"
+    else
+      "delivered"
+    end
+
+  progress =
+    case status
+    when "processing" then 25
+    when "shipped" then 65
+    when "delivered" then 100
+    end
+%>
+
+<div class="order-card">
+
+  <div class="order-header">
+    <div>Order #<%= order.id %></div>
+    <div class="status <%= status %>">
+      <%= status.capitalize %>
     </div>
+  </div>
+
+  <% order.order_items.each do |item| %>
+    <div><%= item.product_name %> × <%= item.quantity %></div>
   <% end %>
 
-  <h1>Your Orders</h1>
+  <div class="tracking">
+    <div class="bar">
+      <div class="fill" style="width:<%= progress %>%"></div>
+    </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Products</th>
-        <th>Total</th>
-        <th>Status</th>  
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @orders.each do |order| %>
-        <tr>
-          <td><%= order.id %></td>
-          <td>
-            <ul>
-              <% order.order_items.each do |item| %>
-                <li><%= item.product_name %> x <%= item.quantity %></li>
-              <% end %>
-            </ul>
-          </td>
-          <td><%= number_to_currency(order.total) %></td>
-          <td><%= order.status %></td>
-          <td><%= link_to 'View Details', order_path(order), class: 'action-link' %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <div class="steps">
+      <span>Processing</span>
+      <span>Shipped</span>
+      <span>Delivered</span>
+    </div>
+  </div>
+
+  <a href="<%= order_path(order) %>" class="view-btn">
+    View Details
+  </a>
+
+</div>
+
+<% end %>
+
+</div>
+
 </body>
 </html>

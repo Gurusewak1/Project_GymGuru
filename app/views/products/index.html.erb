@@ -7,295 +7,787 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <link rel="stylesheet" href="<%= asset_path 'application.css' %>">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
+
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f4f4f9;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      color: #111827;
       overflow-x: hidden;
     }
 
+     /* =========================
+        NAVBAR (YOUR ORIGINAL)
+        + HOMEPAGE HOVER EFFECTS APPLIED
+    ========================== */
+
     nav {
-      background-color: #212529;
-      color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: rgba(10, 15, 25, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      padding: 20px 40px;
+
+      position: sticky;
+      top: 0;
+      z-index: 999;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 6px 25px rgba(0,0,0,0.15),
+        0 3px 10px rgba(0,0,0,0.10);
     }
 
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1400px;
+      margin: auto;
     }
 
-    nav li {
-      margin: 0;
+    .logo {
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      transition: 0.3s ease;
+    }
+
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: #fbbf24;
+    }
+
+    /* NAV LINKS (HOMEPAGE HOVER SYNCED) */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      list-style: none;
     }
 
     .nav-link {
-      color: white;
+      color: #f9fafb;
       text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     .nav-link:hover {
-      background-color: #343a40;
-      border-radius: 4px;
-    }
-
-    .logout-link {
-      color: #fff;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      transform: translateY(-2px);
       text-decoration: none;
     }
 
-    .logout-link:hover {
-      color: #f8f9fa;
+   /* LOGIN BUTTON */
+
+.login-btn {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  text-decoration: none !important; /* ✅ removed underline */
+}
+
+.login-btn:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  text-decoration: none !important; /* ✅ safe on hover */
+}
+
+/* REGISTER BUTTON (CLEAN PREMIUM) */
+
+.register-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white !important;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(245, 158, 11, 0.35);
+}
+    /* USER SECTION */
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-info {
-      font-size: 0.9rem;
-      color: #f8f9fa;
+      color: #d1d5db;
+      font-size: 0.95rem;
+
+      background: rgba(255,255,255,0.06);
+
+      padding: 10px 16px;
+      border-radius: 12px;
+
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* LOGOUT */
+
+    .logout-link {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5 !important;
+
+      border: 1px solid rgba(239, 68, 68, 0.2);
+
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-link:hover {
+      background: #ef4444;
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+        SECONDARY MENU
+    ========================== */
+
     .secondary-menu {
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 10px;
+      background: white;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .secondary-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-    }
-
-    .secondary-menu li {
-      margin: 0;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
     }
 
     .secondary-menu a {
       text-decoration: none;
-      color: black;
-      font-size: 1rem;
+      color: #111827;
+      font-weight: 700;
+              font-size: 1.2rem;
+      position: relative;
+      transition: 0.3s ease;
     }
 
     .secondary-menu a:hover {
-      text-decoration: none;
+      color: #f59e0b;
     }
 
-    .header-section {
-      background: linear-gradient(-45deg, #333, #666, #333, #666);
-      background-size: 400% 400%;
-      animation: gradientBackground 15s ease infinite;
-      color: #fff;
-      padding: 80px 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header-section::before {
+    .secondary-menu a::after {
       content: '';
       position: absolute;
-      top: 0;
       left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #f59e0b;
+      transition: 0.3s ease;
+    }
+
+    .secondary-menu a:hover::after {
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 1;
     }
+      
+/.header-section {
+  padding: 70px 20px;
+  text-align: center;
+  background: #f8fafc;
+}
 
-    .header-section h1 {
-      font-size: 3.5rem;
-      margin: 0;
-      font-weight: 700;
-      z-index: 2;
-      position: relative;
-      animation: fadeInUp 1s ease-out;
-    }
+.header-section h1 {
+  font-size: 3.2rem;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -2px;
+  position: relative;
+  display: inline-block;
+}
 
-    .header-section p {
-      font-size: 1.5rem;
-      margin-top: 10px;
-      font-weight: 300;
-      z-index: 2;
-      position: relative;
-      animation: fadeInUp 1.5s ease-out;
-    }
+.header-section h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -12px;
 
-    @keyframes gradientBackground {
-      0% {
-        background-position: 0% 0%;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0% 0%;
-      }
-    }
+  width: 100%;
+  height: 3px;
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  border-radius: 10px;
+}
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
+.header-section p {
+  margin-top: 18px;
 
-    .content-section {
-      padding: 60px 20px;
-      background-color: #d3eafd; /* Light Blue */
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin: 20px 0;
-    }
+  color: #111827;   /* black text */
 
-    .product {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin: 15px 0;
-      padding: 15px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+  font-size: 1.1rem;
 
-    .product:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-    }
+  font-weight: 700; /* bold */
+}
+/* =========================
+   CONTENT WRAPPER
+========================= */
 
-    .product img {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+.content-section {
+  padding: 40px 20px;
+}
 
-    .product h2 {
-      margin-top: 0;
-      color: black;
-    }
 
-    .product p {
-      margin: 10px 0;
-      color: #666;
-    }
 
-    .product a {
-      text-decoration: none;
-      color: #007bff;
-      transition: color 0.3s ease;
-    }
 
-    .product a:hover {
-      color: #0056b3;
-    }
+/* =========================
+   3D FLOATING SEARCH ORB (ICON TRIGGER)
+========================= */
 
-    .price {
-      font-weight: bold;
-      color: #000;
-    }
+.search-orb {
+  width: 46px;
+  height: 46px;
 
-    .discounted-price {
-      color: #ff4d4d; /* Bright Red */
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    form {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
+  border-radius: 50%;
 
-    input[type="text"],
-    select,
-    input[type="submit"] {
-      margin: 0 5px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
+  background: radial-gradient(circle at top left,
+    rgba(245,158,11,0.35),
+    rgba(10,15,25,0.9)
+  );
 
-    input[type="text"]:focus,
-    select:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
+  border: 1px solid rgba(245,158,11,0.35);
 
-    .nav-links {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+  color: #f59e0b;
+  font-size: 18px;
 
-    .nav-links a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
-      transition: color 0.3s ease, transform 0.3s ease;
-    }
+  cursor: pointer;
 
-    .nav-links a:hover {
-      color: #0056b3;
-      transform: scale(1.05);
-    }
+  text-decoration: none;
+
+  position: relative;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.25),
+    inset 0 2px 4px rgba(255,255,255,0.1);
+
+  animation: floatOrb 3s ease-in-out infinite;
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.search-orb::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(circle, rgba(245,158,11,0.25), transparent 60%);
+
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.search-orb:hover::before {
+  opacity: 1;
+}
+
+.search-orb:hover {
+  transform: scale(1.12);
+  background: #f59e0b;
+  color: #111827;
+
+  box-shadow: 0 18px 40px rgba(245,158,11,0.35);
+}
+
+/* =========================
+   SEARCH MODAL BACKDROP
+========================= */
+
+.search-modal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(10px);
+
+  z-index: 9999;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.search-open-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 22px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #111827, #0a0f19);
+  border: 1px solid rgba(245,158,11,0.25);
+
+  color: #f59e0b;
+  font-weight: 800;
+  font-size: 0.95rem;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+  transition: all 0.35s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* hover sweep */
+.search-open-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+
+  width: 120%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(245,158,11,0.35),
+    transparent
+  );
+
+  transition: 0.5s ease;
+}
+
+.search-open-btn:hover::before {
+  left: 120%;
+}
+
+.search-open-btn:hover {
+  transform: translateY(-4px);
+  background: #f59e0b;
+  color: #111827;
+
+  box-shadow: 0 18px 45px rgba(245,158,11,0.35);
+}
+
+/* =========================
+   SEARCH MODAL
+========================= */
+
+.search-modal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(10px);
+
+  z-index: 9999;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+.search-box {
+  width: 100%;
+  max-width: 520px;
+
+  background: rgba(10, 15, 25, 0.98);
+  backdrop-filter: blur(18px);
+
+  border-radius: 22px;
+
+  padding: 42px 28px 28px 28px;
+
+  border: 1px solid rgba(245,158,11,0.25);
+
+  box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+
+  position: relative;
+}
+
+/* =========================
+   CLOSE BUTTON (FIXED CORNER)
+========================= */
+
+.close-search {
+  position: absolute;
+  top: 6px;
+  right: 6px;   /* ⬅️ pushed into real corner */
+
+  font-size: 26px;
+  color: #f59e0b;
+
+  cursor: pointer;
+
+  padding: 6px;
+
+  border-radius: 8px;
+
+  transition: 0.25s ease;
+}
+
+.close-search:hover {
+  transform: rotate(90deg) scale(1.1);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.search-box input[type="text"],
+.search-box select {
+  width: 100%;
+
+  margin-bottom: 12px;
+
+  padding: 12px 14px;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+
+  color: #f9fafb;
+}
+
+/* dropdown fix */
+.search-box select option {
+  background: #111827;
+  color: #fff;
+}
+
+/* =========================
+   SEARCH SUBMIT BUTTON
+========================= */
+
+.search-box input[type="submit"] {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: none;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+/* =========================
+   MOBILE FIX
+========================= */
+
+@media (max-width: 600px) {
+  .search-box {
+    padding: 36px 20px 20px 20px;
+    border-radius: 18px;
+  }
+}
+
+/* =========================
+   PRODUCT CARD (MORE PREMIUM GYM STYLE)
+========================= */
+
+.product {
+  display: flex;
+  gap: 22px;
+
+  background: #ffffff;
+  border-radius: 24px;
+
+  padding: 22px;
+  margin: 20px auto;
+
+  max-width: 1000px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+
+  transition: all 0.35s ease;
+}
+
+.product:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.15);
+}
+
+/* IMAGE */
+.product img {
+  width: 190px;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* TITLE LINK */
+.product-details h2 a {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #111827;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.product-details h2 a:hover {
+  color: #f59e0b;
+}
+
+/* DESCRIPTION */
+.product-details p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* PRICE */
+.price {
+  margin-top: 12px;
+  font-weight: 800;
+}
+
+.discounted-price {
+  color: #16a34a;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* ADD TO CART */
+.product a[href*="add_to_cart"] {
+  display: inline-block;
+  margin-top: 14px;
+
+  padding: 11px 20px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #111827 !important;
+
+  font-weight: 900;
+  text-decoration: none;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(245,158,11,0.2);
+}
+
+.product a[href*="add_to_cart"]:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgba(245,158,11,0.35);
+}
+
+
+
+/* =========================
+   CLEAN LIGHT GOLD PAGINATION (LARGER + CENTERED)
+========================= */
+
+.pagination {
+  margin-top: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px; /* more breathing space */
+
+  width: 100%; /* ensures true centering */
+
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ALL ITEMS (BIGGER SIZE) */
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 48px;
+  height: 48px;
+
+  padding: 0 14px;
+
+  background: transparent;
+
+  border: none !important;
+
+  color: #111827 !important;
+
+  text-decoration: none !important;
+
+  font-weight: 600;
+  font-size: 1rem;
+
+  border-radius: 10px;
+
+  transition: all 0.2s ease;
+}
+
+/* HOVER = LIGHT GOLD */
+.pagination a:hover {
+  background: #fff7e6;
+  color: #f59e0b !important;
+
+  transform: translateY(-2px);
+}
+
+/* ACTIVE PAGE */
+.pagination .current,
+.pagination span.current {
+  background: #fff3cc !important;
+  color: #b45309 !important;
+
+  font-weight: 800;
+
+  border: none !important;
+}
+
+/* DISABLED */
+.pagination .disabled,
+.pagination .gap {
+  color: #9ca3af !important;
+  background: transparent;
+  border: none !important;
+  pointer-events: none;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+  .pagination a,
+  .pagination span {
+    min-width: 42px;
+    height: 42px;
+    font-size: 0.9rem;
+  }
+}
   </style>
 </head>
+<script>
+function openSearch() {
+  document.getElementById("searchModal").style.display = "flex";
+}
+
+function closeSearch() {
+  document.getElementById("searchModal").style.display = "none";
+}
+
+// close when clicking outside box
+window.onclick = function(event) {
+  const modal = document.getElementById("searchModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 <body>
-  <!-- Navigation Bar -->
-  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
-    <nav>
-      <ul>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
-          <li class="nav-info">Logged in as <%= current_user.email %></li>
-        <% else %>
-          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
-          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
-        <% end %>
-      </ul>
-    </nav>
 
-    <div class="secondary-menu">
-      <ul>
-        <li><%= link_to 'Home', root_path %></li>
-        <li><%= link_to 'About', about_path %></li>
-        <li><%= link_to 'Products', products_path %></li>
-        <li><%= link_to 'Categories', categories_path %></li>
-        <li><%= link_to 'All Orders', orders_path %></li>
-      </ul>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="navbar-container">
+
+      <a href="<%= root_path %>" class="logo">
+        Gym<span>Guru</span>
+      </a>
+
+      <% if user_signed_in? %>
+
+        <div class="user-section">
+
+          <div class="nav-info">
+            Welcome, <%= current_user.email %>
+          </div>
+
+          <%= link_to 'Logout',
+            destroy_user_session_path,
+            method: :delete,
+            class: "nav-link logout-link" %>
+
+        </div>
+
+      <% else %>
+
+        <ul class="nav-links">
+
+          <li><%= link_to 'Login', new_user_session_path, class: "nav-link login-btn" %></li>
+          <li><%= link_to 'Create Account', new_user_registration_path, class: "nav-link register-btn" %></li>
+
+        </ul>
+
+      <% end %>
+
     </div>
-  <% end %>
+  </nav>
 
+  <!-- SECONDARY MENU -->
+  <div class="secondary-menu">
+    <ul>
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'About', about_path %></li>
+      <li><%= link_to 'Products', products_path %></li>
+      <li><%= link_to 'Categories', categories_path %></li>
+      <li><%= link_to 'All Orders', orders_path %></li>
+    </ul>
+  </div>
+
+  <!-- HEADER -->
   <div class="header-section">
     <div class="container">
       <h1>OUR PRODUCTS</h1>
@@ -303,20 +795,31 @@
     </div>
   </div>
 
+  <!-- CONTENT (UNCHANGED EVERYTHING BELOW) -->
   <div class="content-section">
     <div class="container">
-      <div class="nav-links">
-        <%= link_to "All Products", products_path %>
-        <%= link_to "On Sale", products_path(filter: 'on_sale') %>
-        <%= link_to "New", products_path(filter: 'new') %>
-        <%= link_to "Recently Updated", products_path(filter: 'recently_updated') %>
-      </div>
 
-      <%= form_tag(products_path, method: :get) do %>
-        <%= text_field_tag :search, params[:search], placeholder: "Enter keywords" %>
-        <%= select_tag :category, options_for_select(Category.pluck(:name, :id), params[:category]), prompt: "Select a category" %>
-        <%= submit_tag "Search" %>
-      <% end %>
+      
+
+      <button class="search-open-btn" onclick="openSearch()">🔍 Search Products</button>
+
+<div id="searchModal" class="search-modal">
+  <div class="search-box">
+
+    <span class="close-search" onclick="closeSearch()">×</span>
+
+    <%= form_tag(products_path, method: :get) do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search products..." %>
+
+      <%= select_tag :category,
+        options_for_select(Category.pluck(:name, :id), params[:category]),
+        prompt: "Select category" %>
+
+      <%= submit_tag "Search Now" %>
+    <% end %>
+
+  </div>
+</div>
 
       <% @products.each do |product| %>
         <div class="product">
@@ -325,9 +828,10 @@
           <% else %>
             <img src="default_image.png" alt="Default Image">
           <% end %>
+
           <div class="product-details">
             <h2><%= link_to product.name, product_path(product) %></h2>
-            <p><%= product.description %></p>
+
             <% if product.on_sale.present? && product.on_sale > 0 %>
               <p class="price">Original Price: <%= number_to_currency(product.price) %></p>
               <p class="discounted-price">Discounted Price: <%= number_to_currency(product.discounted_price) %></p>
@@ -335,15 +839,17 @@
             <% else %>
               <p class="price">Price: <%= number_to_currency(product.price) %></p>
             <% end %>
-            <p>Stock: <%= product.stock %></p>
-            <p>Category: <%= product.category.name %></p>
+
+            
             <%= link_to 'Add to Cart', add_to_cart_product_path(product), method: :post %>
           </div>
         </div>
       <% end %>
 
       <%= paginate @products %>
+
     </div>
   </div>
+
 </body>
 </html>

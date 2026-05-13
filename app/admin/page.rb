@@ -1,7 +1,8 @@
 ActiveAdmin.register_page "About Page" do
   content do
     # Custom form to edit about page content
-    render partial: 'admin/pages/about_form', locals: { page_content: @about_page.content }
+    about_page = AboutPage.first_or_create
+    render partial: 'admin/pages/about_form', locals: { page_content: about_page.content }
   end
 
   controller do
@@ -10,7 +11,7 @@ ActiveAdmin.register_page "About Page" do
     end
 
     def update
-      @about_page = AboutPage.find(params[:id])
+      @about_page = AboutPage.first_or_create
       if @about_page.update(page_params)
         redirect_to admin_dashboard_path, notice: 'About page content updated successfully.'
       else

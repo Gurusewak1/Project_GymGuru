@@ -1,6 +1,17 @@
 ActiveAdmin.register Order do
   permit_params :status, :subtotal, :gst, :pst, :hst, :qst, :total, :user_id
 
+  # ✅ FIX: Explicit filters to prevent Ransack errors (NO total_amount reference)
+  filter :user
+  filter :subtotal
+  filter :gst
+  filter :pst
+  filter :hst
+  filter :qst
+  filter :total
+  filter :status
+  filter :created_at
+
   form do |f|
     f.inputs "Order Details" do
       f.input :user

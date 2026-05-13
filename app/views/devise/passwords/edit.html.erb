@@ -1,25 +1,233 @@
-<h2>Change your password</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Change Password</title>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      filter: blur(90px);
+      z-index: 0;
+    }
+
+    body::before {
+      background: radial-gradient(circle, rgba(245,158,11,0.25), transparent 60%);
+      top: -200px;
+      left: -200px;
+    }
+
+    body::after {
+      background: radial-gradient(circle, rgba(17,24,39,0.12), transparent 60%);
+      bottom: -200px;
+      right: -200px;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+      max-width: 470px;
+
+      padding: 50px;
+
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(25px);
+
+      border-radius: 28px;
+
+      border: 1px solid rgba(255,255,255,0.6);
+
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.12),
+        0 10px 30px rgba(0,0,0,0.08);
+
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #111827;
+      margin-bottom: 28px;
+      letter-spacing: -0.5px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 15px;
+
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+
+      font-size: 1rem;
+
+      outline: none;
+
+      transition: 0.25s ease;
+
+      background: white;
+    }
+
+    .field input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.15);
+    }
+
+  .actions input[type="submit"],
+.actions input[type="submit"]:hover,
+.actions input[type="submit"]:focus,
+.actions input[type="submit"]:active {
+  width: 100%;
+  padding: 16px;
+
+  border: none !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+
+  border-radius: 16px;
+
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: white !important;
+
+  font-weight: 900;
+  font-size: 1.05rem;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+
+  box-shadow: 0 14px 35px rgba(245,158,11,0.25);
+
+  letter-spacing: 0.3px;
+}
+
+/* ONLY GOLD HOVER (FORCED) */
+.actions input[type="submit"]:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+
+  box-shadow:
+    0 22px 60px rgba(251,191,36,0.40),
+    0 0 30px rgba(245,158,11,0.30) !important;
+}
+
+/* ACTIVE PRESS EFFECT */
+.actions input[type="submit"]:active {
+  transform: translateY(-1px) scale(0.99) !important;
+}
+
+    /* =========================
+        LINKS (PREMIUM STYLE)
+    ========================== */
+
+    a {
+      color: #111827;
+      text-decoration: none !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: 0.25s ease;
+      display: inline-block;
+    }
+
+    a:hover {
+      color: #f59e0b;
+      transform: translateY(-2px);
+      text-shadow: 0 8px 20px rgba(245,158,11,0.25);
+    }
+
+    .devise-links {
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>Change your password</h2>
+
+    <%= form_for(resource, as: resource_name,
+        url: password_path(resource_name),
+        html: { method: :put }) do |f| %>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="field">
+        <%= f.label :password, "New password" %>
+        <% if @minimum_password_length %>
+          <small>(<%= @minimum_password_length %> characters minimum)</small>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, "Confirm new password" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Change my password" %>
+      </div>
+
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+
+    <div class="devise-links">
+      <%= render "devise/shared/links" %>
+    </div>
+
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</body>
+</html>

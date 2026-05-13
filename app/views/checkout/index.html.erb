@@ -8,239 +8,465 @@
   <%= csp_meta_tag %>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 0;
-    }
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f8fafc;
+  margin: 0;
+  padding: 0;
+  color: #111827;
+}
 
-    /* Navigation Bar */
+ /* =========================
+        NAVBAR (YOUR ORIGINAL)
+        + HOMEPAGE HOVER EFFECTS APPLIED
+    ========================== */
+
     nav {
-      background-color: #212529;
-      color: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: rgba(10, 15, 25, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      padding: 20px 40px;
+
+      position: sticky;
+      top: 0;
+      z-index: 999;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 6px 25px rgba(0,0,0,0.15),
+        0 3px 10px rgba(0,0,0,0.10);
     }
 
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .navbar-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      max-width: 1400px;
+      margin: auto;
     }
 
-    nav li {
-      margin: 0;
+    .logo {
+      text-decoration: none;
+      color: white;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      transition: 0.3s ease;
+    }
+
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      color: #fbbf24;
+    }
+
+    /* NAV LINKS (HOMEPAGE HOVER SYNCED) */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      list-style: none;
     }
 
     .nav-link {
-      color: white;
+      color: #f9fafb;
       text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
+
+      padding: 12px 18px;
+      border-radius: 12px;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      transition: all 0.3s ease;
+      position: relative;
     }
 
     .nav-link:hover {
-      background-color: #343a40;
-      border-radius: 4px;
-    }
-
-    .logout-link {
-      color: #fff;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      transform: translateY(-2px);
       text-decoration: none;
     }
 
-    .logout-link:hover {
-      color: #f8f9fa;
+   /* LOGIN BUTTON */
+
+.login-btn {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  text-decoration: none !important; /* ✅ removed underline */
+}
+
+.login-btn:hover {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.15);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  text-decoration: none !important; /* ✅ safe on hover */
+}
+
+/* REGISTER BUTTON (CLEAN PREMIUM) */
+
+.register-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: white !important;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(245, 158, 11, 0.35);
+}
+    /* USER SECTION */
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
 
     .nav-info {
-      font-size: 0.9rem;
-      color: #f8f9fa;
+      color: #d1d5db;
+      font-size: 0.95rem;
+
+      background: rgba(255,255,255,0.06);
+
+      padding: 10px 16px;
+      border-radius: 12px;
+
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* LOGOUT */
+
+    .logout-link {
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5 !important;
+
+      border: 1px solid rgba(239, 68, 68, 0.2);
+
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .logout-link:hover {
+      background: #ef4444;
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+        SECONDARY MENU
+    ========================== */
+
     .secondary-menu {
-      background-color: #f8f9fa;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 20px;
-      width: 100%;
+      background: white;
+      padding: 18px 0;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .secondary-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-    }
-
-    .secondary-menu li {
-      margin: 0;
+      align-items: center;
+      gap: 35px;
+      list-style: none;
     }
 
     .secondary-menu a {
       text-decoration: none;
-      color: black;
-      font-size: 1rem;
+      color: #111827;
+      font-weight: 700;
+              font-size: 1.2rem;
+      position: relative;
+      transition: 0.3s ease;
     }
 
     .secondary-menu a:hover {
-      text-decoration: none;
+      color: #f59e0b;
     }
 
-    h1, h2, h3 {
-      text-align: center;
-      color: #333;
-      margin: 20px;
-      font-weight: 600;
-      transition: color 0.3s ease, transform 0.3s ease;
+    .secondary-menu a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0%;
+      height: 2px;
+      background: #f59e0b;
+      transition: 0.3s ease;
     }
 
-    h1:hover, h2:hover, h3:hover {
-      color: #007bff;
-      transform: scale(1.05);
-    }
-
-    .invoice-summary {
-      width: 90%;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #d3eafd; /* Light Blue */
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-control {
+    .secondary-menu a:hover::after {
       width: 100%;
-      padding: 10px;
-      border: 2px solid #ced4da;
-      border-radius: 4px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+/* =========================
+    HEADINGS
+========================= */
 
-    .form-control:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      outline: none;
-    }
+h1, h2, h3 {
+  text-align: center;
+  margin: 20px;
+  font-weight: 800;
+  color: #111827;
+}
 
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
 
-    .table th, .table td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #dee2e6;
-    }
 
-    .table th {
-      background-color: #007bff;
-      color: white;
-    }
+.invoice-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
 
-    .table tbody tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+.invoice-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
 
-    .table tbody tr:hover {
-      background-color: #e9ecef;
-    }
+.invoice-section {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
 
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      color: #fff;
-      background-color: #4db8ff;
-      text-decoration: none;
-      text-align: center;
-      display: inline-block;
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-    }
+.invoice-section h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
 
-    .btn:hover {
-      background-color: #007bff;
-      transform: scale(1.05);
-    }
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
 
-    #payment-form {
-      margin-top: 30px;
-      text-align: center;
-      padding: 20px;
-      border: 1px solid #ced4da;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.row span {
+  color: #6b7280;
+}
 
-    #payment-form h3 {
-      margin-bottom: 15px;
-      color: #333;
-    }
+.row strong {
+  color: #111827;
+}
 
-    #card-element {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 2px solid #ced4da;
-      border-radius: 4px;
-      background: #fafafa;
-    }
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    #submit-payment {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      color: #fff;
-      background: #007bff;
-      text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
+.product-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+}
 
-    #submit-payment:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
+.highlight {
+  background: #fffaf3;
+  border: 1px solid #f59e0b33;
+  border-radius: 12px;
+  padding: 15px;
+}
 
-    #payment-result {
-      margin-top: 15px;
-      color: #dc3545;
-      font-weight: bold;
-    }
+.divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 10px 0;
+}
 
-    .back-to-cart {
-      text-align: center;
-      margin-top: 20px;
-    }
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+}
+/* =========================
+    MAIN BUTTONS
+========================= */
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+
+  background: #2563eb;
+  color: white;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background: #f59e0b;
+  color: #111827;
+  transform: translateY(-2px);
+}
+
+/* =========================
+    STRIPE SECTION
+========================= */
+
+#payment-form {
+  margin-top: 30px;
+  text-align: center;
+  padding: 25px;
+  border-radius: 18px;
+  background: #f9fafb;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+#card-element {
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  background: white;
+}
+
+#submit-payment {
+  margin-top: 20px;
+  padding: 16px 44px;
+
+  border: none;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+
+  color: #111827;
+
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+
+  box-shadow: 0 12px 28px rgba(245, 158, 11, 0.25);
+
+  transition: all 0.3s ease;
+
+  min-width: 240px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit-payment:hover {
+  transform: translateY(-3px) scale(1.03);
+
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+
+  box-shadow: 0 18px 40px rgba(245, 158, 11, 0.35);
+}
+
+/* =========================
+    BACK TO CART BUTTON
+========================= */
+
+.back-to-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.back-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 10px 22px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.2px;
+
+  color: #000000 !important;
+  background: #ffffff;
+
+  border: 2px solid #f59e0b;
+
+  text-decoration: none !important;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover,
+.back-btn:focus,
+.back-btn:active,
+.back-btn:visited {
+  text-decoration: none !important;
+  color: #000000 !important;
+}
+
+.back-btn:hover {
+  background: #f59e0b;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+}
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <% unless controller.controller_name == 'sessions' && controller.action_name == 'new' || controller.controller_name == 'registrations' && controller.action_name == 'new' %>
-    <nav>
-      <ul>
-        <% if user_signed_in? %>
-          <li><%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "nav-link logout-link" %></li>
-          <li class="nav-info">Logged in as <%= current_user.email %></li>
-        <% else %>
-          <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
-          <li><%= link_to 'Register', new_user_registration_path, class: "nav-link" %></li>
-        <% end %>
+ <nav>
+  <div class="navbar-container">
+    <a href="<%= root_path %>" class="logo">Gym<span>Guru</span></a>
+
+    <% if user_signed_in? %>
+      <div class="user-section">
+        <div class="nav-info">
+          Welcome, <%= current_user.email %>
+        </div>
+
+        <%= link_to 'Logout',
+          destroy_user_session_path,
+          method: :delete,
+          class: "nav-link logout-link" %>
+      </div>
+
+    <% else %>
+      <ul class="nav-links">
+        <li><%= link_to 'Login', new_user_session_path, class: "nav-link" %></li>
+        <li><%= link_to 'Create Account', new_user_registration_path, class: "nav-link" %></li>
       </ul>
-    </nav>
+    <% end %>
+
+  </div>
+</nav>
+
 
     <div class="secondary-menu">
       <ul>
@@ -251,7 +477,6 @@
         <li><%= link_to 'All Orders', orders_path %></li>
       </ul>
     </div>
-  <% end %>
 
   <h1>Checkout Summary</h1>
 
@@ -267,62 +492,88 @@
     <% end %>
 
     <!-- Invoice Summary -->
-    <h2>Invoice Summary</h2>
-    <!-- Display customer and order details -->
-    <table class="table table-bordered">
-      <tbody>
-        <tr>
-          <td>Customer Name</td>
-          <td><%= current_user.name %></td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td><%= current_user.email %></td>
-        </tr>
-        <tr>
-          <td>Address</td>
-          <td><%= current_user.address %></td>
-        </tr>
-        <tr>
-          <td>Province</td>
-          <td><%= @province_name %></td> <!-- Display province name if it exists -->
-        </tr>
-        <tr>
-          <td>Products</td>
-          <td>
-            <ul>
-              <% @products.each do |product| %>
-                <li><%= product.name %> - Quantity: <%= @cart[product.id.to_s] %></li>
-              <% end %>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>Subtotal</td>
-          <td><%= number_to_currency(@subtotal) %></td>
-        </tr>
-        <tr>
-          <td>GST</td>
-          <td><%= number_to_currency(@taxes_gst) %></td>
-        </tr>
-        <tr>
-          <td>PST</td>
-          <td><%= number_to_currency(@taxes_pst) %></td>
-        </tr>
-        <tr>
-          <td>HST</td>
-          <td><%= number_to_currency(@taxes_hst) %></td>
-        </tr>
-        <tr>
-          <td>QST</td>
-          <td><%= number_to_currency(@taxes_qst) %></td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td><%= number_to_currency(@total) %></td>
-        </tr>
-      </tbody>
-    </table>
+    <h2 class="invoice-title">Invoice Summary</h2>
+
+<div class="invoice-card">
+
+  <!-- CUSTOMER INFO -->
+  <div class="invoice-section">
+    <h3>Customer Details</h3>
+
+    <div class="row">
+      <span>Customer Name</span>
+      <strong><%= current_user.name %></strong>
+    </div>
+
+    <div class="row">
+      <span>Email</span>
+      <strong><%= current_user.email %></strong>
+    </div>
+
+    <div class="row">
+      <span>Address</span>
+      <strong><%= current_user.address %></strong>
+    </div>
+
+    <div class="row">
+      <span>Province</span>
+      <strong><%= @province_name %></strong>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div class="invoice-section">
+    <h3>Products</h3>
+
+    <ul class="product-list">
+      <% @products.each do |product| %>
+        <li>
+          <span><%= product.name %></span>
+          <span>Qty: <%= @cart[product.id.to_s] %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <!-- PRICING -->
+  <div class="invoice-section highlight">
+    <h3>Price Breakdown</h3>
+
+    <div class="row">
+      <span>Subtotal</span>
+      <strong><%= number_to_currency(@subtotal) %></strong>
+    </div>
+
+    <div class="row">
+      <span>GST</span>
+      <strong><%= number_to_currency(@taxes_gst) %></strong>
+    </div>
+
+    <div class="row">
+      <span>PST</span>
+      <strong><%= number_to_currency(@taxes_pst) %></strong>
+    </div>
+
+    <div class="row">
+      <span>HST</span>
+      <strong><%= number_to_currency(@taxes_hst) %></strong>
+    </div>
+
+    <div class="row">
+      <span>QST</span>
+      <strong><%= number_to_currency(@taxes_qst) %></strong>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="total-row">
+      <span>Total</span>
+      <strong><%= number_to_currency(@total) %></strong>
+    </div>
+
+  </div>
+
+</div>
 
     <!-- Stripe Payment Form -->
     <div id="payment-form">
@@ -338,66 +589,105 @@
   </div>
 
   <div class="back-to-cart">
-    <%= link_to "Back to Cart", cart_path, class: "btn" %>
-  </div>
+<%= link_to " Back to Cart", cart_path, class: "back-btn" %>  </div>
 
-  <!-- JavaScript for Stripe Payment Processing -->
-  <script type="text/javascript">
-    // JavaScript for Stripe Payment Processing
-    document.addEventListener('DOMContentLoaded', function () {
-      const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
-      const elements = stripe.elements();
-      const card = elements.create('card');
-      card.mount('#card-element');
+<script src="https://js.stripe.com/v3/"></script>
 
-      const submitButton = document.getElementById('submit-payment');
-      const paymentResult = document.getElementById('payment-result');
+<script>
+let stripeInitialized = false;
 
-      submitButton.addEventListener('click', async function(event) {
-        event.preventDefault();
-        submitButton.disabled = true;
+function initStripe() {
+  if (stripeInitialized) return; // prevent double init
+  stripeInitialized = true;
 
-        const { paymentMethod, error } = await stripe.createPaymentMethod({
-          type: 'card',
-          card: card,
-        });
+  if (!window.Stripe) {
+    console.error("Stripe.js not loaded");
+    return;
+  }
 
-        if (error) {
-          paymentResult.textContent = error.message;
-          submitButton.disabled = false;
-        } else {
-          const paymentMethodId = paymentMethod.id;
+  const stripeKey = "<%= Rails.configuration.stripe[:publishable_key] %>";
 
-          // Fetch CSRF token from meta tag
-          const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+  if (!stripeKey || stripeKey === "" || stripeKey.includes("nil")) {
+    console.error("Stripe publishable key missing or invalid:", stripeKey);
+    return;
+  }
 
-          fetch('<%= create_payment_checkout_index_path %>', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': csrfToken // Include CSRF token in headers
-            },
-            body: JSON.stringify({ payment_method_id: paymentMethodId }),
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Response Data:', data); // Log response data for debugging
-            if (data.order_id) {
-              const orderPath = '<%= order_path(":id") %>'.replace(':id', data.order_id);
-              window.location.href = orderPath; // Redirect to order details page
-            } else {
-              paymentResult.textContent = data.message;
-              submitButton.disabled = false;
-            }
-          })
-          .catch(error => {
-            console.error('Fetch Error:', error); // Log fetch errors for debugging
-            paymentResult.textContent = 'Error processing payment.';
-            submitButton.disabled = false;
-          });
-        }
-      });
+  const stripe = Stripe(stripeKey);
+  const elements = stripe.elements();
+
+  const card = elements.create("card", {
+    hidePostalCode: true
+  });
+
+  const cardElement = document.getElementById("card-element");
+  const button = document.getElementById("submit-payment");
+  const result = document.getElementById("payment-result");
+
+  if (!cardElement) {
+    console.error("❌ card-element not found in HTML");
+    return;
+  }
+
+  if (!button) {
+    console.error("❌ submit-payment button not found");
+    return;
+  }
+
+  card.mount("#card-element");
+  console.log("✅ Stripe card mounted successfully");
+
+  button.addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    button.disabled = true;
+    result.textContent = "";
+
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+      type: "card",
+      card: card
     });
-  </script>
+
+    if (error) {
+      console.error(error);
+      result.textContent = error.message;
+      button.disabled = false;
+      return;
+    }
+
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
+    fetch("<%= create_payment_checkout_index_path %>", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrf
+      },
+      body: JSON.stringify({
+        payment_method_id: paymentMethod.id
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Server response:", data);
+
+      if (data.order_id) {
+        window.location.href = "<%= order_path(':id') %>".replace(':id', data.order_id);
+      } else {
+        result.textContent = data.message || "Payment failed";
+        button.disabled = false;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      result.textContent = "Server error occurred";
+      button.disabled = false;
+    });
+  });
+}
+
+// Works for Rails + Turbo + normal reload
+document.addEventListener("DOMContentLoaded", initStripe);
+document.addEventListener("turbo:load", initStripe);
+</script>
 </body>
 </html>

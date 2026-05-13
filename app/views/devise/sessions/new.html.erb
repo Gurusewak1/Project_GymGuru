@@ -4,219 +4,351 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    * {
       margin: 0;
       padding: 0;
-      background: linear-gradient(-45deg, #c0c0c0, #000000, #c0c0c0, #000000); /* Silver and Black */
-      background-size: 400% 400%;
-      animation: gradientBackground 15s ease infinite;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f8fafc;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
       overflow: hidden;
     }
 
-    @keyframes gradientBackground {
-      0% {
-        background-position: 0% 0%;
-      }
-      50% {
-        background-position: 100% 100%;
-      }
-      100% {
-        background-position: 0% 0%;
-      }
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      filter: blur(90px);
+      z-index: 0;
     }
 
+    body::before {
+      background: radial-gradient(circle, rgba(245,158,11,0.25), transparent 60%);
+      top: -200px;
+      left: -200px;
+    }
+
+    body::after {
+      background: radial-gradient(circle, rgba(17,24,39,0.12), transparent 60%);
+      bottom: -200px;
+      right: -200px;
+    }
+
+    /* =========================
+        LOGIN CARD
+    ========================== */
+
     .container {
-      max-width: 600px;
-      width: 100%;
-      padding: 30px;
-      background-color: rgba(255, 255, 255, 0.6);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       position: relative;
+      z-index: 2;
+
+      width: 100%;
+      max-width: 440px;
+      padding: 48px 40px;
+
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.6);
+
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.12),
+        0 10px 30px rgba(0,0,0,0.08);
+
       text-align: center;
+
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: #111827;
       margin-bottom: 30px;
-      font-weight: 700;
-      color: #000000; /* Removed animation and kept color black */
+      letter-spacing: -0.6px;
     }
 
-    #error_explanation {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-      border-radius: 4px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-
-    #error_explanation h2 {
-      margin-top: 0;
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    #error_explanation ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    #error_explanation li {
-      margin-bottom: 10px;
-    }
+    /* =========================
+        FIELDS
+    ========================== */
 
     .field {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      text-align: left;
     }
 
     .field label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.95rem;
       display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
-      color: #495057;
-      font-size: 18px;
+      margin-bottom: 6px;
     }
 
     .field input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #ced4da;
-      border-radius: 6px;
-      box-sizing: border-box;
-      color: #000000; /* Setting text color to black */
+
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+
+      font-size: 1rem;
+
+      outline: none;
+
+      transition: 0.25s ease;
+
+      background: white;
     }
 
     .field input:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-      outline: none;
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.15);
     }
 
-    .actions {
-      text-align: center;
-    }
+    /* =========================
+        LOGIN BUTTON (FIXED + PREMIUM)
+    ========================== */
 
     .actions input[type="submit"] {
-      padding: 14px 22px;
-      border: none;
-      border-radius: 6px;
-      background-color: #000000; /* Black background for both login and register */
-      color: #fff;
+      width: 100%;
+      padding: 14px;
+
+      border: none !important;
+      outline: none !important;
+
+      border-radius: 14px;
+
+      background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+      color: white;
+
+      font-weight: 800;
+      font-size: 1rem;
+
       cursor: pointer;
-      font-size: 16px;
-      font-weight: 700;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      animation: buttonPulse 1s infinite;
+
+      -webkit-appearance: none;
+      appearance: none;
+
+      transition: all 0.3s ease;
+
+      box-shadow: 0 12px 30px rgba(245,158,11,0.25);
+
+      position: relative;
+      overflow: hidden;
     }
 
-    .actions input[type="submit"]:hover {
-      background-color: #333333; /* Darker black on hover */
-      transform: scale(1.05);
+    .actions input[type="submit"]:hover,
+    .actions input[type="submit"]:focus,
+    .actions input[type="submit"]:active {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+      color: white !important;
+
+      box-shadow:
+        0 18px 45px rgba(251, 191, 36, 0.35),
+        0 0 25px rgba(245, 158, 11, 0.25);
+
+      transform: translateY(-3px);
     }
 
-    @keyframes buttonPulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-      100% {
-        transform: scale(1);
-      }
+    .actions input[type="submit"]:active {
+      transform: translateY(-1px);
     }
+
+    /* =========================
+        SPINNER
+    ========================== */
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+
+      border: 2px solid white;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+
+      animation: spin 0.8s linear infinite;
+
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    @keyframes spin {
+      100% { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    /* =========================
+        CREATE ACCOUNT BUTTON
+    ========================== */
 
     .register-button {
       position: absolute;
       top: 20px;
       right: 20px;
-      background-color: #000000; /* Black background for register button */
-      color: #fff; /* White text for register button */
-      border: none; /* Removed border for consistency */
-      border-radius: 6px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
+
+      padding: 12px 18px;
+
+      border-radius: 14px;
+
+      text-decoration: none !important;
+      -webkit-tap-highlight-color: transparent;
+
+      font-weight: 800;
+
+      color: white !important;
+
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.25);
+
+      transition: all 0.3s ease;
+
+      display: inline-block;
+    }
+
+    .register-button:hover,
+    .register-button:focus {
+      transform: translateY(-3px);
+
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+
+      box-shadow:
+        0 18px 45px rgba(251, 191, 36, 0.35),
+        0 0 25px rgba(245, 158, 11, 0.25);
+
+      color: white !important;
+      text-decoration: none !important;
+    }
+
+    /* =========================
+        FORGOT PASSWORD (ADDED)
+    ========================== */
+
+    .forgot-password {
+      color: #000000;
       text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 600;
+
+      transition: all 0.2s ease;
     }
 
-    .register-button:hover {
-      background-color: #333333; /* Darker black on hover */
-      transform: scale(1.05);
+    .forgot-password:hover {
+      color: #111827;
+      transform: translateX(2px);
+      text-decoration: none;
     }
 
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-        margin: 20px;
-      }
+    /* =========================
+        SHAKE ANIMATION
+    ========================== */
 
-      .field input {
-        padding: 12px;
-      }
-
-      .actions input[type="submit"] {
-        padding: 12px 18px;
-        font-size: 14px;
-      }
+    .shake {
+      animation: shake 0.4s ease;
     }
 
-    @media (max-width: 480px) {
-      .container {
-        margin: 10px;
-      }
-
-      h1 {
-        font-size: 24px;
-      }
-
-      .field input {
-        padding: 10px;
-      }
-
-      .actions input[type="submit"] {
-        padding: 10px 16px;
-        font-size: 12px;
-      }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(8px); }
+      75% { transform: translateX(-8px); }
+      100% { transform: translateX(0); }
     }
+
   </style>
 </head>
+
 <body>
-  <!-- Register Button -->
-  <a href="<%= new_user_registration_path %>" class="register-button">Register</a>
 
-  <div class="container">
-    <h1>Log In to GymGuru</h1>
+  <a href="<%= new_user_registration_path %>" class="register-button">
+    Create Account
+  </a>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <!-- Email Field -->
+  <div class="container" id="loginCard">
+
+    <h1>Log In </h1>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { onsubmit: "showLoader()" }) do |f| %>
+
       <div class="field">
         <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= f.email_field :email, autofocus: true %>
       </div>
 
-      <!-- Password Field -->
       <div class="field">
         <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "current-password" %>
+        <%= f.password_field :password %>
       </div>
 
-      <!-- Submit Button -->
-      <div class="actions">
-        <%= f.submit "Log in" %>
+      <div class="actions" style="position:relative;">
+        <%= f.submit "Log in", id: "loginBtn" %>
+        <div class="spinner" id="spinner"></div>
       </div>
+
+      <!-- 🔥 FORGOT PASSWORD ADDED -->
+      <div style="margin-top: 12px; text-align: right;">
+        <a href="<%= new_user_password_path %>" class="forgot-password">
+          Forgot password?
+        </a>
+      </div>
+
     <% end %>
+
   </div>
+
+  <script>
+    function showLoader() {
+      const btn = document.getElementById("loginBtn");
+      const spinner = document.getElementById("spinner");
+
+      btn.disabled = true;
+      spinner.style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const errorBox = document.getElementById("error_explanation");
+      const card = document.getElementById("loginCard");
+
+      if (errorBox) {
+        card.classList.add("shake");
+
+        setTimeout(() => {
+          card.classList.remove("shake");
+        }, 500);
+      }
+    });
+  </script>
+
 </body>
 </html>
