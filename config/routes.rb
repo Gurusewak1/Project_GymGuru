@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # Cart routes
+  # 12Cart routes
   resource :cart, only: [:show] do
     post 'add/:product_id', to: 'carts#add', as: 'add_to_cart'
     get 'remove/:product_id', to: 'carts#remove', as: 'remove_from_cart'
