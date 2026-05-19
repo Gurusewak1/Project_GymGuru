@@ -10,14 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_19_212553) do
+  create_schema "neon_auth"
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -66,8 +71,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "product_id", null: false
-    t.integer "cart_id", null: false
+    t.bigint "product_id", null: false
+    t.bigint "cart_id", null: false
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -78,7 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -90,8 +95,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.integer "product_id", null: false
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
     t.integer "quantity"
     t.decimal "price"
     t.datetime "created_at", null: false
@@ -103,7 +108,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.decimal "total_amount"
     t.string "status"
     t.string "address"
@@ -115,7 +120,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
     t.decimal "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "province_id"
+    t.bigint "province_id"
     t.string "payment_id"
     t.string "stripe_payment_intent_id"
     t.decimal "qst"
@@ -163,7 +168,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_13_171009) do
     t.datetime "remember_created_at"
     t.string "username"
     t.string "address"
-    t.integer "province_id"
+    t.bigint "province_id"
     t.string "temp_password"
     t.datetime "temp_password_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
