@@ -82,3 +82,4 @@ gem 'dotenv-rails'
 gem 'letter_opener', group: :development
 gem "pg"
 gem "activerecord-import"
+gem "sprockets-rails"
