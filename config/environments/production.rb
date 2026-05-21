@@ -26,8 +26,7 @@ config.action_mailer.smtp_settings = {
   enable_starttls_auto: true
 }
 
- config.active_storage.service = :local
-  # Code is not reloaded between requests.
+config.active_storage.service = :cloudinary  # Code is not reloaded between requests.
   config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
